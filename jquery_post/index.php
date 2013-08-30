@@ -79,15 +79,26 @@
 		var post_url = $("#"+id+"-form :input[name='post_url']").val();
 		var post_data = $('#'+id+'-form').serialize()
 		$.post(post_url,post_data , function(d){
-			//this callback doesn't work because it is posting to a different domain
+			var d = JSON.parse(d);
+				//d.success
+				//d.code
+				//d.message		
+			if(d.code == 1){
+				//do something based on code
+			}	
+			if (d.success == true){//if the form was successful
+				//do something based on
+	       	} 
+	        voltage_post_closeout(id,d.success,d.message);
 		});
-		voltage_post_closeout(id,'success',"We'll send you an email when the book becomes available");
 	};
 	function voltage_post_closeout(id, status, message){
+		$('#'+id+'-vp-response').stop(true, true);
 		if(status=='success'){
 			$('#b-response').addClass('vp-success');
             $('#'+id+'-form').hide();
 		} else if(status == 'failed'){
+			$('#'+id+'-form').show();
 			$('#'+id+'-vp-response').removeClass('vp-success');	        
 	        $('#'+id).show();	        
 	        setTimeout(function() { $('#'+id+'-vp-response').fadeOut(1000) }, 7000);
@@ -103,7 +114,11 @@
 	<form method=post id=voltage-submit-form action=''>
 		<input type=hidden name=post_url value=''/><!-- url form should post to -->
 		<input type=hidden name=loader_location value=''/><!-- relative location to a loader image -->
+		<input type=hidden name=post_type value=''/><!-- used to post to the post_url from more than one location -->
 			<input type=text name=typical_field value='' required>
+			<select name=typical_field>
+				<option value=''></option>
+			</select>
 			<a href="#" id="voltage-submit" onclick="voltage_post('voltage-submit')">Submit</a>
 			<!-- <input id='voltage-submit' type=submit name=submit value='submit'/> -->		
 	</form>

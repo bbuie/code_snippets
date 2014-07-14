@@ -6,10 +6,7 @@
 	.vp-input-alert { 
 		border:1px solid #D4212C;
 	}
-	.vp-success {
-		background:green;
-	}
-	div[id*=-vp-response]{
+	div[id*=-vp-response]{/* Message box */
 		display:none;
 		padding: 3px;
 		background: #D4212C;
@@ -18,6 +15,10 @@
 		position: absolute;
 		width: 571px;
 	}
+	.vp-success { /* Change message background to green */
+		background:green;
+	}
+	
 </style>
 <script>
 	// remap jQuery to $
@@ -35,7 +36,7 @@
 	                var form_id = $(this).closest('form').attr('id');
 	                var form_id_split = form_id.split('-form');
 	                var submit_id = form_id_split[0];
-	                voltage_post(submit_id);
+	                vtg_post(submit_id);
 	            }
 	        });
    		});
@@ -44,7 +45,7 @@
 	
 	//code snipit to submit any form using a simple datastructure
 	//required: jquery
-	function voltage_post(id) {
+	function vtg_post(id) {
 		
 		var stop_post = false;//set to true if you need to stop the function before posting 
 		
@@ -61,13 +62,13 @@
 	      	if( !this.value || default_input_text_array.indexOf(this.value) > -1) {
             	$(this).addClass('vp-input-alert');
             	required_empty = true;
-            	stop_post = true;//setting true will stop voltage_post before posting
+            	stop_post = true;//setting true will stop vtg_post before posting
 	    	} 
 		});
 		
 		//reset all events if a required feild 
 		if(required_empty == true){
-			voltage_post_closeout(id,'failed','Highlighted fields are required');
+			vtg_post_closeout(id,'failed','Highlighted fields are required');
 		}
 		
 		//stop whole function
@@ -79,20 +80,17 @@
 		var post_url = $("#"+id+"-form :input[name='post_url']").val();
 		var post_data = $('#'+id+'-form').serialize()
 		$.post(post_url,post_data , function(d){
-			var d = JSON.parse(d);
-				//d.success
-				//d.code
-				//d.message		
+			var d = JSON.parse(d); //d.success, d.code, d.message
 			if(d.code == 1){
 				//do something based on code
 			}	
 			if (d.success == true){//if the form was successful
 				//do something based on
 	       	} 
-	        voltage_post_closeout(id,d.success,d.message);
+	        vtg_post_closeout(id,d.success,d.message);
 		});
 	};
-	function voltage_post_closeout(id, status, message){
+	function vtg_post_closeout(id, status, message){
 		$('#'+id+'-vp-response').stop(true, true);
 		if(status=='success'){
 			$('#b-response').addClass('vp-success');
@@ -111,7 +109,7 @@
 	}
 </script>
 <body>
-	<form method=post id=voltage-submit-form action=''>
+	<form method=post id=vtg-submit-form action=''>
 		<input type=hidden name=post_url value=''/><!-- url form should post to -->
 		<input type=hidden name=loader_location value=''/><!-- relative location to a loader image -->
 		<input type=hidden name=post_type value=''/><!-- used to post to the post_url from more than one location -->
@@ -119,8 +117,8 @@
 			<select name=typical_field>
 				<option value=''></option>
 			</select>
-			<a href="#" id="voltage-submit" onclick="voltage_post('voltage-submit')">Submit</a>
-			<!-- <input id='voltage-submit' type=submit name=submit value='submit'/> -->		
+			<a href="#" id="vtg-submit" onclick="vtg_post('vtg-submit')">Submit</a>
+			<!-- <input id='vtg-submit' type=submit name=submit value='submit'/> -->		
 	</form>
-	<div id="voltage-submit-vp-response"></div>
+	<div id="vtg-submit-vp-response"></div>
 </body>

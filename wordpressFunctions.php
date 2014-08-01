@@ -95,8 +95,8 @@ add_shortcode('service_workshop', 'shortcode_service_workshop');
 
 //make wordpress menu links dynamic using string replace with http://###site_url###
 function add_site_url( $atts, $item, $args ) {
-	$siteURL = site_url()."/";
-    $newlink = str_replace("http://###site_url###", $siteURL, $atts['href']);
+	$siteURL = site_url();
+    $newlink = str_replace("###site_url###", $siteURL, $atts['href']);
     $atts['href'] = $newlink;
     return $atts;
 }

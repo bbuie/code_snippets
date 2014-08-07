@@ -2,6 +2,9 @@
 
 //HELPFUL WORDPRESS FUNCTIONS 
 
+// Hide notices to upgrade, install woocommerce updater
+remove_action( 'admin_notices', 'woothemes_updater_notice' );
+
 //debug queries
 function varDumpVariable($result){
 	echo '<pre>';

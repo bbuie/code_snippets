@@ -18,7 +18,7 @@ function yourFunction() {
 	//only look if we haven't already
 	if (!isset($cachedVariable)) {
 		//put the code that find the variable here
-
+		
 	}
 	return $cachedVariable;
 }
@@ -141,7 +141,7 @@ function uys_articles_init() {
 	$articleArgs = array(
 	  	'labels'             	=> $articleLabels,
 		'public'             	=> true,
-		'menu_icon' 		 	=> 'dashicons-text',
+		'menu_icon' 		 	=> 'dashicons-text', //http://melchoyce.github.io/dashicons/
 		'capability_type'      	=> 'post',
 		'supports'           	=> array( 'title','editor') ,
 		'has_archive'   		=> true ,
@@ -265,6 +265,47 @@ function custom_excerpt_length( $length ) {
 	return 30;
 }
 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+//adding style buttons to wysiwyg editor
+function wpb_mce_buttons_2($buttons) {//adds a dropdown button to the 2nd row of editor options
+	array_unshift($buttons, 'styleselect');
+	return $buttons;
+}
+add_filter('mce_buttons_2', 'wpb_mce_buttons_2');
+function my_mce_before_init_insert_formats( $init_array ) {  //adds three style options
+
+// Define the style_formats array
+
+	$style_formats = array(  
+		// Each array child is a format with it's own settings
+		array(  
+			'title' => 'Content Block',  
+			'block' => 'span',  
+			'classes' => 'content-block',
+			'wrapper' => true,
+			
+		),  
+		array(  
+			'title' => 'Blue Button',  
+			'block' => 'span',  
+			'classes' => 'blue-button',
+			'wrapper' => true,
+		),
+		array(  
+			'title' => 'Red Button',  
+			'block' => 'span',  
+			'classes' => 'red-button',
+			'wrapper' => true,
+		),
+	);  
+	// Insert the array, JSON ENCODED, into 'style_formats'
+	$init_array['style_formats'] = json_encode( $style_formats );  
+	
+	return $init_array;  
+  
+} 
+// Attach callback to 'tiny_mce_before_init' 
+add_filter( 'tiny_mce_before_init', 'my_mce_before_init_insert_formats' ); 
 
 
 ?>

@@ -3,10 +3,10 @@
 // remap jQuery to $
 (function($){
 		
-	uys.setViewportVariables = function(){
-		uys.viewportWidth = $(window).width();
-		uys.viewportHeight = $(window).height();
-		uys.breakPoints = {
+	bigchill.setViewportVariables = function(){
+		bigchill.viewportWidth = $(window).width();
+		bigchill.viewportHeight = $(window).height();
+		bigchill.breakPoints = {
 			desktop: {
 				maxWidth: 1000000,
 				next: undefined
@@ -20,16 +20,16 @@
 				next: 'tablet'
 			}			
 		}
-		uys.responsiveView = 'desktop';
-		uys.viewLoaded = 'desktop';
-		for (var breakpoint in uys.breakPoints) {
-			if(uys.viewportWidth <= uys.breakPoints[breakpoint].maxWidth){
-				uys.responsiveView = breakpoint;
-				uys.viewLoaded = breakpoint;
+		bigchill.responsiveView = 'desktop';
+		bigchill.viewLoaded = 'desktop';
+		for (var breakpoint in bigchill.breakPoints) {
+			if(bigchill.viewportWidth <= bigchill.breakPoints[breakpoint].maxWidth){
+				bigchill.responsiveView = breakpoint;
+				bigchill.viewLoaded = breakpoint;
 			}
 		}
 	}
-	uys.setViewportVariables();
+	bigchill.setViewportVariables();
 	
 	//need to add function for resizing
 	

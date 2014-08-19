@@ -176,6 +176,22 @@
 /*
 * modalStyles *********************************************************************
 */
+@-webkit-keyframes fadeInDown {
+  0% { opacity: 0; -webkit-transform: translateY(0); }
+  100% { opacity: 1; -webkit-transform: translateY(6px);}
+}
+@-moz-keyframes fadeInDown {
+  0% { opacity: 0; -moz-transform: translateY(0);}
+  100% { opacity: 1;  -moz-transform: translateY(6px);}
+}
+@-o-keyframes fadeInDown {
+  0% { opacity: 0; -o-transform: translateY(0); }
+  100% { opacity: 1;  -o-transform: translateY(6px); }
+}
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(0);  }
+  100% { opacity: 1;  transform: translateY(6px); }
+}
 .modalHidden {
 	display: none;
 }
@@ -281,15 +297,22 @@
 }
 </style>
 
+	<!-- start of modal html -->
 	<div class='modal modalHidden'>
 		<div class='modalOpacity'></div>
 		<div class='modalViewer'>
 			<img class='modalImage' src=''/>
 			<div class='modalContent'></div>
 			<iframe class='modalIframe' src=''></iframe>
+			<div class='modalClose'>
+				<div class='modalCloseText'>X</div>
+				<!-- <img src='<?php echo get_stylesheet_directory_uri(); ?>/img/close.png'/> -->
+			</div>
 		</div>
-		<div class='modalClose'>
-			<div class='modalCloseText'>X</div>
-			<!-- <img src='<?php echo get_stylesheet_directory_uri(); ?>/img/close.png'/> -->
+		<div class='modalNavigation'> 
+			<a class='modalPrev' href=''>&laquo; Previous</a>
+			<span class='modalCounter'><span class='modalCurrent'></span>/<span class='modalTotal'></span></span>
+			<a class='modalNext'href=''>Next &raquo;</a>
 		</div>
 	</div>
+	<!-- end of modal html -->

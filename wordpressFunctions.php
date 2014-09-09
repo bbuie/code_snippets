@@ -283,7 +283,11 @@ function my_mce_before_init_insert_formats( $init_array ) {  //adds three style 
 			'block' => 'span',  
 			'classes' => 'content-block',
 			'wrapper' => true,
-			
+			'styles' => array(
+        		'color' => '#969696',
+        		'fontStyle' => 'italic',
+        		'textAlign' => 'right'
+        	)				
 		),  
 		array(  
 			'title' => 'Blue Button',  
@@ -306,6 +310,15 @@ function my_mce_before_init_insert_formats( $init_array ) {  //adds three style 
 } 
 // Attach callback to 'tiny_mce_before_init' 
 add_filter( 'tiny_mce_before_init', 'my_mce_before_init_insert_formats' ); 
+//ading stylesheet to wysiwyg editor
+function add_my_editor_style() {//need to add an editor-style.css file to the theme folder
+	add_editor_style();
+}
+add_action( 'admin_init', 'add_my_editor_style' );
 
-
-?>
+//setup theme menus
+function vtgMenus() {
+  register_nav_menu('footer-menu',__( 'Footer Menu' ));
+  register_nav_menu('header-menu',__( 'Header Menu' ));
+}
+add_action( 'init', 'vtgMenus' );

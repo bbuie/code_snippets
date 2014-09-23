@@ -2,6 +2,12 @@
 	
 // remap jQuery to $
 (function($){
+
+	//trigger on resize
+	$(window).resize(function() {
+		clear.viewportWidth = $(window).width();
+		clear.viewportHeight = $(window).height();
+	});
 		
 	bigchill.setViewportVariables = function(){
 		bigchill.viewportWidth = $(window).width();

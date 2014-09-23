@@ -97,21 +97,21 @@ function shortcode_service_workshop( $atts ) {
 add_shortcode('service_workshop', 'shortcode_service_workshop');
 
 //make wordpress menu links dynamic using string replace with http://###site_url###
-function add_site_url( $atts, $item, $args ) {
+function replaceNavURL( $atts, $item, $args ) {
 	$siteURL = site_url();
     $newlink = str_replace("###site_url###", $siteURL, $atts['href']);
     $atts['href'] = $newlink;
     return $atts;
 }
-add_filter( 'nav_menu_link_attributes', 'add_site_url', 10, 3 );
+add_filter( 'nav_menu_link_attributes', 'replaceNavURL', 10, 3 );
 
 //make links in content dynamic
-function replace_content($content){
+function replaceContentURL($content){
 	$siteURL = site_url()."/";
-	$content = str_replace('http://###site_url###', $siteURL,$content);
+	$content = str_replace('###site_url###', $siteURL,$content);
 	return $content;
 }
-add_filter('the_content','replace_content');
+add_filter('the_content','replaceContentURL');
 
 //function to flush all rewrite rules (for custom post types and taxonomies) at the same time if $flush is set to true
 function flush_all_rewrite_rules(){
@@ -318,7 +318,6 @@ add_action( 'admin_init', 'add_my_editor_style' );
 
 //setup theme menus
 function vtgMenus() {
-  register_nav_menu('footer-menu',__( 'Footer Menu' ));
   register_nav_menu('header-menu',__( 'Header Menu' ));
 }
-add_action( 'init', 'vtgMenus' );
+add_action( 'init', 'vtgMenus' ); //use this to show in theme wp_nav_menu( array('theme_location' => 'header-menu') );

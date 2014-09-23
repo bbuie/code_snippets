@@ -89,9 +89,6 @@
 	background: #fff;
 	opacity: 1;
 }
-.floatLink {
-	position: absolute;
-}
 /* fix added for slider in IE8 */
 .ie8 .banner .dots li {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -102,3 +99,10 @@
 }
 /*end of fix */
 </style>
+
+<div class='banner'>
+	<ul>
+		<li class="item one"></li>
+		<li class="item"></li>
+	</ul>
+</div>

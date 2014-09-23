@@ -1,0 +1,72 @@
+{
+    "key": "group_5420bedc59b80",
+    "title": "Slider Fields",
+    "fields": [
+        {
+            "key": "field_540f1a2195768",
+            "label": "Slider Images",
+            "name": "slider_images",
+            "prefix": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "row_min": "",
+            "row_limit": "",
+            "layout": "table",
+            "button_label": "Add Image",
+            "min": 0,
+            "max": 0,
+            "sub_fields": [
+                {
+                    "key": "field_540f1a2d95769",
+                    "label": "Image",
+                    "name": "image",
+                    "prefix": "",
+                    "type": "image",
+                    "instructions": "Optimal size: 960px width by variable height",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "column_width": "",
+                    "preview_size": "full",
+                    "library": "all",
+                    "return_format": "array"
+                },
+                {
+                    "key": "field_540f1a6b9576a",
+                    "label": "Link",
+                    "name": "link",
+                    "prefix": "",
+                    "type": "text",
+                    "instructions": "e.g. ###site_url###\/contact-us <br\/> Note: ###site_url### is replaced by the actual site url",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "column_width": "",
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "formatting": "html",
+                    "maxlength": "",
+                    "readonly": 0,
+                    "disabled": 0
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "front-page.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": ""
+}

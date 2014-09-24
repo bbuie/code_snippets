@@ -1,175 +1,204 @@
 <script>
-	bigchill.showModal = function(object){
-		
-		//default variables
-		var type = (object.type)? object.type : false; // video, img, content, gallery
-		var src = (object.src)? object.src : false; // e.g. //www.youtube.com/embed/D8E7G0a4_Ao?autoplay=1
-		var contentSelector = (object.contentSelector)? object.contentSelector : false; //any css selector for an element
-		var showModal = this;
-		var modal = $('.modalHidden').clone(true,true).removeClass('modalHidden');
+	//dependant on viewport sizing function
 
-		this.setup = function(){
-			//make sure the data sent to this method is correct
-			this.dataCheck();
-			//remove unused html from modal
-			this.modalCleanup();
-			//show the modal
-			modal.appendTo('body');
-			//add the content to the modal
-			this.addContent();
-			//bind events to the modal
-			this.bindEvents();			
-		}
-		this.bindEvents = function(){
-			//remove event functions
-			modal.find('.modalOpacity').click(function(){
-				$(this).closest('.modal').remove();
-			});
-			modal.find('.modalClose').click(function(){
-				$(this).closest('.modal').remove();
-			});
+	//object used to organize javascript functionality
+	var customApp = new Object();	
+	
+	/* trigger when page is ready */
+	$(document).ready(function (){
 
-			//next and previous functions
-			modal.find('.modalNext, .modalPrev').click(function(e){
+		//bind events for the modal
+		customApp.bindBuieModal();
+
+	});
+
+	customApp.bindBuieModal = function()
+		{//function dependent on customApp.buieModal function
+			//add video popup click event
+			$('.videoPopup').click(function(e){
 				e.preventDefault();
-				var activeIndex = parseInt(modal.find('.modalImage').attr('dataIndex'));
-				var newIndex = activeIndex + 1;
-				if($(this).hasClass('modalPrev')){
-					newIndex = activeIndex - 1;
-				}
-				showModal.move(newIndex);
+				var $self = $(this);
+				var videoSrc = $self.attr('href');
+				customApp.buieModal({
+					type: 'video',
+					src: videoSrc
+				})
+
 			});
 		}
-		this.move = function(newIndex){
-			if(newIndex == src.length){
-				newIndex = 0;
-			} else if(newIndex < 0){
-				newIndex = src.length -1;
-			}
-			modal.find('.modalImage').on('load', function(){
-				showModal.setHeight();
-			}).attr('src', src[newIndex].src).attr('dataIndex', newIndex);
-			modal.find('.modalCurrent').text(newIndex+1)
-		}
-		this.addContent = function(){
-			if(type == 'video' && src){
-				modal.find('.modalIframe').attr('src',src);
-				this.setHeight();
-			}
-			
-			if(type == 'content' && contentSelector != false) {
-				var contentElement = $(contentSelector).clone(true,true).css('display', 'block');
-				contentElement.appendTo(modal.find('.modalContent'));
-				this.setHeight();
-			}
+	customApp.buieModal = function(object)
+		{			
+			//object used to organize javascript functionality
+			var buieModal = new Object();
 
-			if(type == 'img' && src){
+			//default variables
+			var type = (object.type)? object.type : false; // video, img, content, gallery
+			var src = (object.src)? object.src : false; // e.g. //www.youtube.com/embed/D8E7G0a4_Ao?autoplay=1
+			var contentSelector = (object.contentSelector)? object.contentSelector : false; //any css selector for an element
+			var buieModal = this;
+			var modal = $('.modalHidden').clone(true,true).removeClass('modalHidden');
+
+			buieModal.setup = function(){
+				//make sure the data sent to buieModal method is correct
+				buieModal.dataCheck();
+				//remove unused html from modal
+				buieModal.modalCleanup();
+				//show the modal
+				modal.appendTo('body');
+				//add the content to the modal
+				buieModal.addContent();
+				//bind events to the modal
+				buieModal.bindEvents();			
+			}
+			buieModal.bindEvents = function(){
+				//remove event functions
+				modal.find('.modalOpacity').click(function(){
+					$(this).closest('.modal').remove();
+				});
+				modal.find('.modalClose').click(function(){
+					$(this).closest('.modal').remove();
+				});
+
+				//next and previous functions
+				modal.find('.modalNext, .modalPrev').click(function(e){
+					e.preventDefault();
+					var activeIndex = parseInt(modal.find('.modalImage').attr('dataIndex'));
+					var newIndex = activeIndex + 1;
+					if($(this).hasClass('modalPrev')){
+						newIndex = activeIndex - 1;
+					}
+					buieModal.move(newIndex);
+				});
+			}
+			buieModal.move = function(newIndex){
+				if(newIndex == src.length){
+					newIndex = 0;
+				} else if(newIndex < 0){
+					newIndex = src.length -1;
+				}
 				modal.find('.modalImage').on('load', function(){
-					showModal.setHeight();
-				}).attr('src', src);
+					buieModal.setHeight();
+				}).attr('src', src[newIndex].src).attr('dataIndex', newIndex);
+				modal.find('.modalCurrent').text(newIndex+1)
+			}
+			buieModal.addContent = function(){
+				if(type == 'video' && src){
+					modal.find('.modalIframe').attr('src',src);
+					buieModal.setHeight();
+				}
+				
+				if(type == 'content' && contentSelector != false) {
+					var contentElement = $(contentSelector).clone(true,true).css('display', 'block');
+					contentElement.appendTo(modal.find('.modalContent'));
+					buieModal.setHeight();
+				}
+
+				if(type == 'img' && src){
+					modal.find('.modalImage').on('load', function(){
+						buieModal.setHeight();
+					}).attr('src', src);
+				}
+
+				if(type == 'gallery' && src){
+					modal.find('.modalImage').on('load', function(){
+						buieModal.setHeight();
+					}).attr('src', src[0].src).attr('dataIndex', 0);
+					modal.find('.modalTotal').text(src.length);
+					modal.find('.modalCurrent').text(1)
+				}
+			}
+			buieModal.dataCheck = function(){
+				if(!type){
+					alert('contact the webmaster, no type was added for this functionality.');
+					return false;
+				}
+				
+				if((type == 'video' || type == 'img' || type == 'gallery') && src == false){
+					alert('contact the webmaster, no source is specified.');
+					return false;
+				} 
+				
+				if(type == 'content' && contentSelector == false){
+					alert('contact the webmaster, no content was added for this functionality.');
+					return false;
+				} 			
 			}
 
-			if(type == 'gallery' && src){
-				modal.find('.modalImage').on('load', function(){
-					showModal.setHeight();
-				}).attr('src', src[0].src).attr('dataIndex', 0);
-				modal.find('.modalTotal').text(src.length);
-				modal.find('.modalCurrent').text(1)
-			}
-		}
-		this.dataCheck = function(){
-			if(!type){
-				alert('contact the webmaster, no type was added for this functionality.');
-				return false;
-			}
-			
-			if((type == 'video' || type == 'img' || type == 'gallery') && src == false){
-				alert('contact the webmaster, no source is specified.');
-				return false;
-			} 
-			
-			if(type == 'content' && contentSelector == false){
-				alert('contact the webmaster, no content was added for this functionality.');
-				return false;
-			} 			
-		}
+			buieModal.modalCleanup = function(){
+				if(type == 'video' && src){
+					modal.find('.modalImage').remove();
+					modal.find('.modalNavigation').remove();
+					modal.find('.modalContent').remove();
+				}
+				
+				if(type == 'content' && contentSelector != false) {
+					//console.log('had contentElement')
+					modal.find('.modalIframe').remove();
+					modal.find('.modalNavigation').remove();
+					modal.find('.modalImage').remove();
+				}
 
-		this.modalCleanup = function(){
-			if(type == 'video' && src){
-				modal.find('.modalImage').remove();
-				modal.find('.modalNavigation').remove();
-				modal.find('.modalContent').remove();
-			}
-			
-			if(type == 'content' && contentSelector != false) {
-				//console.log('had contentElement')
-				modal.find('.modalIframe').remove();
-				modal.find('.modalNavigation').remove();
-				modal.find('.modalImage').remove();
+				if(type == 'img' && src){
+					modal.find('.modalIframe').remove();
+					modal.find('.modalNavigation').remove();
+					modal.find('.modalContent').remove();
+				}
+
+				if(type == 'gallery' && src){
+					modal.find('.modalIframe').remove();
+					modal.find('.modalContent').remove();
+				}
 			}
 
-			if(type == 'img' && src){
-				modal.find('.modalIframe').remove();
-				modal.find('.modalNavigation').remove();
-				modal.find('.modalContent').remove();
-			}
+			buieModal.setHeight = function(){
+				modal.find('.modalViewer, .modalImage, .modalContent, .modalIframe').removeAttr('style');
+				var contentHeight = modal.find('.modalViewer').outerHeight();
+				//console.log('contentHeight: '+contentHeight);
+				var contentWidth = modal.find('.modalViewer').outerWidth();
+				//console.log('contentWidth: '+contentWidth);
+				var maxWidth =  customApp.viewportWidth*.9;
+				var maxHeight = customApp.viewportHeight*.9;			
 
-			if(type == 'gallery' && src){
-				modal.find('.modalIframe').remove();
-				modal.find('.modalContent').remove();
-			}
-		}
+				if(contentWidth > maxWidth || contentHeight > maxHeight){
+					var widthRatio = maxWidth / contentWidth;
+					var heightRatio = maxHeight / contentHeight;
+					var ratio = Math.min(widthRatio, heightRatio);
 
-		this.setHeight = function(){
-			modal.find('.modalViewer, .modalImage, .modalContent, .modalIframe').removeAttr('style');
-			var contentHeight = modal.find('.modalViewer').outerHeight();
-			console.log('contentHeight: '+contentHeight);
-			var contentWidth = modal.find('.modalViewer').outerWidth();
-			console.log('contentWidth: '+contentWidth);
-			var maxWidth =  bigchill.viewportWidth*.9;
-			var maxHeight = bigchill.viewportHeight*.9;			
+					if(contentWidth > maxWidth) {
+						modal.find('.modalViewer').css({
+							'width': contentWidth*ratio
+						});
+						
+						modal.find('.modalImage, .modalContent, .modalIframe').css({
+							'max-width': '100%'
+						});
+					} else if(contentHeight > maxHeight){
+						modal.find('.modalViewer').css({
+							'height': contentHeight*ratio,
+							'width': contentWidth*ratio
+						});
+						modal.find('.modalImage, .modalContent, .modalIframe').css({
+							'overflow-y': 'auto',
+							'max-height': '100%'
+						});
+					}
 
-			if(contentWidth > maxWidth || contentHeight > maxHeight){
-				var widthRatio = maxWidth / contentWidth;
-				var heightRatio = maxHeight / contentHeight;
-				var ratio = Math.min(widthRatio, heightRatio);
-
-				if(contentWidth > maxWidth) {
-					modal.find('.modalViewer').css({
-						'width': contentWidth*ratio
-					});
 					
-					modal.find('.modalImage, .modalContent, .modalIframe').css({
-						'max-width': '100%'
-					});
-				} else if(contentHeight > maxHeight){
-					modal.find('.modalViewer').css({
-						'height': contentHeight*ratio,
-						'width': contentWidth*ratio
-					});
-					modal.find('.modalImage, .modalContent, .modalIframe').css({
-						'overflow-y': 'auto',
-						'max-height': '100%'
-					});
-				}
 
+					
+					
+					contentHeight = modal.find('.modalViewer').outerHeight();
+					contentWidth = modal.find('.modalViewer').outerWidth();
+				}		    
 				
-
-				
-				
-				contentHeight = modal.find('.modalViewer').outerHeight();
-				contentWidth = modal.find('.modalViewer').outerWidth();
-			}		    
+				modal.find('.modalViewer').css({
+					'margin-top': -contentHeight/2, 
+					'margin-left': -contentWidth/2
+				});
+			}	
 			
-			modal.find('.modalViewer').css({
-				'margin-top': -contentHeight/2, 
-				'margin-left': -contentWidth/2
-			});
-		}	
-		
-		this.setup();
-		
-	}
+			buieModal.setup();
+		}
 </script>
 
 <style>
@@ -315,4 +344,6 @@
 			<a class='modalNext'href=''>Next &raquo;</a>
 		</div>
 	</div>
-	<!-- end of modal html -->
+
+	<!-- start of video html -->
+	<a class='videoPopup' href="<?php echo $videoEmbedURL ?>" target="_blank"></a>

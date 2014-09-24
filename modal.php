@@ -40,7 +40,10 @@
 
 			buieModal.setup = function(){
 				//make sure the data sent to buieModal method is correct
-				buieModal.dataCheck();
+				var dataCheck = buieModal.dataCheck();
+				if(!dataCheck){
+					return false;
+				}
 				//remove unused html from modal
 				buieModal.modalCleanup();
 				//show the modal
@@ -53,10 +56,10 @@
 			buieModal.bindEvents = function(){
 				//remove event functions
 				modal.find('.modalOpacity').click(function(){
-					$(this).closest('.modal').remove();
+					$(this).closest('.buieModal').remove();
 				});
 				modal.find('.modalClose').click(function(){
-					$(this).closest('.modal').remove();
+					$(this).closest('.buieModal').remove();
 				});
 
 				//next and previous functions
@@ -121,7 +124,9 @@
 				if(type == 'content' && contentSelector == false){
 					alert('contact the webmaster, no content was added for this functionality.');
 					return false;
-				} 			
+				} 
+
+				return true;			
 			}
 
 			buieModal.modalCleanup = function(){
@@ -224,7 +229,7 @@
 .modalHidden {
 	display: none;
 }
-.modal {
+.buieModal {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -327,7 +332,7 @@
 </style>
 
 	<!-- start of modal html -->
-	<div class='modal modalHidden'>
+	<div class='buieModal modalHidden'>
 		<div class='modalOpacity'></div>
 		<div class='modalViewer'>
 			<img class='modalImage' src=''/>

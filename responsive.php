@@ -5,10 +5,31 @@
 
 	//trigger on resize
 	$(window).resize(function() {
-		clear.viewportWidth = $(window).width();
-		clear.viewportHeight = $(window).height();
+		customApp.viewportWidth = $(window).width();
+		customApp.viewportHeight = $(window).height();
+		customApp.checkBreakpointLoaded();
+		var viewChangeTimeout;
+		if(customApp.currentView != customApp.loadedView) {
+			clear.loadedView = clear.currentView;
+			customApp.changeViewLoaded();			
+		}
 	});
-		
+
+	customApp.changeViewLoaded = function()
+		{
+			//use this function to perform any changes to the view based on breakpoint changes
+		}
+	customApp.checkBreakpointLoaded = function()
+		{
+			for (var breakpoint in customApp.breakPoints) {
+				if(customApp.viewportWidth < customApp.breakPoints[breakpoint].maxWidth){
+					customApp.currentView = breakpoint;				
+				}
+			}
+			if($('.ie8').length){
+				customApp.currentView = 'desktop';
+			}
+		}		
 	customApp.setViewportVariables = function()
 		{
 			customApp.viewportWidth = $(window).width();
@@ -18,21 +39,29 @@
 					maxWidth: 1000000,
 					next: undefined
 				},
-				tablet: {
-					maxWidth: 1023,
+				tabletLandscape: {
+					maxWidth: 1024,
 					next: 'desktop'
 				},
-				mobile: {
-					maxWidth: 767,
+				tablet: {
+					maxWidth: 768,
+					next: 'tabletLandscape'
+				},
+				mobileLandscape: {
+					maxWidth: 480,
 					next: 'tablet'
+				},
+				mobile: {
+					maxWidth: 320,
+					next: 'mobileLandscape'
 				}			
 			}
-			customApp.responsiveView = 'desktop';
-			customApp.viewLoaded = 'desktop';
+			customApp.currentView = 'desktop';
+			customApp.loadedView = 'desktop';
 			for (var breakpoint in customApp.breakPoints) {
-				if(customApp.viewportWidth <= customApp.breakPoints[breakpoint].maxWidth){
-					customApp.responsiveView = breakpoint;
-					customApp.viewLoaded = breakpoint;
+				if(customApp.viewportWidth < customApp.breakPoints[breakpoint].maxWidth){
+					customApp.currentView = breakpoint;
+					customApp.loadedView = breakpoint;
 				}
 			}
 		}
@@ -42,23 +71,23 @@
 	
 	customApp.loadResponsiveImages = function(callback){
 		$("img[responsiveImg='1']").each(function(){
-			var newImgSrcAttr = 'img-'+customApp.responsiveView;		
+			var newImgSrcAttr = 'img-'+customApp.currentView;		
 			var newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
 			var currentImgSrc = $(this).attr('src');
 			var loopCount = 0;
-			while(!newImgSrc && customApp.responsiveView != 'desktop'){	
+			while(!newImgSrc && customApp.currentView != 'desktop'){	
 				//prevent an infinite loop
 				if(loopCount > 10){
 					break;
 				}
-				newImgSrcAttr = 'img-'+customApp.breakPoints[customApp.responsiveView].next;
+				newImgSrcAttr = 'img-'+customApp.breakPoints[customApp.currentView].next;
 				newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
 			loopCount++}
 			if(newImgSrc && newImgSrc != currentImgSrc){
 				$(this).attr('src',newImgSrc);
 			}
 		});
-		customApp.viewLoaded = customApp.responsiveView;
+		customApp.loadedView = customApp.currentView;
 		callback();
 	}
 	

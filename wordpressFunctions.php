@@ -1,6 +1,12 @@
 <?php 
 
-//HELPFUL WORDPRESS FUNCTIONS 
+//HELPFUL WORDPRESS FUNCTIONS
+
+//disable admin bar on frontend
+show_admin_bar(false); 
+
+//include php files to make variables available
+include(locate_template('your-template-name.php'));
 
 // Hide notices to upgrade, install woocommerce updater
 remove_action( 'admin_notices', 'woothemes_updater_notice' );
@@ -114,6 +120,7 @@ function replaceContentURL($content){
 add_filter('the_content','replaceContentURL');
 
 //function to flush all rewrite rules (for custom post types and taxonomies) at the same time if $flush is set to true
+//this is a heavy function, so don't leave this on in a live enviornment
 function flush_all_rewrite_rules(){
 	$flush = false;	
 	if($flush){
@@ -151,7 +158,7 @@ function uys_articles_init() {
 									)
 	);
 	register_post_type( 'articles', $articleArgs );
-	flush_all_rewrite_rules();
+	flush_all_rewrite_rules(); //need to include flush_all_rewrite_rules() above
 }
 add_action( 'init', 'uys_articles_init' );
 

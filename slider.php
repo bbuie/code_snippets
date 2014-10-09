@@ -5,55 +5,69 @@
 	
 	/* trigger when page is ready */
 	$(document).ready(function (){
-		customApp.sliderInit();
+		customApp.buieSlide();
 	});
 
 	//add slider, dependant on unslider.js
 	customApp.buieSlide = function(options)
-		{
-			var buieSlide = new Object;
-			
-			buieSlide.defaults = {
-				slider: '.banner',
-				firstSlide: '.one',
-				sliderImage: '.bannerImg'
-			}
+			{
+				var buieSlide = new Object;
+				
+				buieSlide.defaults = {
+					slider: '.banner',
+					firstSlide: '.one',
+					sliderImage: '.bannerImg',
+					nextButton: '.next',
+					prevButton: '.prev'
+				}
 
-			var settings = $.extend({},buieSlide.defaults, options);			
+				var settings = $.extend({},buieSlide.defaults, options);			
 
-			buieSlide.loadUnslider = function(banner)
-				{	
-
-					buieSlide.slider = banner.unslider({ //download this plugin here: http://unslider.com/
-						speed: 600,               //  The speed to animate each slide (in milliseconds)
-						delay: 7000,              //  The delay between slide animations (in milliseconds)
-						complete: function() {},  //  A function that gets called after every slide animation
-						keys: true,               //  Enable keyboard (left, right) arrow shortcuts
-						dots: true,               //  Display dot navigation
-						fluid: true 
-					});
-
-					buieSlide.functions = buieSlide.slider.data('unslider');
-				};	
-			buieSlide.sliderDeterminLoadType = function(banner, settings)
-				{
-					if(banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).height() > 30){
-						 buieSlide.loadUnslider(banner);
-					} else {
-						banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).on('load', function(){
-							 buieSlide.loadUnslider(banner);
+				buieSlide.navigationButtons = function()
+					{
+						$(settings.slider +" "+ settings.nextButton).click(function(){
+							var me = $(this);
+							var $slider = me.closest(settings.slider);
+							var slider = $slider.data('unslider');
+							slider.next();
+						});
+						$(settings.slider +" "+ settings.prevButton).click(function(){
+							var me = $(this);
+							var $slider = me.closest(settings.slider);
+							var slider = $slider.data('unslider');
+							slider.prev();
 						});
 					}
-				};		
+				buieSlide.loadUnslider = function(banner)
+					{	
+						var slider = banner.unslider({ //download this plugin here: http://unslider.com/
+							speed: 600,               //  The speed to animate each slide (in milliseconds)
+							delay: 7000,              //  The delay between slide animations (in milliseconds)
+							complete: function() {},  //  A function that gets called after every slide animation
+							keys: true,               //  Enable keyboard (left, right) arrow shortcuts
+							dots: true,               //  Display dot navigation
+							fluid: true 
+						});
+						
+						buieSlide.navigationButtons();
+					};	
+				buieSlide.sliderDeterminLoadType = function(banner, settings)
+					{
+						if(banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).height() > 30){
+							 buieSlide.loadUnslider(banner);
+						} else {
+							banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).on('load', function(){
+								 buieSlide.loadUnslider(banner);
+							});
+						}
+					};		
 
-			if($(settings.slider).length){
-				$(settings.slider).each(function(){
-					 buieSlide.sliderDeterminLoadType($(this), settings);				
-				});
-			}
-
-
-		};
+				if($(settings.slider).length){
+					$(settings.slider).each(function(){
+						 buieSlide.sliderDeterminLoadType($(this), settings);				
+					});
+				}
+			};
 </script>
 <style>
 
@@ -63,8 +77,23 @@
 .banner ul {
 	margin-left: 0;
 }
+.banner .navigation .next {
+	position: absolute;
+	top: 50%;
+	cursor: pointer;
+	margin-top: -12px;
+	right: 100px;
+}
+.banner .navigation .prev {
+	position: absolute;
+	top: 50%;
+	cursor: pointer;
+	margin-top: -12px;
+	left: 100px;
+
+}
 .banner .item { list-style: none; }
-.banner ul .item { float: left; width: 100%; overflow: hidden; position: relative; max-height: 565px;} 
+.banner ul .item { float: left; width: 100%; overflow: hidden; position: relative;} 
 .banner .dots {
 	position: absolute;
 	right: 24px;
@@ -98,15 +127,91 @@
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 /*end of fix */
+
+/*or styles for scss*/
+
+body {
+	.banner { 
+		position: relative; overflow: auto; custom: both;
+
+		ul {
+			margin-left: 0;
+
+			.item { float: left; width: 100%; overflow: hidden; position: relative;} 
+		}
+		.navigation {
+			.next, .prev {
+				position: absolute;
+				top: 50%;
+				cursor: pointer;
+				margin-top: -12px;
+			}
+			.next {				
+				right: 100px;
+			}
+			.prev {
+				left: 100px;
+			}
+		}
+		.item { list-style: none; }
+		.dots {
+			position: absolute;
+			right: 24px;
+			top: 12px;
+			z-index: 1;
+
+			li {
+				display: inline-block;
+				width: 0px;
+				height: 0px;
+				margin: 0 4px;
+				text-indent: -999em;
+				border: 9px solid #fff;
+				border-radius: 9px;
+				cursor: pointer;
+				opacity: .4;
+				-webkit-transition: background .5s, opacity .5s;
+				-moz-transition: background .5s, opacity .5s;
+				transition: background .5s, opacity .5s;
+
+				&.active {
+					background: #fff;
+					opacity: 1;
+				}
+			}
+		}
+	}
+	.ie8 .banner .dots li {
+		/* fix added for slider in IE8, don't wrap these in id for scss */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		background: white;
+
+		&.active {
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		}
+	}
+}
 </style>
 
 
 <!-- html for simple banner -->
 <div class='banner'>
 	<ul>
-		<li class="item one"></li>
-		<li class="item"></li>
+		<li class="item one">
+			<img class="bannerImg" src="">
+		</li>
+		<li class="item">
+			<img class="bannerImg" src="">
+		</li>
 	</ul>
+	<div class="navigation">
+		<div class="next">
+			<img src="<?php echo $stylesheetURL ?>/img/arrowRight.png">
+		</div>
+		<div class="prev">
+			<img src="<?php echo $stylesheetURL ?>/img/arrowLeft.png">
+		</div>
+	</div>
 </div>
 
 <!-- php for wordpress slider -->

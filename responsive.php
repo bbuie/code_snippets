@@ -10,7 +10,7 @@
 		customApp.checkBreakpointLoaded();
 		var viewChangeTimeout;
 		if(customApp.currentView != customApp.loadedView) {
-			clear.loadedView = clear.currentView;
+			customApp.loadedView = customApp.currentView;
 			customApp.changeViewLoaded();			
 		}
 	});

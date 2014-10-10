@@ -51,7 +51,9 @@
 				//add the content to the modal
 				buieModal.addContent();
 				//bind events to the modal
-				buieModal.bindEvents();			
+				buieModal.bindEvents();	
+				//return the active modal to make changes outside this function
+				customApp.buieModalActive = buieModal;			
 			}
 			buieModal.bindEvents = function(){
 				//remove event functions

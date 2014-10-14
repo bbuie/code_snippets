@@ -83,10 +83,11 @@
 					    zoom: settings.zoom,
 					    // panControl: false,
 					    // scaleControl: false,
-					    // streetViewControl: false,
+					     streetViewControl: false,
 					    // zoomControl: false,
 					    // mapTypeControl: false,
-					    'center': center,
+					    scrollwheel: false,
+					    center: center,
 					    mapTypeId: google.maps.MapTypeId.SATELLITE,
 					    styles: mapStyles
 					};			
@@ -100,6 +101,9 @@
 					for (var i = 0; i < buieMap.markers.length; i++) {
 						buieMap.setupMarker(buieMap.markers[i]);
 					}
+
+					buieMap.showInfoWindow(buieMap.markers[0]);
+					buieMap.map.panBy(100, 0);
 				}			
 			buieMap.setupMarker = function(marker)
 				{
@@ -151,14 +155,19 @@
 					var latLngBounds = new google.maps.LatLngBounds();
 					latLngBounds.extend(homeMarker.getPosition())
 					latLngBounds.extend(marker.marker.getPosition());
-
-					//fit both markers on the map, account for legend pixels, and show infowindow of marker
 					buieMap.map.fitBounds(latLngBounds);
-					buieMap.map.panBy(160, 0);
-					buieMap.showInfoWindow(marker);
 
-					//check add the current bounds to the previous bounds to show everything correctly
+					//account for legend pixels, and show infowindow of marker
+					
+					buieMap.map.panBy(300, 0);
 					var currentBounds = buieMap.map.getBounds();
+					latLngBounds.extend(currentBounds.getNorthEast());
+					latLngBounds.extend(currentBounds.getSouthWest());
+					buieMap.map.fitBounds(latLngBounds);					
+
+					//show infowindow and add that to the bounds of the map
+					buieMap.showInfoWindow(marker);
+					currentBounds = buieMap.map.getBounds();
 					latLngBounds.extend(currentBounds.getNorthEast());
 					latLngBounds.extend(currentBounds.getSouthWest());
 					buieMap.map.fitBounds(latLngBounds);
@@ -186,7 +195,6 @@
 			buieMap.setup();
 			customApp.buieMapObject = buieMap;		
 		}
-	}
 
 </script>
 

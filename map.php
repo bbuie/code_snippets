@@ -12,37 +12,179 @@
 
 	});
 
-	customApp.buieMap = function(){
-		if($('#googleMap').length){
-			var geocoder = new google.maps.Geocoder();
-			var address = '10 West 100 South #708 Salt Lake City, UT 84101';	
-			geocoder.geocode( { 'address': address }, function(results, status) {
-		   
-				if (status == google.maps.GeocoderStatus.OK) {
-					
+	customApp.buieMap = function(options)
+		{
+			//private object to organize code
+			var buieMap = new Object();
+
+			//default options
+			var defaults = {
+				mapSelector: '#googleMap',
+				markerSelector: '.map .key ul li',
+				infoBoxContentSelector: '.map .infoBoxContent'
+			}
+
+			//buid settings based on defaults and options
+			var settings = $.extend({}, defaults, options);
+
+			//setup elements
+			var keyItems = $(settings.markerSelector);
+
+			buieMap.setup = function()
+				{				
+					//create marker object based on dom
+					buieMap.setupMarkers();
+					//setup the map initially
+					buieMap.initiateMap();
+					//bind the legend events
+					buieMap.bindEvents();					
+				}
+			buieMap.setupMarkers = function()
+				{
+					var markers = Array();
+					var markersFound = 0;
+					keyItems.each(function(index){
+						var me = $(this);
+						if(me.is('[dataLat]')){
+							markers[markersFound] = new Object();
+							markers[markersFound].el = me;
+							markers[markersFound].lat = me.attr('dataLat');
+							markers[markersFound].lng = me.attr('dataLng');
+							markers[markersFound].markerTitle = me.attr('dataTitle');
+							markers[markersFound].address = me.attr('dataAddress');
+							me.data('marker', markers[markersFound]);
+							markersFound++;
+						}
+					});
+					buieMap.markers = markers;
+				}
+			buieMap.initiateMap = function(options)
+				{
+					//set initiate defaults
+					var defaults = {
+						latLng:  {
+							lat: buieMap.markers[0].lat,
+							lng: buieMap.markers[0].lng
+						}, 
+						zoom: 14
+					}
+
+					//setup the settings based on options
+					var settings = $.extend({}, defaults, options);
+					//console.log(settings);
+
+					var center = new google.maps.LatLng(settings.latLng.lat, settings.latLng.lng);
+					//console.log(center);
+
 					//styles found here: http://snazzymaps.com/
-					var mapStyles = [{"featureType":"landscape","stylers":[{"saturation":-100},{"lightness":65},{"visibility":"on"}]},{"featureType":"poi","stylers":[{"saturation":-100},{"lightness":51},{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"road.arterial","stylers":[{"saturation":-100},{"lightness":30},{"visibility":"on"}]},{"featureType":"road.local","stylers":[{"saturation":-100},{"lightness":40},{"visibility":"on"}]},{"featureType":"transit","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"administrative.province","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":-25},{"saturation":-100}]},{"featureType":"water","elementType":"geometry","stylers":[{"hue":"#ffff00"},{"lightness":-25},{"saturation":-97}]}]
+					var mapStyles = []
 					
 					var myOptions = {
-					    zoom: 14,
-					    center: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
-					    mapTypeId: google.maps.MapTypeId.ROADMAP,
+					    zoom: settings.zoom,
+					    // panControl: false,
+					    // scaleControl: false,
+					    // streetViewControl: false,
+					    // zoomControl: false,
+					    // mapTypeControl: false,
+					    'center': center,
+					    mapTypeId: google.maps.MapTypeId.SATELLITE,
 					    styles: mapStyles
-					};
-			
+					};			
 					
-					var map = new google.maps.Map(document.getElementById('googleMap'), myOptions);
-	
-					locationMarker = new google.maps.Marker({
-						position : new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
-						map : map,
-						title : 'HINT CREATIVE'
-					}); 
-	
-				} else {
-					//console.log("We couldn't find the google map location");
+					buieMap.map = new google.maps.Map(document.getElementById('googleMap'), myOptions);
+
+					//add info window
+					buieMap.infowindow = new google.maps.InfoWindow(); 
+
+					//create markers
+					for (var i = 0; i < buieMap.markers.length; i++) {
+						buieMap.setupMarker(buieMap.markers[i]);
+					}
+				}			
+			buieMap.setupMarker = function(marker)
+				{
+					var latLng = new google.maps.LatLng(marker.lat, marker.lng);
+
+					var locationMarker = new google.maps.Marker({
+						position : latLng,
+						map : buieMap.map,
+						// icon: image,
+						// shape: shape,
+						title : marker.markerTitle
+					});
+
+					marker.marker =  locationMarker;
+
+					google.maps.event.addListener(locationMarker, 'click', (function() {
+						buieMap.infowindow.close();
+						buieMap.showInfoWindow(marker);						
+					}));
+
+					
 				}
-			});   
+			buieMap.showInfoWindow = function(marker)
+				{
+					var infoBoxContent = $(settings.infoBoxContentSelector).clone(true, true);
+					infoBoxContent.css({'display': 'block'});
+					infoBoxContent.find('h3').text(marker.markerTitle);
+					var encoded_search = encodeURI(marker.address);
+					var getDirectionsURL = 'http://maps.google.com/maps?saddr='+encoded_search;
+					infoBoxContent.find('a').attr('href', getDirectionsURL);
+					buieMap.infowindow.setContent(infoBoxContent.html());
+					buieMap.infowindow.open(buieMap.map,marker.marker);
+				}		
+			buieMap.bindEvents = function()
+				{
+					keyItems.click(function(){
+						var me = $(this);
+						var marker = me.data('marker');
+
+						buieMap.infowindow.close();
+						buieMap.zoomInclude(marker);
+					});
+					//buieMap.markers[0].el.trigger('click');
+				}
+			buieMap.zoomInclude = function(marker)
+				{
+					//always include the home marker in the bounds
+					var homeMarker = buieMap.markers[0].marker;
+					var latLngBounds = new google.maps.LatLngBounds();
+					latLngBounds.extend(homeMarker.getPosition())
+					latLngBounds.extend(marker.marker.getPosition());
+
+					//fit both markers on the map, account for legend pixels, and show infowindow of marker
+					buieMap.map.fitBounds(latLngBounds);
+					buieMap.map.panBy(160, 0);
+					buieMap.showInfoWindow(marker);
+
+					//check add the current bounds to the previous bounds to show everything correctly
+					var currentBounds = buieMap.map.getBounds();
+					latLngBounds.extend(currentBounds.getNorthEast());
+					latLngBounds.extend(currentBounds.getSouthWest());
+					buieMap.map.fitBounds(latLngBounds);
+				}
+			buieMap.geoCode = function(options)
+				{
+					var defaults = {
+						codeingType: 'address', //can be address, latLng
+						codeString: false
+					}
+
+					//setup the settings based on options
+					var settings = $.extend({}, defaults, options);
+
+					var geocoder = new google.maps.Geocoder();
+
+					var results = geocoder.geocode( { 'address': settings.codeString }, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+
+							var center = buieMap.getLatLng(results);
+
+						}
+					});
+				}
+			buieMap.setup();
+			customApp.buieMapObject = buieMap;		
 		}
 	}
 
@@ -68,19 +210,8 @@
     <a href="" target='_blank'>Get Directions</a>
   </div>
   <div class="key">
-      <h4>Community Map</h4>
       <ul>
           <li dataLat="40.456640" dataLng='-106.812238' dataTitle="Wildhorse Meadows" dataAddress='Wildhorse Meadows, 1175 Bangtail Way, Steamboat Springs, CO 80487'>Wildhorse Meadows</li>
-          <li dataLat="40.458363" dataLng='-106.805090' dataTitle="Steamboat Ski & Resort" dataAddress='Steamboat Springs, CO 80487'>Steamboat Ski & Resort</li>
-          <li dataLat="40.484720" dataLng='-107.219883' dataTitle="Yampa Valley Regional Airport" dataAddress='Yampa Valley Regional Airport, 11005 County Road 51A, Hayden, CO 81639'>Yampa Valley Regional Airport</li>
-          <li>Downtown</li>
-          <li>Howelson Hill</li>
-          <li>Old Town Hot Springs</li>
-          <li>Strawberry Part Hot Springs</li>
-          <li>Hospital</li>
-          <li>Bob Adams Airport</li>
-          <li>Haymaker Golf Course</li>
-          <li>Rollingstone Ranch Golf Club</li>
       </ul>
   </div>
 </div>

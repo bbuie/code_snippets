@@ -61,7 +61,6 @@
 				}			
 			}
 			for (var breakpoint in customApp.breakPoints) {
-				console.log(breakpoint);
 				if(customApp.viewportWidth <= customApp.breakPoints[breakpoint].maxWidth){
 					customApp.currentView = breakpoint;
 					customApp.loadedView = breakpoint;
@@ -75,24 +74,32 @@
 	customApp.loadResponsiveImages = function(callback)
 		{
 			$("img[responsiveImg='1']").each(function(){
-				var newImgSrcAttr = 'img-'+customApp.currentView;		
-				var newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
-				var currentImgSrc = $(this).attr('src');
+				var me = $(this);
+				var srcAttr = 'src-'+customApp.currentView;
+
+				var src = me.attr(srcAttr);
+				var currentSrc = me.attr('src');
+
+				//loop through all breakpoints to show the smallest image that is bigger than the breakpoint
 				var loopCount = 0;
-				while(!newImgSrc && customApp.currentView != 'desktop'){	
+				var nextView = customApp.breakPoints[customApp.currentView].next;		
+				while(!src && nextView != false){	
 					//prevent an infinite loop
 					if(loopCount > 10){
 						break;
 					}
-					newImgSrcAttr = 'img-'+customApp.breakPoints[customApp.currentView].next;
-					newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
-				loopCount++}
-				if(newImgSrc && newImgSrc != currentImgSrc){
-					$(this).attr('src',newImgSrc);
+					srcAttr = 'src-'+nextView;
+					src = me.attr(srcAttr);
+					nextView = customApp.breakPoints[nextView].next;
+					loopCount++;
+				}
+				if(src && src != currentSrc){
+					me.attr('src',src);
 				}
 			});
-			customApp.loadedView = customApp.currentView;
-			callback();
+			if(callback){
+				callback();
+			}
 		}
 	
 })(window.jQuery);
@@ -127,10 +134,10 @@
 	alt='' 
 	responsiveImg='1'
 	src=''							
-	img-phone=''
-	img-phoneLandscape=''
-	img-tablet=''
-	img-tabletLandscape=''
-	img-desktop=''
-	img-desktopWide=''	
+	src-phone=''
+	src-phoneLandscape=''
+	src-tablet=''
+	src-tabletLandscape=''
+	src-desktop=''
+	src-desktopWide=''	
 />

@@ -10,64 +10,107 @@
 
 	//add slider, dependant on unslider.js
 	customApp.buieSlide = function(options)
-			{
-				var buieSlide = new Object;
-				
-				buieSlide.defaults = {
-					slider: '.banner',
-					firstSlide: '.one',
-					sliderImage: '.bannerImg',
-					nextButton: '.next',
-					prevButton: '.prev'
-				}
+		{
+			var buieSlide = new Object;
+			
+			var defaults = {
+				slider: '.banner',
+				firstSlide: '.one',
+				sliderImage: '.bannerImg',
+				nextButton: '.next',
+				prevButton: '.prev'
+			}
 
-				var settings = $.extend({},buieSlide.defaults, options);			
+			var settings = $.extend({},defaults, options);
 
-				buieSlide.navigationButtons = function()
-					{
-						$(settings.slider +" "+ settings.nextButton).click(function(){
-							var me = $(this);
-							var $slider = me.closest(settings.slider);
-							var slider = $slider.data('unslider');
-							slider.next();
-						});
-						$(settings.slider +" "+ settings.prevButton).click(function(){
-							var me = $(this);
-							var $slider = me.closest(settings.slider);
-							var slider = $slider.data('unslider');
-							slider.prev();
+
+
+			buieSlide.setup = function()
+				{
+					if($(settings.slider).length){
+						$(settings.slider).each(function(){
+							 buieSlide.sliderDeterminLoadType($(this));				
 						});
 					}
-				buieSlide.loadUnslider = function(banner)
-					{	
-						var slider = banner.unslider({ //download this plugin here: http://unslider.com/
-							speed: 600,               //  The speed to animate each slide (in milliseconds)
-							delay: 7000,              //  The delay between slide animations (in milliseconds)
-							complete: function() {},  //  A function that gets called after every slide animation
-							keys: true,               //  Enable keyboard (left, right) arrow shortcuts
-							dots: true,               //  Display dot navigation
-							fluid: true 
-						});
-						
-						buieSlide.navigationButtons();
-					};	
-				buieSlide.sliderDeterminLoadType = function(banner, settings)
-					{
-						if(banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).height() > 30){
+				}
+			buieSlide.sliderDeterminLoadType = function(banner)
+				{
+					if(banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).height() > 30){
+						 buieSlide.loadUnslider(banner);
+					} else {
+						banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).on('load', function(){
 							 buieSlide.loadUnslider(banner);
-						} else {
-							banner.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage).on('load', function(){
-								 buieSlide.loadUnslider(banner);
-							});
-						}
-					};		
-
-				if($(settings.slider).length){
-					$(settings.slider).each(function(){
-						 buieSlide.sliderDeterminLoadType($(this), settings);				
+						});
+					}
+				};	
+			buieSlide.loadUnslider = function(banner)
+				{	
+					var slider = banner.unslider({ //download this plugin here: http://unslider.com/
+						speed: 600,               //  The speed to animate each slide (in milliseconds)
+						delay: 7000,              //  The delay between slide animations (in milliseconds)
+						complete: function() {},  //  A function that gets called after every slide animation
+						keys: true,               //  Enable keyboard (left, right) arrow shortcuts
+						dots: true,               //  Display dot navigation
+						fluid: true 
+					});		
+					buieSlide.navigationButtons();
+				};		
+			buieSlide.navigationButtons = function()
+				{
+					$(settings.slider +" "+ settings.nextButton).click(function(){
+						var me = $(this);
+						var $slider = me.closest(settings.slider);
+						var slider = $slider.data('unslider');
+						slider.next();
+					});
+					$(settings.slider +" "+ settings.prevButton).click(function(){
+						var me = $(this);
+						var $slider = me.closest(settings.slider);
+						var slider = $slider.data('unslider');
+						slider.prev();
 					});
 				}
-			};
+			buieSlide.removeSliders = function() 
+				{
+					if($(settings.slider).length){
+						$(settings.slider).each(function(){	
+							var me = $(this);
+							
+							//check if the element has a slider setup
+							var unslider = 	me.data('unslider');
+						    if (unslider){
+
+						    	//remove styles and classes from the dom
+						        var meUl = me.find('ul');
+						        var meLi = me.find('li');
+						        me.add(meUl).add(meLi).removeAttr('style');
+						        me.find('.dots').remove();
+						        me.removeClass('has-dots');	
+
+						        //unbind all events added by buieSlide and unslider
+						        me.off();
+						        me.unbind();
+						        var firstSlideImg = me.find('ul '+ settings.firstSlide + ' '+ settings.sliderImage);
+						        firstSlideImg.off();
+						        firstSlideImg.unbind();	
+						        var nextButton = me.find(settings.slider +" "+ settings.nextButton);
+						        nextButton.off();
+						        nextButton.unbind();	
+						        var prevButton = me.find(settings.slider +" "+ settings.prevButton);
+						        prevButton.off();
+						        prevButton.unbind();						        
+
+						        //remove the timeout and data created by the unslider instantiation
+						        unslider.stop();
+						        me.removeData();
+						    }
+				   		});
+				   	}	
+				};
+			//setup the buieSlide funtion
+			buieSlide.setup();
+			customApp.buieSlideObject = buieSlide;
+		};
 </script>
 <style>
 

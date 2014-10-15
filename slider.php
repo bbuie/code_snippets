@@ -139,6 +139,7 @@ body {
 
 			.item { float: left; width: 100%; overflow: hidden; position: relative;} 
 		}
+		.item { list-style: none; }
 		.navigation {
 			.next, .prev {
 				position: absolute;
@@ -148,12 +149,23 @@ body {
 			}
 			.next {				
 				right: 100px;
+
+				@media #{$breakpointPhoneLandscape} {
+					right: 30px;
+				}
 			}
 			.prev {
 				left: 100px;
+
+				@media #{$breakpointPhoneLandscape} {
+					left: 30px;
+				}
 			}
 		}
-		.item { list-style: none; }
+
+		.bannerPrev {
+			
+		}
 		.dots {
 			position: absolute;
 			right: 24px;

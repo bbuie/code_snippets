@@ -35,9 +35,13 @@
 			customApp.viewportWidth = $(window).width();
 			customApp.viewportHeight = $(window).height();
 			customApp.breakPoints = {
-				desktop: {
+				desktopWide: {
 					maxWidth: 1000000,
-					next: undefined
+					next: false
+				},
+				desktop: {
+					maxWidth: 1200,
+					next: 'desktopWide'
 				},
 				tabletLandscape: {
 					maxWidth: 1024,
@@ -47,19 +51,18 @@
 					maxWidth: 768,
 					next: 'tabletLandscape'
 				},
-				mobileLandscape: {
+				phoneLandscape: {
 					maxWidth: 480,
 					next: 'tablet'
 				},
-				mobile: {
+				phone: {
 					maxWidth: 320,
-					next: 'mobileLandscape'
+					next: 'phoneLandscape'
 				}			
 			}
-			customApp.currentView = 'desktop';
-			customApp.loadedView = 'desktop';
 			for (var breakpoint in customApp.breakPoints) {
-				if(customApp.viewportWidth < customApp.breakPoints[breakpoint].maxWidth){
+				console.log(breakpoint);
+				if(customApp.viewportWidth <= customApp.breakPoints[breakpoint].maxWidth){
 					customApp.currentView = breakpoint;
 					customApp.loadedView = breakpoint;
 				}
@@ -69,27 +72,28 @@
 	
 	//need to add function for resizing
 	
-	customApp.loadResponsiveImages = function(callback){
-		$("img[responsiveImg='1']").each(function(){
-			var newImgSrcAttr = 'img-'+customApp.currentView;		
-			var newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
-			var currentImgSrc = $(this).attr('src');
-			var loopCount = 0;
-			while(!newImgSrc && customApp.currentView != 'desktop'){	
-				//prevent an infinite loop
-				if(loopCount > 10){
-					break;
+	customApp.loadResponsiveImages = function(callback)
+		{
+			$("img[responsiveImg='1']").each(function(){
+				var newImgSrcAttr = 'img-'+customApp.currentView;		
+				var newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
+				var currentImgSrc = $(this).attr('src');
+				var loopCount = 0;
+				while(!newImgSrc && customApp.currentView != 'desktop'){	
+					//prevent an infinite loop
+					if(loopCount > 10){
+						break;
+					}
+					newImgSrcAttr = 'img-'+customApp.breakPoints[customApp.currentView].next;
+					newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
+				loopCount++}
+				if(newImgSrc && newImgSrc != currentImgSrc){
+					$(this).attr('src',newImgSrc);
 				}
-				newImgSrcAttr = 'img-'+customApp.breakPoints[customApp.currentView].next;
-				newImgSrc = $(this).attr(newImgSrcAttr); //this finds the source link using the attribute data-desktopImg, data-tabletImg, or data-mobileImg
-			loopCount++}
-			if(newImgSrc && newImgSrc != currentImgSrc){
-				$(this).attr('src',newImgSrc);
-			}
-		});
-		customApp.loadedView = customApp.currentView;
-		callback();
-	}
+			});
+			customApp.loadedView = customApp.currentView;
+			callback();
+		}
 	
 })(window.jQuery);
 </script>
@@ -117,11 +121,16 @@
 
 </style>
 
+
+<!-- start html for responsive img, IMPORTANT! img-desktopWide is the fallback -->
 <img 
 	alt='' 
 	responsiveImg='1'
 	src=''							
-	img-mobile=''
+	img-phone=''
+	img-phoneLandscape=''
 	img-tablet=''
-	img-desktop=''	
+	img-tabletLandscape=''
+	img-desktop=''
+	img-desktopWide=''	
 />

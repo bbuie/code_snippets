@@ -204,66 +204,22 @@
 </script>
 
 <style>
-	.map {
-			position: relative;
+/*buieMapStyles*/
+.map {
+	position: relative;
 
-			#googleMap {
-				width: 100%;
-				height: 359px;
-				margin-bottom: 16px;
+	#googleMap {
+		width: 100%;
 
-				@media #{$breakpointPhoneLandscape} {
-					margin-bottom: 0;
-				}
-
-				img {
-					max-width: none;
-				}
-
-				h3 {
-					font-family: arial;
-					font-size: 16px;
-					margin-bottom: 10px;
-				}
-
-				a {
-					color: black;
-					text-decoration: underline;
-				}
-			}
-
-			.key {
-				background: image-url('opacity.png');
-				position: absolute;
-				right: 2%;
-				top: 9%;
-				height: 83%;
-				padding: 15px;
-
-				@media #{$breakpointPhoneLandscape} {
-					position: relative;
-					top: 0;
-					right: 0; 
-				}
-
-				h4 {
-					margin-bottom: 10px;
-				}
-
-				ul {
-					margin-left: 43px;
-					font-weight: normal;
-
-					li {
-						cursor: pointer;
-					}
-				}
-			}
-
-			.infoBoxContent {
-				display: none;
-			}
+		img {
+			max-width: none;
 		}
+	}
+
+	.infoBoxContent {
+		display: none;
+	}
+}
 </style>
 
 <div class="map">

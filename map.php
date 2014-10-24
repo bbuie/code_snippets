@@ -52,6 +52,7 @@
 							markers[markersFound].lng = me.attr('dataLng');
 							markers[markersFound].markerTitle = me.attr('dataTitle');
 							markers[markersFound].address = me.attr('dataAddress');
+							markers[markersFound].image = me.attr('dataImage');
 							me.data('marker', markers[markersFound]);
 							markersFound++;
 						}
@@ -71,10 +72,8 @@
 
 					//setup the settings based on options
 					var settings = $.extend({}, defaults, options);
-					//console.log(settings);
 
 					var center = new google.maps.LatLng(settings.latLng.lat, settings.latLng.lng);
-					//console.log(center);
 
 					//styles found here: http://snazzymaps.com/
 					var mapStyles = []
@@ -109,13 +108,19 @@
 				{
 					var latLng = new google.maps.LatLng(marker.lat, marker.lng);
 
-					var locationMarker = new google.maps.Marker({
+					//set the marker options based on the marker
+					var locationMarkerOptions = {
 						position : latLng,
 						map : buieMap.map,
-						// icon: image,
-						// shape: shape,
 						title : marker.markerTitle
-					});
+					}
+
+					//if a marker image is set, add it to marker options
+					if(marker.image){
+						locationMarkerOptions.icon = marker.image
+					}
+
+					var locationMarker = new google.maps.Marker(locationMarkerOptions);
 
 					marker.marker =  locationMarker;
 
@@ -269,7 +274,7 @@
   </div>
   <div class="key">
       <ul>
-          <li dataLat="40.456640" dataLng='-106.812238' dataTitle="Wildhorse Meadows" dataAddress='Wildhorse Meadows, 1175 Bangtail Way, Steamboat Springs, CO 80487'>Wildhorse Meadows</li>
+          <li dataLat="" dataLng='' dataTitle="" dataAddress='' dataImage=''>Wildhorse Meadows</li>
       </ul>
   </div>
 </div>

@@ -21,7 +21,9 @@
 			var defaults = {
 				mapSelector: '#googleMap',
 				markerSelector: '.map .key ul li',
-				infoBoxContentSelector: '.map .infoBoxContent'
+				infoBoxContentSelector: '.map .infoBoxContent',
+				zoom: 14,
+				mapTypeId: google.maps.MapTypeId.SATELLITE 
 			}
 
 			//buid settings based on defaults and options
@@ -35,7 +37,9 @@
 					//create marker object based on dom
 					buieMap.setupMarkers();
 					//setup the map initially
-					buieMap.initiateMap();
+					buieMap.initiateMap({
+						zoom: settings.zoom
+					});
 					//bind the legend events
 					buieMap.bindEvents();					
 				}
@@ -61,19 +65,12 @@
 				}
 			buieMap.initiateMap = function(options)
 				{
-					//set initiate defaults
-					var defaults = {
-						latLng:  {
-							lat: buieMap.markers[0].lat,
-							lng: buieMap.markers[0].lng
-						}, 
-						zoom: 14
+					var firstMarker = {
+						lat: buieMap.markers[0].lat,
+						lng: buieMap.markers[0].lng
 					}
 
-					//setup the settings based on options
-					var settings = $.extend({}, defaults, options);
-
-					var center = new google.maps.LatLng(settings.latLng.lat, settings.latLng.lng);
+					var center = new google.maps.LatLng(firstMarker.lat, firstMarker.lng);
 
 					//styles found here: http://snazzymaps.com/
 					var mapStyles = []
@@ -87,7 +84,7 @@
 					    // mapTypeControl: false,
 					    scrollwheel: false,
 					    center: center,
-					    mapTypeId: google.maps.MapTypeId.SATELLITE,
+					    mapTypeId: settings.mapTypeId,
 					    styles: mapStyles
 					};			
 					
@@ -198,7 +195,7 @@
 					});
 				}
 			buieMap.setup();
-			customApp.buieMapObject = buieMap;		
+			customApp.buieMapObj = buieMap;		
 		}
 
 </script>
@@ -230,7 +227,7 @@
   </div>
   <div class="key">
       <ul>
-          <li dataLat="" dataLng='' dataTitle="" dataAddress='' dataImage=''>Wildhorse Meadows</li>
+          <li dataLat="" dataLng='' dataTitle="" dataAddress='' dataImage=''></li>
       </ul>
   </div>
 </div>

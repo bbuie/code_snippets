@@ -23,8 +23,6 @@
 
 			var settings = $.extend({},defaults, options);
 
-
-
 			buieSlide.setup = function()
 				{
 					if($(settings.slider).length){
@@ -109,7 +107,7 @@
 				};
 			//setup the buieSlide funtion
 			buieSlide.setup();
-			customApp.buieSlideObject = buieSlide;
+			customApp.buieSlideObj = buieSlide;
 		};
 </script>
 <style>
@@ -173,6 +171,7 @@
 
 /*or styles for scss*/
 
+/*bannerStyles*/
 body {
 	.banner { 
 		position: relative; overflow: auto; custom: both;
@@ -182,7 +181,13 @@ body {
 
 			.item { float: left; width: 100%; overflow: hidden; position: relative;} 
 		}
-		.item { list-style: none; }
+		.item { 
+			list-style: none;
+
+			.bannerImg {
+				min-width: 100%;
+			} 
+		}
 		.navigation {
 			.next, .prev {
 				position: absolute;
@@ -192,22 +197,10 @@ body {
 			}
 			.next {				
 				right: 100px;
-
-				@media #{$breakpointPhoneLandscape} {
-					right: 30px;
-				}
 			}
 			.prev {
 				left: 100px;
-
-				@media #{$breakpointPhoneLandscape} {
-					left: 30px;
-				}
 			}
-		}
-
-		.bannerPrev {
-			
 		}
 		.dots {
 			position: absolute;

@@ -178,10 +178,10 @@
 			buieModal.setHeight = function()
 				{
 					modal.find('.modalViewer, .modalImage, .modalContent, .modalIframe').removeAttr('style');
-					var contentHeight = viewer.outerHeight();
-					var contentHeightPadding = contentHeight - viewer.height();
-					var contentWidth = viewer.outerWidth();
-					var contentWidthPadding = contentWidth - viewer.width();
+					var contentHeight = modalViewer.outerHeight();
+					var contentHeightPadding = contentHeight - modalViewer.height();
+					var contentWidth = modalViewer.outerWidth();
+					var contentWidthPadding = contentWidth - modalViewer.width();
 					var maxWidth =  customApp.viewportWidth*.9;
 					var maxHeight = customApp.viewportHeight*.9;			
 

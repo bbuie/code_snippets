@@ -1,4 +1,4 @@
 code_snipits
 ============
 
-Internal code snipits for Voltage
+Code snipets created and used constantly over the years. 

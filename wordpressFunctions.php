@@ -129,7 +129,7 @@ function flush_all_rewrite_rules(){
 }
 
 //add article custom post type
-function uys_articles_init() {	
+function customApp_articles_init() {	
 	$articleLabels = array(
 	    'name'               => 'Articles',
 	    'singular_name'      => 'Article',
@@ -160,7 +160,7 @@ function uys_articles_init() {
 	register_post_type( 'articles', $articleArgs );
 	flush_all_rewrite_rules(); //need to include flush_all_rewrite_rules() above
 }
-add_action( 'init', 'uys_articles_init' );
+add_action( 'init', 'customApp_articles_init' );
 
 //get article_category to show in url of article post types
 function article_category($permalink, $post_id, $leavename) {

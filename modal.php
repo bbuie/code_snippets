@@ -61,7 +61,7 @@
 					newIndex++;
 				}
 				
-				customApp.showModal({
+				customApp.buieModal({
 					type: 'gallery',
 					src: galleryItems
 				});

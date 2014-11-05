@@ -259,9 +259,8 @@
 </script>
 
 <style>
-	/*
-	* modalStyles *********************************************************************
-	*/
+/*modalStyles*/
+body {
 	@-webkit-keyframes fadeInDown {
 	  0% { opacity: 0; -webkit-transform: translateY(0); }
 	  100% { opacity: 1; -webkit-transform: translateY(6px);}
@@ -325,6 +324,9 @@
 		height: 40px;
 		width: 40px;
 	}
+	.modalCloseImg {
+		padding-top: 4px;
+	}
 	.modalNavigation {
 		position: absolute;
 		top: 10px;
@@ -344,6 +346,7 @@
 	}
 	.modalCounter {
 		font-size: 17px;
+		color: white;
 	}
 	.modalCurrent {
 		margin-left: 30px;
@@ -394,6 +397,7 @@
 			height: 180px;
 		}
 	}
+}
 </style>
 
 <!-- start of modal html -->

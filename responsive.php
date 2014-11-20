@@ -3,10 +3,22 @@
 // remap jQuery to $
 (function($){
 	
-	customApp.breakpointsInit = function()
+	customApp.breakpointsInit = function(options)
 		{
 			//object for organizing code
 			var breakpointsInit = new Object();
+
+			//default options
+			var defaults = {
+				desktopMaxWidth: 1200,
+				tabletLandscapeMaxWidth: 1024,
+				tabletMaxWidth: 768,
+				phoneLandscapeMaxWidth: 480,
+				phoneMaxWidth: 320
+			}
+
+			//buid settings based on defaults and options
+			var settings = $.extend({}, defaults, options);
 
 			breakpointsInit.setup = function()
 				{
@@ -18,23 +30,23 @@
 							next: false
 						},
 						desktop: {
-							maxWidth: 1200,
+							maxWidth: settings.desktopMaxWidth,
 							next: 'desktopWide'
 						},
 						tabletLandscape: {
-							maxWidth: 1024,
+							maxWidth: settings.tabletLandscapeMaxWidth,
 							next: 'desktop'
 						},
 						tablet: {
-							maxWidth: 768,
+							maxWidth: settings.tabletMaxWidth,
 							next: 'tabletLandscape'
 						},
 						phoneLandscape: {
-							maxWidth: 480,
+							maxWidth: settings.phoneLandscapeMaxWidth,
 							next: 'tablet'
 						},
 						phone: {
-							maxWidth: 320,
+							maxWidth: settings.phoneMaxWidth,
 							next: 'phoneLandscape'
 						}			
 					}
@@ -76,6 +88,10 @@
 	customApp.breakpointsViewChange = function()
 		{
 			//use this function to perform any changes to the view based on breakpoint changes
+
+			//change responsive images
+			//customApp.breakpointImagesObj.emptySrc();
+			//customApp.breakpointImages();
 		}	
 	customApp.breakpointImages = function(callback)
 		{

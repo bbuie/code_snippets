@@ -27,7 +27,8 @@
 				{
 					if($(settings.slider).length){
 						$(settings.slider).each(function(){
-							 buieSlide.sliderDeterminLoadType($(this));				
+							var banner = $(this);
+							buieSlide.sliderDeterminLoadType(banner);
 						});
 					}
 				}
@@ -43,6 +44,12 @@
 				};	
 			buieSlide.loadUnslider = function(banner)
 				{	
+					//don't load unslider again if it is already loaded
+					var sliderObj = banner.data('unslider');
+					if(sliderObj !== undefined) {
+					 	return false;			
+					}
+
 					var slider = banner.unslider({ //download this plugin here: http://unslider.com/
 						speed: 600,               //  The speed to animate each slide (in milliseconds)
 						delay: 7000,              //  The delay between slide animations (in milliseconds)
@@ -50,22 +57,37 @@
 						keys: true,               //  Enable keyboard (left, right) arrow shortcuts
 						dots: true,               //  Display dot navigation
 						fluid: true 
-					});		
-					buieSlide.navigationButtons();
-				};		
-			buieSlide.navigationButtons = function()
-				{
-					$(settings.slider +" "+ settings.nextButton).click(function(){
-						var me = $(this);
-						var $slider = me.closest(settings.slider);
-						var slider = $slider.data('unslider');
-						slider.next();
 					});
-					$(settings.slider +" "+ settings.prevButton).click(function(){
-						var me = $(this);
-						var $slider = me.closest(settings.slider);
-						var slider = $slider.data('unslider');
-						slider.prev();
+
+					sliderObj = slider.data('unslider');
+					buieSlide.navigationButtons(slider, sliderObj);
+					buieSlide.resize(sliderObj);
+				};		
+			buieSlide.navigationButtons = function(slider, sliderObj)
+				{
+					slider.find(settings.nextButton).click(function(e){
+						e.preventDefault();
+						sliderObj.next();
+					});
+					slider.find(settings.prevButton).click(function(e){
+						e.preventDefault();
+						sliderObj.prev();
+					});
+				}
+			buieSlide.resize = function(sliderObj)
+				{
+					var move = true;//used to prevent move from firing tons of times on resize
+					$(window).resize(function() {
+						//only move if true
+						if(move==true){
+							move = false;
+							clearTimeout(resizeTimeout);
+							var resizeTimeout = setTimeout(function(){
+								console.log('set timeout')
+								sliderObj.next();
+								move = true;
+							}, 1000);
+						}						
 					});
 				}
 			buieSlide.removeSliders = function() 
@@ -113,132 +135,132 @@
 <style>
 
 
-/* Slider Styles ****************************************************/
-.banner { position: relative; overflow: auto; custom: both; margin-bottom: 10px;}
-.banner ul {
-	margin-left: 0;
-}
-.banner .navigation .next {
-	position: absolute;
-	top: 50%;
-	cursor: pointer;
-	margin-top: -12px;
-	right: 100px;
-}
-.banner .navigation .prev {
-	position: absolute;
-	top: 50%;
-	cursor: pointer;
-	margin-top: -12px;
-	left: 100px;
+	/* Slider Styles ****************************************************/
+	.banner { position: relative; overflow: auto; custom: both; margin-bottom: 10px;}
+	.banner ul {
+		margin-left: 0;
+	}
+	.banner .navigation .next {
+		position: absolute;
+		top: 50%;
+		cursor: pointer;
+		margin-top: -12px;
+		right: 100px;
+	}
+	.banner .navigation .prev {
+		position: absolute;
+		top: 50%;
+		cursor: pointer;
+		margin-top: -12px;
+		left: 100px;
 
-}
-.banner .item { list-style: none; }
-.banner ul .item { float: left; width: 100%; overflow: hidden; position: relative;} 
-.banner .dots {
-	position: absolute;
-	right: 24px;
-	top: 12px;
-	z-index: 1;
-}
-.banner .dots li {
-	display: inline-block;
-	width: 0px;
-	height: 0px;
-	margin: 0 4px;
-	text-indent: -999em;
-	border: 9px solid #fff;
-	border-radius: 9px;
-	cursor: pointer;
-	opacity: .4;
-	-webkit-transition: background .5s, opacity .5s;
-	-moz-transition: background .5s, opacity .5s;
-	transition: background .5s, opacity .5s;
-}
-.banner .dots li.active {
-	background: #fff;
-	opacity: 1;
-}
-/* fix added for slider in IE8, don't wrap these in id for scss */
-.ie8 .banner .dots li {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	background: white;
-}
-.ie8 .banner .dots li.active {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-}
-/*end of fix */
+	}
+	.banner .item { list-style: none; }
+	.banner ul .item { float: left; width: 100%; overflow: hidden; position: relative;} 
+	.banner .dots {
+		position: absolute;
+		right: 24px;
+		top: 12px;
+		z-index: 1;
+	}
+	.banner .dots li {
+		display: inline-block;
+		width: 0px;
+		height: 0px;
+		margin: 0 4px;
+		text-indent: -999em;
+		border: 9px solid #fff;
+		border-radius: 9px;
+		cursor: pointer;
+		opacity: .4;
+		-webkit-transition: background .5s, opacity .5s;
+		-moz-transition: background .5s, opacity .5s;
+		transition: background .5s, opacity .5s;
+	}
+	.banner .dots li.active {
+		background: #fff;
+		opacity: 1;
+	}
+	/* fix added for slider in IE8, don't wrap these in id for scss */
+	.ie8 .banner .dots li {
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		background: white;
+	}
+	.ie8 .banner .dots li.active {
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	}
+	/*end of fix */
 
-/*or styles for scss*/
+	/*or styles for scss*/
 
-/*bannerStyles*/
-body {
-	.banner { 
-		position: relative; overflow: auto; custom: both;
+	/*bannerStyles*/
+	body {
+		.banner { 
+			position: relative; overflow: auto; custom: both;
 
-		ul {
-			margin-left: 0;
+			ul {
+				margin-left: 0;
 
-			.item { float: left; width: 100%; overflow: hidden; position: relative;} 
-		}
-		.item { 
-			list-style: none;
+				.item { float: left; width: 100%; overflow: hidden; position: relative;} 
+			}
+			.item { 
+				list-style: none;
 
-			.bannerImg {
-				min-width: 100%;
-			} 
-		}
-		.navigation {
-			.next, .prev {
+				.bannerImg {
+					min-width: 100%;
+				} 
+			}
+			.navigation {
+				.next, .prev {
+					position: absolute;
+					top: 50%;
+					cursor: pointer;
+					margin-top: -12px;
+				}
+				.next {				
+					right: 100px;
+				}
+				.prev {
+					left: 100px;
+				}
+			}
+			.dots {
 				position: absolute;
-				top: 50%;
-				cursor: pointer;
-				margin-top: -12px;
-			}
-			.next {				
-				right: 100px;
-			}
-			.prev {
-				left: 100px;
-			}
-		}
-		.dots {
-			position: absolute;
-			right: 24px;
-			top: 12px;
-			z-index: 1;
+				right: 24px;
+				top: 12px;
+				z-index: 1;
 
-			li {
-				display: inline-block;
-				width: 0px;
-				height: 0px;
-				margin: 0 4px;
-				text-indent: -999em;
-				border: 9px solid #fff;
-				border-radius: 9px;
-				cursor: pointer;
-				opacity: .4;
-				-webkit-transition: background .5s, opacity .5s;
-				-moz-transition: background .5s, opacity .5s;
-				transition: background .5s, opacity .5s;
+				li {
+					display: inline-block;
+					width: 0px;
+					height: 0px;
+					margin: 0 4px;
+					text-indent: -999em;
+					border: 9px solid #fff;
+					border-radius: 9px;
+					cursor: pointer;
+					opacity: .4;
+					-webkit-transition: background .5s, opacity .5s;
+					-moz-transition: background .5s, opacity .5s;
+					transition: background .5s, opacity .5s;
 
-				&.active {
-					background: #fff;
-					opacity: 1;
+					&.active {
+						background: #fff;
+						opacity: 1;
+					}
 				}
 			}
 		}
-	}
-	.ie8 .banner .dots li {
-		/* fix added for slider in IE8, don't wrap these in id for scss */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-		background: white;
+		.ie8 .banner .dots li {
+			/* fix added for slider in IE8, don't wrap these in id for scss */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+			background: white;
 
-		&.active {
-			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			&.active {
+				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			}
 		}
 	}
-}
 </style>
 
 

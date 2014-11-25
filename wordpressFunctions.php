@@ -328,3 +328,23 @@ function vtgMenus() {
   register_nav_menu('header-menu',__( 'Header Menu' ));
 }
 add_action( 'init', 'vtgMenus' ); //use this to show in theme wp_nav_menu( array('theme_location' => 'header-menu') );
+
+//integrate gravity forms with external service
+function externalPostGravityForm1($entry, $form){
+    $post_url = 'http://insights.upyourservice.com/acton/eform/1088/0002/d-ext-0001';
+    $body = array(
+        'First Name' => $entry['2'], 
+        'Last Name' => $entry['10'],
+        'E-mail Address' => $entry['3'],
+        'Subscriber' => 'True',
+        'Source Type' => 'Internet Forms',
+        'Source Description' => 'UYS Insights Form',
+        'Relationship' => 'Other - Internet B2I',
+        'Type' => 'B2I',
+        'Source Code' => 'I-02',
+        'Graveyard' => 'NO'
+    );    
+    $request = new WP_Http();
+    $response = $request->post($post_url, array('body' => $body));	
+}
+add_action("gform_after_submission_1", "externalPostGravityForm1", 10, 2);

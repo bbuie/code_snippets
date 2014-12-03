@@ -7,66 +7,88 @@
 	});
 	
 	$.fn.vtgCarousel = function(options) {
-		var vtgCarousel = this;
-		
-		vtgCarousel.defaults = {
-			outerBoxClass: '.outerBox', 
-			innerBoxClass: '.innerBox',
-			itemClass: '.item',
-			nextClass: '.rightArrow',
-			prevClass: '.leftArrow'
-		}		
-		var settings = $.extend({},this.defaults, options);
-		
-		vtgCarousel.init = function(el){
-			var carousel = new Object();
-			carousel.el = $(el);
-			carousel.innerBox = carousel.el.find(settings.innerBoxClass);
-			carousel.outerBox = carousel.el.find(settings.outerBoxClass)
-			carousel.items = carousel.el.find(settings.itemClass);
-			
-			//find width of item to set inner box width
-			carousel.itemWidth = carousel.items.outerWidth() + 2;		
-			carousel.itemCount = carousel.items.length;
-			carousel.innerBoxWidth = carousel.itemWidth * carousel.itemCount;
-			carousel.items.css('width', carousel.itemWidth);
-			carousel.innerBox.css('width',carousel.innerBoxWidth);
-			
-			//find the number of visible items
-			carousel.outerBoxWidth = carousel.outerBox.outerWidth();
-			carousel.visibleItems = Math.round(carousel.outerBoxWidth / carousel.itemWidth);
-			
-			carousel.el.find(settings.nextClass).click(function(e){
-				e.preventDefault();
-				vtgCarousel.move('next', carousel);
-			});
-			carousel.el.find(settings.prevClass).click(function(e){
-				e.preventDefault();
-				vtgCarousel.move('prev', carousel);
-			});
-		}
-		
-		vtgCarousel.move = function(direction, carousel){				
-			var marginLeft = parseInt(carousel.innerBox.css('margin-left'));
-			var maxAllowableMargin = -(carousel.innerBoxWidth - ((carousel.visibleItems-1) * carousel.itemWidth));
-			var newMargin;
-			if(direction == 'next'){					
-				newMargin = (marginLeft - carousel.itemWidth - 1);
-				if(newMargin <= maxAllowableMargin){
-					newMargin = 0;
-				}	
-			} else {
-				newMargin = (marginLeft + carousel.itemWidth - 1);
-				if(newMargin >= 0){
-					newMargin = -(carousel.innerBoxWidth - ((carousel.visibleItems) * carousel.itemWidth));
-				}
-			}
-			carousel.innerBox.animate({'margin-left': newMargin}, 500);
-		}
-		
-		return vtgCarousel.each(function() { 
-			vtgCarousel.init(this);		
-		});
+	    var vtgCarousel = new Object();
+	    
+	    var defaults = {
+	        outerBoxClass: '.outerBox', 
+	        innerBoxClass: '.innerBox',
+	        itemClass: '.item',
+	        nextClass: '.rightArrow',
+	        prevClass: '.leftArrow'
+	    } 
+
+	    var settings = $.extend({},defaults, options);
+	    
+	    vtgCarousel.init = function(el)
+	        {
+	            vtgCarousel.el = el;
+	            vtgCarousel.innerBox = vtgCarousel.el.find(settings.innerBoxClass);
+	            vtgCarousel.outerBox = vtgCarousel.el.find(settings.outerBoxClass);
+	            vtgCarousel.items = vtgCarousel.el.find(settings.itemClass);                
+
+	            vtgCarousel.setcss();
+	            vtgCarousel.bindEvents(); 
+	            vtgCarousel.onresize()         
+	            return vtgCarousel;
+	        }
+	    vtgCarousel.setcss = function()
+	        {
+	            vtgCarousel.items.removeAttr('style');
+	            vtgCarousel.innerBox.removeAttr('style');
+
+	            //find width of item to set inner box width
+	            vtgCarousel.itemWidth = vtgCarousel.items.first().outerWidth() + 2;       
+	            vtgCarousel.itemCount = vtgCarousel.items.length;
+	            vtgCarousel.innerBoxWidth = vtgCarousel.itemWidth * vtgCarousel.itemCount;
+	            vtgCarousel.items.css('width', vtgCarousel.itemWidth);
+	            vtgCarousel.innerBox.css('width',vtgCarousel.innerBoxWidth);
+	            
+	            //find the number of visible items
+	            vtgCarousel.outerBoxWidth = vtgCarousel.outerBox.outerWidth();
+	            vtgCarousel.visibleItems = Math.round(vtgCarousel.outerBoxWidth / vtgCarousel.itemWidth);  
+	        }
+	    vtgCarousel.bindEvents = function()
+	        {
+	            vtgCarousel.el.find(settings.nextClass).click(function(e){
+	                e.preventDefault();
+	                vtgCarousel.move('next');
+	            });
+	            vtgCarousel.el.find(settings.prevClass).click(function(e){
+	                e.preventDefault();
+	                vtgCarousel.move('prev');
+	            });
+	        }
+	    vtgCarousel.move = function(direction)
+	        {               
+	            var marginLeft = parseInt(vtgCarousel.innerBox.css('margin-left'));
+	            var maxAllowableMargin = -(vtgCarousel.innerBoxWidth - ((vtgCarousel.visibleItems-1) * vtgCarousel.itemWidth));
+	            var newMargin;
+	            if(direction == 'next'){                    
+	                newMargin = (marginLeft - vtgCarousel.itemWidth - 1);
+	                if(newMargin <= maxAllowableMargin){
+	                    newMargin = 0;
+	                }   
+	            } else {
+	                newMargin = (marginLeft + vtgCarousel.itemWidth - 1);
+	                if(newMargin >= 0){
+	                    newMargin = -(vtgCarousel.innerBoxWidth - ((vtgCarousel.visibleItems) * vtgCarousel.itemWidth));
+	                }
+	            }
+	            vtgCarousel.innerBox.animate({'margin-left': newMargin}, 500);
+	        }
+	    vtgCarousel.onresize = function()
+	        {
+	            $(window).resize(function() {
+	                vtgCarousel.setcss();
+	            });
+	        }
+
+	    var len = this.length;
+	    return this.each(function(index) { 
+	        var me = $(this);
+	        var instance = vtgCarousel.init(me);
+	        me.data('vtgcarousel' + (len > 1 ? '-' + (index + 1) : ''), instance);     
+	    });
 	};
 })(window.jQuery);
 </script>
@@ -118,7 +140,7 @@
 </style>
 
 <?php if(get_field('carousel_items')){ ?>
-	<div class='caseStudyViewer vtgCarousel'>
+	<div class='vtgCarousel'>
 		<a class='leftArrow' href=''>
 			<img src='<?php echo get_stylesheet_directory_uri(); ?>/img/left-arrow.png'/>
 		</a>

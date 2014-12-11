@@ -40,7 +40,7 @@
 		            this.bindEvents();
 		            this.onresize(); 
 		            this.checkInstance(); 
-		            this.enabled = true;    
+		            this.isEnabled = true;    
 		            return this;
 		        }
 		    bbCarousel.setCSS = function()
@@ -161,18 +161,16 @@
 		    		this.items.removeAttr('style');
 		    		this.innerBox.removeAttr('style');
 		    		this.me.find(settings.controlsBoxSelector).hide();
-		    		this.enabled = false;
+		    		this.isEnabled = false;
 		    	}
 		    bbCarousel.enable = function()
 		    	{
 		    		this.setCSS();
 		    		this.me.find(settings.controlsBoxSelector).show();
-		    		this.enabled = true;
+		    		this.isEnabled = true;
 		    	}
 		    bbCarousel.checkInstance = function()
 		    	{
-		    		console.log("this.innerBoxWidth :"+this.innerBoxWidth)
-		    		console.log("this.outerBoxWidth :"+this.outerBoxWidth)
 		    		//if the difference between the outer and inner boxes is less than 10
 		    		if(Math.abs(this.outerBoxWidth - this.innerBoxWidth) < 10) {
 		    			this.disable();

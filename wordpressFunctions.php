@@ -348,3 +348,11 @@ function externalPostGravityForm1($entry, $form){
     $response = $request->post($post_url, array('body' => $body));	
 }
 add_action("gform_after_submission_1", "externalPostGravityForm1", 10, 2);
+
+//hook to modify the current querry
+function customModifyQueryFunction ($query){
+	$query->set( 'order', 'ASC' );
+	$query->set('meta_key', 'project_type');
+	$query->set('meta_value', 'design');
+}
+add_action( 'pre_get_posts', 'customModifyQueryFunction' );

@@ -11,7 +11,7 @@
 		    //object which is cloned per carousel by the plugin
 		    var bbCarousel = new Object();
 		    
-		    //use these to change the default behavior
+		    //these defaults can be overidden by the options passed into this function
 		    var defaults = {
 		        //default selectors
 		        outerBoxSelector: '.carouselOuter', //note all these selectors must be within the selector that initiated bbCarousel (i.e. $('.bbCarousel').bbCarousel()
@@ -25,7 +25,7 @@
 
 		        //default functionality
 		        showDots: true, //show dot navigation, must have correct selectors above
-		        scrollVisible: true // true means that a move click will show all new items. Dots will be per panel (i.e. visible group of items)
+		        scrollVisible: true, // true means that a move click will show all new items. Dots will be per panel (i.e. visible group of items)
 		    } 
 
 		    var settings = $.extend({},defaults, options);
@@ -38,7 +38,9 @@
 
 		            this.setCSS();
 		            this.bindEvents();
-		            this.onresize();        
+		            this.onresize(); 
+		            this.checkInstance(); 
+		            this.enabled = true;    
 		            return this;
 		        }
 		    bbCarousel.setCSS = function()
@@ -159,11 +161,22 @@
 		    		this.items.removeAttr('style');
 		    		this.innerBox.removeAttr('style');
 		    		this.me.find(settings.controlsBoxSelector).hide();
+		    		this.enabled = false;
 		    	}
 		    bbCarousel.enable = function()
 		    	{
 		    		this.setCSS();
 		    		this.me.find(settings.controlsBoxSelector).show();
+		    		this.enabled = true;
+		    	}
+		    bbCarousel.checkInstance = function()
+		    	{
+		    		console.log("this.innerBoxWidth :"+this.innerBoxWidth)
+		    		console.log("this.outerBoxWidth :"+this.outerBoxWidth)
+		    		//if the difference between the outer and inner boxes is less than 10
+		    		if(Math.abs(this.outerBoxWidth - this.innerBoxWidth) < 10) {
+		    			this.disable();
+		    		}
 		    	}
 
 		    var len = this.length;

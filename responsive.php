@@ -149,6 +149,94 @@
 			breakpointImages.setup();
 			customApp.breakpointImagesObj = breakpointImages;		
 		}
+	customApp.setFullpageElement = function(options)
+		{
+			//object for organizing calculations
+			var sfe = new Object();
+
+			//default options
+			var defaults = {
+				contentElement: false, //the element that should fill the page
+				wrapperElement: false, //the wrapper element, note this should have overflow hidden
+				verticalPaddingSelectors: false, //comma separated list of selectors that should reduce the vertical height of the full page element
+				debug: false
+			}
+
+			//buid settings based on defaults and options
+			var settings = $.extend({}, defaults, options);			
+
+			//remove old styles from element or wrapper
+			settings.wrapperElement.add(settings.contentElement).removeAttr('style');
+
+			//find the vertical padding that needs to reduce the maxHeight
+			sfe.verticalPadding = 0;
+			if(settings.verticalPaddingSelectors){
+				var verticalPaddingElements = $(settings.verticalPaddingSelectors);
+				verticalPaddingElements.each(function(){
+					var me = $(this);
+					var outerHeight = me.outerHeight();
+					sfe.verticalPadding = sfe.verticalPadding + outerHeight;
+				});
+			}
+
+			//set all variables
+			sfe.contentHeight = settings.contentElement.outerHeight();
+			sfe.contentWidth = settings.contentElement.outerWidth();
+			sfe.maxHeight = customApp.viewportHeight - sfe.verticalPadding;
+			sfe.maxWidth =  customApp.viewportWidth;
+		    sfe.scaleHeight = (sfe.contentHeight * sfe.maxWidth) / sfe.contentWidth; //scale the height while keeping the width at max width
+		    sfe.scaleWidth = (sfe.contentWidth * sfe.maxHeight) / sfe.contentHeight; //scale the width while keeping the height at max height
+
+		    //find the scale to use
+		    //if the scale width is greater than the max width, then we need to crop the sides
+		    sfe.scaleOnWidth = (sfe.scaleWidth > sfe.maxWidth);
+		    if (sfe.scaleOnWidth) {
+		    	sfe.width = Math.floor(sfe.scaleWidth);
+		    	sfe.height = Math.floor(sfe.maxHeight);
+		    	sfe.crop = 'sides';        
+		    } else {
+		        sfe.width = Math.floor(sfe.maxWidth);
+		        sfe.height = Math.floor(sfe.scaleHeight);
+		        sfe.crop = 'top'; 
+		    }
+		    sfe.marginLeft = Math.floor((sfe.maxWidth - sfe.width) / 2);
+		    sfe.marginTop = Math.floor((sfe.maxHeight - sfe.height) / 2);
+		    if(settings.debug){
+		    	console.log(' sfe.contentWidth '+sfe.contentWidth+' sfe.contentHeight '+sfe.contentHeight);
+		    	console.log(' sfe.maxWidth '+sfe.maxWidth+' sfe.maxHeight '+sfe.maxHeight);
+		    	console.log(' sfe.maxWidth '+sfe.maxWidth+' sfe.scaleHeight '+sfe.scaleHeight);
+		    	console.log(' sfe.scaleWidth '+sfe.scaleWidth+' sfe.maxHeight '+sfe.maxHeight);
+		    	console.log(sfe);
+		    }	
+
+		    //set the element styles to show the contnetElement full screen
+		    if(sfe.crop == 'top')  {
+			    //now resize the image relative to the ratio
+				settings.contentElement.attr('crop', 'top')
+					.css({
+						'margin-top': sfe.marginTop,
+						'height': sfe.height,
+						'width': sfe.width, 
+						'min-width': '100%',
+						'max-width': '100%',
+						'min-height': 'none',
+						'max-height': 'none'
+					});				    
+				settings.wrapperElement.css('height', sfe.maxHeight);
+			} else {
+				settings.contentElement .attr('crop', 'sides')
+					.css({
+						'margin-left': sfe.marginLeft,
+						'height': sfe.height,
+						'width': sfe.width, 
+						'min-width': 'none',
+						'max-width': 'none',
+						'min-height': '100%',
+						'max-height': '100%'
+					});
+				settings.wrapperElement.css('height', sfe.maxHeight);
+			}
+		}
 	
 })(window.jQuery);
 </script>

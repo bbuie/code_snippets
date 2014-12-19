@@ -156,7 +156,7 @@
 
 			//default options
 			var defaults = {
-				contentElement: false, //the element that should fill the page
+				contentElement: false, //the element which should fill the page
 				wrapperElement: false, //the wrapper element, note this should have overflow hidden
 				verticalPaddingSelectors: false, //comma separated list of selectors that should reduce the vertical height of the full page element
 				debug: false
@@ -182,12 +182,13 @@
 			//set all variables
 			sfe.contentHeight = settings.contentElement.outerHeight();
 			sfe.contentWidth = settings.contentElement.outerWidth();
-			sfe.maxHeight = customApp.viewportHeight - sfe.verticalPadding;
-			sfe.maxWidth =  customApp.viewportWidth;
+			sfe.viewportWidth = $(window).width();
+			sfe.viewportHeight = $(window).height();
+			sfe.maxHeight = sfe.viewportHeight - sfe.verticalPadding;
+			sfe.maxWidth =  sfe.viewportWidth;
 		    sfe.scaleHeight = (sfe.contentHeight * sfe.maxWidth) / sfe.contentWidth; //scale the height while keeping the width at max width
 		    sfe.scaleWidth = (sfe.contentWidth * sfe.maxHeight) / sfe.contentHeight; //scale the width while keeping the height at max height
 
-		    //find the scale to use
 		    //if the scale width is greater than the max width, then we need to crop the sides
 		    sfe.scaleOnWidth = (sfe.scaleWidth > sfe.maxWidth);
 		    if (sfe.scaleOnWidth) {
@@ -202,14 +203,11 @@
 		    sfe.marginLeft = Math.floor((sfe.maxWidth - sfe.width) / 2);
 		    sfe.marginTop = Math.floor((sfe.maxHeight - sfe.height) / 2);
 		    if(settings.debug){
-		    	console.log(' sfe.contentWidth '+sfe.contentWidth+' sfe.contentHeight '+sfe.contentHeight);
 		    	console.log(' sfe.maxWidth '+sfe.maxWidth+' sfe.maxHeight '+sfe.maxHeight);
-		    	console.log(' sfe.maxWidth '+sfe.maxWidth+' sfe.scaleHeight '+sfe.scaleHeight);
-		    	console.log(' sfe.scaleWidth '+sfe.scaleWidth+' sfe.maxHeight '+sfe.maxHeight);
+		    	console.log(' sfe.scaleWidth '+sfe.scaleWidth+' sfe.scaleHeight '+sfe.scaleHeight);
 		    	console.log(sfe);
 		    }	
 
-		    //set the element styles to show the contnetElement full screen
 		    if(sfe.crop == 'top')  {
 			    //now resize the image relative to the ratio
 				settings.contentElement.attr('crop', 'top')

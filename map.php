@@ -12,7 +12,7 @@
 
 	});
 
-	voltage.buieMap = function(options)
+	customApp.buieMap = function(options)
 		{
 			//private object to organize code
 			var buieMap = new Object();
@@ -84,6 +84,7 @@
 
 					var center = new google.maps.LatLng(firstMarker.lat, firstMarker.lng);
 					
+					console.log(settings.mapStyles)
 					var myOptions = {
 					    zoom: settings.zoom,
 					    // panControl: false,
@@ -204,7 +205,7 @@
 					});
 				}
 			buieMap.setup();
-			voltage.buieMapObj = buieMap;		
+			customApp.buieMapObj = buieMap;		
 		}
 
 </script>

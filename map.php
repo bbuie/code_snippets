@@ -12,36 +12,48 @@
 
 	});
 
-	customApp.buieMap = function(options)
+	voltage.buieMap = function(options)
 		{
 			//private object to organize code
 			var buieMap = new Object();
 
-			//default options
+			//first thing: check that the google javascript is included. 
+			if(typeof google === 'undefined'){
+				console.log('buieMap Error: cannot initiate a google map without including the google script in the dom');
+				return false;
+			}
+
+			//set default options
 			var defaults = {
-				mapSelector: '#googleMap',
+				mapID: 'googleMap',
 				markerSelector: '.map .key ul li',
 				infoBoxContentSelector: '.map .infoBoxContent',
 				zoom: 14,
-				mapTypeId: google.maps.MapTypeId.SATELLITE 
+				mapTypeId: google.maps.MapTypeId.SATELLITE,
+				mapStyles: [] //styles found here: http://snazzymaps.com/
 			}
 
 			//buid settings based on defaults and options
 			var settings = $.extend({}, defaults, options);
+			var mapElement = $('#'+settings.mapID);
 
 			//setup elements
 			var keyItems = $(settings.markerSelector);
 
 			buieMap.setup = function()
 				{				
-					//create marker object based on dom
-					buieMap.setupMarkers();
-					//setup the map initially
-					buieMap.initiateMap({
-						zoom: settings.zoom
-					});
-					//bind the legend events
-					buieMap.bindEvents();					
+					if(mapElement.length) {
+						//create marker object based on dom
+						buieMap.setupMarkers();
+						//setup the map initially
+						buieMap.initiateMap({
+							zoom: settings.zoom
+						});
+						//bind the legend events
+						buieMap.bindEvents();
+					} else {
+						console.log('buieMap Error: cannot find the map element. Please add the buieMap html or override the mapID.')
+					}			
 				}
 			buieMap.setupMarkers = function()
 				{
@@ -63,7 +75,7 @@
 					});
 					buieMap.markers = markers;
 				}
-			buieMap.initiateMap = function(options)
+			buieMap.initiateMap = function()
 				{
 					var firstMarker = {
 						lat: buieMap.markers[0].lat,
@@ -71,9 +83,6 @@
 					}
 
 					var center = new google.maps.LatLng(firstMarker.lat, firstMarker.lng);
-
-					//styles found here: http://snazzymaps.com/
-					var mapStyles = []
 					
 					var myOptions = {
 					    zoom: settings.zoom,
@@ -85,10 +94,10 @@
 					    scrollwheel: false,
 					    center: center,
 					    mapTypeId: settings.mapTypeId,
-					    styles: mapStyles
+					    styles: settings.mapStyles
 					};			
 					
-					buieMap.map = new google.maps.Map(document.getElementById('googleMap'), myOptions);
+					buieMap.map = new google.maps.Map(document.getElementById(settings.mapID), myOptions);
 
 					//add info window
 					buieMap.infowindow = new google.maps.InfoWindow(); 
@@ -195,7 +204,7 @@
 					});
 				}
 			buieMap.setup();
-			customApp.buieMapObj = buieMap;		
+			voltage.buieMapObj = buieMap;		
 		}
 
 </script>
@@ -227,7 +236,9 @@
   </div>
   <div class="key">
       <ul>
-          <li dataLat="" dataLng='' dataTitle="" dataAddress='' dataImage=''></li>
+      		<!-- ensure dataLat and dataLng are numbers -->
+      		<!-- dataImage is optional -->
+          	<li dataLat="" dataLng='' dataTitle="" dataAddress='' dataImage=''></li>
       </ul>
   </div>
 </div>

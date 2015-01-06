@@ -192,16 +192,16 @@
 		    //if the scale width is greater than the max width, then we need to crop the sides
 		    sfe.scaleOnWidth = (sfe.scaleWidth > sfe.maxWidth);
 		    if (sfe.scaleOnWidth) {
-		    	sfe.width = Math.floor(sfe.scaleWidth);
-		    	sfe.height = Math.floor(sfe.maxHeight);
+		    	sfe.width = sfe.scaleWidth;
+		    	sfe.height = sfe.maxHeight;
 		    	sfe.crop = 'sides';        
 		    } else {
-		        sfe.width = Math.floor(sfe.maxWidth);
-		        sfe.height = Math.floor(sfe.scaleHeight);
+		        sfe.width = sfe.maxWidth;
+		        sfe.height = sfe.scaleHeight;
 		        sfe.crop = 'top'; 
 		    }
-		    sfe.marginLeft = Math.floor((sfe.maxWidth - sfe.width) / 2);
-		    sfe.marginTop = Math.floor((sfe.maxHeight - sfe.height) / 2);
+		    sfe.marginLeft = (sfe.maxWidth - sfe.width) / 2;
+		    sfe.marginTop = (sfe.maxHeight - sfe.height) / 2;
 		    if(settings.debug){
 		    	console.log(' sfe.maxWidth '+sfe.maxWidth+' sfe.maxHeight '+sfe.maxHeight);
 		    	console.log(' sfe.scaleWidth '+sfe.scaleWidth+' sfe.scaleHeight '+sfe.scaleHeight);

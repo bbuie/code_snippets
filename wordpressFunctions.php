@@ -356,3 +356,7 @@ function customModifyQueryFunction ($query){
 	$query->set('meta_value', 'design');
 }
 add_action( 'pre_get_posts', 'customModifyQueryFunction' );
+
+//find next and previous links
+$prev = get_adjacent_post(false, '', true);
+$next = get_adjacent_post(false, '', false);

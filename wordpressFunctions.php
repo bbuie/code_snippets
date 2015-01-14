@@ -369,7 +369,7 @@ function customApp_addBodyClass( $classes ) {
         $showClass = true;
     } 
     if($showClass){
-        $classes[] = 'blueView';
-        return $classes;
+        $classes[] = 'blueView';        
     }
+    return $classes;
 }       

@@ -360,3 +360,24 @@ add_action( 'pre_get_posts', 'customModifyQueryFunction' );
 //find next and previous links
 $prev = get_adjacent_post(false, '', true);
 $next = get_adjacent_post(false, '', false);
+
+//* Add custom body class to the head if is particular page
+add_filter( 'body_class', 'customApp_addBodyClass' );
+function customApp_addBodyClass( $classes ) {
+	$queried_object = get_queried_object();
+	$validPostTypes = array('gear_apparel');
+	$mapFunction = function($p){return($p."_type");};
+	$validTaxonomies = array_map($mapFunction,$validPostTypes);
+	$isInPostType = false;
+	if (is_tax()){
+		$isInPostType = in_array ( $queried_object->taxonomy, $validTaxonomies, false);
+	} else if(is_archive()){						
+		$isInPostType = in_array ( $queried_object->query_var, $validPostTypes);
+	} else if(is_page_template( 'gear/gear-channel.php' )){
+		$isInPostType = true;
+	}
+	if($isInPostType){
+		$classes[] = 'gearMobileView';
+		return $classes;
+	}
+}		

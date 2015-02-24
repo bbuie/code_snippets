@@ -41,7 +41,41 @@
 		        })
 		    });			
 		}
+	customApp.overflowEllipsis = function() 
+		{
+			var items = $('.overflowEllipsisParent');
+			items.each(function(){
+				var me = $(this);
+				var itemHeight = me.innerHeight();
+				var scrollHeight = me[0].scrollHeight;
+				if(itemHeight < scrollHeight) {
+					me.find('.overflowEllipsis').show();
+				}
+			});
+		}
 </script>
+
+<!-- html for overflowEllipsis -->
+<style type="text/css">
+	.overflowEllipsisParent {
+		max-height: 113px;
+		min-height: 113px;
+		overflow: hidden;
+		position: relative;
+	}
+	.overflowEllipsis {
+		display: none;
+		background: url('../../images/overflowEllipsis.png');
+		background-repeat: repeat-y;
+		position: absolute;
+		bottom: 0;
+		padding-left: 86px;
+		width: 100%;				
+	}
+</style>
+<div class='overflowEllipsisParent'>
+	<div class='overflowEllipsis'>&#8230;</div>
+</div>
 
 <!-- addthis sharing buttons -->
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js" async="async"></script>

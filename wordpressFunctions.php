@@ -366,3 +366,20 @@ function customApp_IdFromSlug($page_slug) {
         return null;
     }
 }
+
+//find next and previous links
+$prev = get_adjacent_post(false, '', true);
+$next = get_adjacent_post(false, '', false);
+
+//* Add custom body class to the head if is particular page
+add_filter( 'body_class', 'customApp_addBodyClass' );
+function customApp_addBodyClass( $classes ) {
+    $showClass = false;
+    if (is_home()){
+        $showClass = true;
+    } 
+    if($showClass){
+        $classes[] = 'blueView';        
+    }
+    return $classes;
+} 

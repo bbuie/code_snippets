@@ -49,16 +49,12 @@
 				var newIndex = parseInt(clickedIndex);
 
 				var galleryItems = new Array();
-				for(i = 0; i < siblings.length; i++){				
-					if(newIndex == siblings.length){
-						newIndex = 0;
-					}
+				for(i = 0; i < siblings.length; i++){
 					galleryItems.push({
-						'src': galleryParent.find(settings.itemClass).eq(newIndex).attr(settings.srcLocation),
-						'dataCaption' : galleryParent.find(settings.itemClass).eq(newIndex).attr(settings.dataCaption)
+						'src': galleryParent.find(settings.itemClass).eq(i).attr(settings.srcLocation),
+						'dataCaption': galleryParent.find(settings.itemClass).eq(i).attr(settings.dataCaption),
+						'clickedIndex': clickedIndex,
 					});
-
-					newIndex++;
 				}
 				customApp.buieModal({
 					type: 'gallery',
@@ -167,11 +163,11 @@
 
 					if(type == 'gallery' && src){
 						modalImage.on('load', function(){
-							modalCaption.html(src[0].dataCaption);
+							modalCaption.html(src[src[0].clickedIndex].dataCaption);
 							buieModal.setHeight();
-						}).attr('src', src[0].src).attr('dataIndex', 0);
+						}).attr('src', src[src[0].clickedIndex].src).attr('dataIndex', src[0].clickedIndex);
 						modal.find('.modalTotal').text(src.length);
-						modal.find('.modalCurrent').text(1)
+						modal.find('.modalCurrent').text(src[0].clickedIndex + 1)
 					}
 				}
 			buieModal.setHeight = function()

@@ -356,3 +356,13 @@ function customModifyQueryFunction ($query){
 	$query->set('meta_value', 'design');
 }
 add_action( 'pre_get_posts', 'customModifyQueryFunction' );
+
+//get page id by slug
+function customApp_IdFromSlug($page_slug) {
+    $page = get_page_by_path($page_slug);
+    if ($page) {
+        return $page->ID;
+    } else {
+        return null;
+    }
+}

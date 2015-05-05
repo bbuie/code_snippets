@@ -258,23 +258,23 @@
 /*modalStyles*/
 body {
 	@-webkit-keyframes fadeInDown {
-	  0% { opacity: 0; -webkit-transform: translateY(0); }
+	  0% { opacity: 0; -webkit-transform: translateY(-30px); }
 	  100% { opacity: 1; -webkit-transform: translateY(6px);}
 	}
 	@-moz-keyframes fadeInDown {
-	  0% { opacity: 0; -moz-transform: translateY(0);}
-	  100% { opacity: 1;  -moz-transform: translateY(6px);}
+	  0% { opacity: 0; -moz-transform: translateY(-30px);}
+	  100% { opacity: 1;  -moz-transform: translateY(0);}
 	}
 	@-o-keyframes fadeInDown {
-	  0% { opacity: 0; -o-transform: translateY(0); }
-	  100% { opacity: 1;  -o-transform: translateY(6px); }
+	  0% { opacity: 0; -o-transform: translateY(-30px); }
+	  100% { opacity: 1;  -o-transform: translateY(0); }
 	}
 	@keyframes fadeInDown {
-	  0% { opacity: 0; transform: translateY(0);  }
-	  100% { opacity: 1;  transform: translateY(6px); }
+	  0% { opacity: 0; transform: translateY(-30px);  }
+	  100% { opacity: 1;  transform: translateY(0); }
 	}
 	.modalHidden {
-		display: none;
+		/*display: none;*/
 	}
 	.buieModal {
 		position: fixed;
@@ -302,8 +302,8 @@ body {
 	}
 	.modalClose {
 		position: absolute;
-		top:-20px;
-		right: -20px;
+		top: -40px;
+		right: -40px;
 		z-index: 3;
 	}
 	.modalCloseText {
@@ -354,7 +354,7 @@ body {
 		z-index: 3;
 		position: absolute;
 		background: white;
-		padding: 20px;
+		border: 20px solid white;
 		-webkit-border-radius: 8px;
 	  	-moz-border-radius: 8px; 
 	  	border-radius: 8px; 

@@ -1,0 +1,164 @@
+<script type="text/javascript">
+	angular.module('spaceNav')
+	.directive('bbModal', function($timeout) {
+
+	    //debug variables
+	    var dbugAll = false; var dbugThis = false; 
+
+	    var bbModal = {
+	        templateUrl: 'assets/views/directives/bb-modal.html',
+	        restrict: 'E',
+	        transclude: true,
+	        scope: {
+	            bbModalObject: "="
+	        }
+	    };
+
+	    bbModal.link = function($scope, element){ //params $scope, element, attrs
+
+	        if(dbugAll||dbugThis){console.log("%ccalled bbModal.link()","color:orange");}
+	        if(dbugAll||dbugThis){console.log("%c  $scope","color:grey",$scope);}
+	        
+	        var bbModalLink = {};; //private object
+	        var viewer = angular.element(element).find('.modalViewer');
+
+	        bbModalLink.setup = function(){
+
+	            $scope.bbModalObject.viewerStyles =  {}; 
+	            $scope.bbModalObject.contentStyles =  {}; 
+
+	            bbModalLink.watchForDataReady();
+	            bbModalLink.onWindowResize();
+	            bbModalLink.publicFunction();
+	        };
+	        bbModalLink.watchForDataReady = function(){
+
+	            var watchReady = $scope.$watch('bbModalObject.ready', function(newValue, oldValue){
+
+	                if(dbugAll||dbugThis){console.log("%cwatching for change to bbModalObject.ready","color:pink");}
+	                if(dbugAll||dbugThis){console.log("%c  $scope.bbModalObject","color:grey",$scope.bbModalObject);}
+
+	                if(newValue !== oldValue && newValue){
+
+	                    if(dbugAll||dbugThis){console.log("%c  is ready","color:green");}
+
+	                    bbModalLink.showModal();
+	                }
+	            });
+	        };
+	        bbModalLink.onWindowResize = function(){
+
+	            //window resize
+	            $(window).on("resize.doResize", function (e){
+	                
+	                if(dbugAll||dbugThis){console.log("%ccalled watching window resize","color:pink");}
+
+	                if (e.target !== window){ return false;}
+	                if(!$scope.bbModalObject.show){ return false;}
+
+	                if(dbugAll||dbugThis){console.log("%c  resetting height","color:lightblue");}
+	                bbModalLink.setHeight();
+
+	                $scope.$apply();
+	            });
+	            $scope.$on("$destroy",function (){
+	                 
+	                 $(window).off("resize.doResize"); //remove the handler added earlier
+	            });
+	        };
+	        bbModalLink.showModal = function(){
+
+	            if(dbugAll||dbugThis){console.log("%ccalled bbModalLink.showModal()","color:orange");}
+
+	            $scope.bbModalObject.show = true;
+
+	            var timeout = $timeout(function(){ 
+
+	                bbModalLink.findOriginalDimensions();
+	                bbModalLink.setHeight()
+	                $timeout.cancel(timeout);
+	            });
+	        };
+	        bbModalLink.findOriginalDimensions = function(){
+
+	            $scope.bbModalObject.contentHeight = viewer.outerHeight(); if(dbugAll||dbugThis){console.log("%c  $scope.bbModalObject.contentHeight","color:grey",$scope.bbModalObject.contentHeight);}  
+	            $scope.bbModalObject.contentHeightPadding = $scope.bbModalObject.contentHeight - viewer.height(); if(dbugAll||dbugThis){console.log("%c  $scope.bbModalObject.contentHeightPadding","color:grey",$scope.bbModalObject.contentHeightPadding);}
+	            $scope.bbModalObject.contentWidth = viewer.outerWidth(); if(dbugAll||dbugThis){console.log("%c  $scope.bbModalObject.contentWidth","color:grey",$scope.bbModalObject.contentWidth);}
+	            $scope.bbModalObject.contentWidthPadding = $scope.bbModalObject.contentWidth - viewer.width(); if(dbugAll||dbugThis){console.log("%c  $scope.bbModalObject.contentWidthPadding","color:grey",$scope.bbModalObject.contentWidthPadding);}
+	        };
+	        bbModalLink.setHeight = function(){
+
+	            if(dbugAll||dbugThis){console.log("%ccalled bbModalLink.setHeight()","color:orange");}
+	            
+	            var windowWidthPadding = 40;
+	            var maxWidth =  document.documentElement.clientWidth-windowWidthPadding; if(dbugAll||dbugThis){console.log("%c  maxWidth","color:grey",maxWidth);}
+	            var windowHeightPadding = 150;      
+	            var maxHeight = document.documentElement.clientHeight - windowHeightPadding; if(dbugAll||dbugThis){console.log("%c  maxHeight","color:grey",maxHeight);}
+	            var viewerWidth = '';
+	            var viewerHeight = '';
+
+	            if($scope.bbModalObject.contentWidth > maxWidth){
+	                viewerWidth = maxWidth;
+	            } else {
+	                viewerWidth = $scope.bbModalObject.contentWidth;
+	            }
+
+	            $scope.bbModalObject.viewerStyles.width = viewerWidth;
+	            $scope.bbModalObject.viewerStyles['margin-left'] = -viewerWidth / 2;
+
+	            if($scope.bbModalObject.contentHeight > maxHeight){
+	                viewerHeight = maxHeight;
+	                $scope.bbModalObject.contentStyles['overflow-y'] = 'auto';
+	            } else {
+	                viewerHeight = $scope.bbModalObject.contentHeight;
+	            }
+
+	            $scope.bbModalObject.contentStyles.height = maxHeight - ($scope.bbModalObject.contentHeightPadding);
+	            $scope.bbModalObject.viewerStyles.height = viewerHeight;
+	            $scope.bbModalObject.viewerStyles['margin-top'] = -viewerHeight / 2;
+	        };
+	        bbModalLink.publicFunction = function(){
+
+	            $scope.viewerStyles = function(){
+	                return $scope.bbModalObject.viewerStyles;
+	            };
+	        };
+	        bbModalLink.setup();
+
+	    };
+
+	    return bbModal;
+	});
+</script>
+
+<!-- start of modal html -->
+<div class='buieModal jsBuieModal' ng-show="bbModalObject.show">
+	<div class='modalOpacity' ng-click="bbModalObject.show = false"></div>
+	<div class='modalViewer' ng-style="bbModalObject.viewerStyles">
+		<img class='modalImage' src=''
+			ng-if="bbModalObject.type === 'image'"
+		/>
+		<div class="modalCaptionOuter"
+			ng-if="bbModalObject.hasCaption">
+			<div class='modalCaption'> </div>
+		</div>
+		<div class='modalContent' ng-if="bbModalObject.type === 'content'"  ng-style="bbModalObject.contentStyles">
+			<ng-transclude></ng-transclude>
+		</div>
+		<iframe class='modalIframe' src=''
+			ng-if="bbModalObject.type === 'iframe'">
+		</iframe>
+		<div class='modalClose' ng-click="bbModalObject.show = false">
+			<div class='modalCloseText'>
+				<span class="fa fa-times"></span>
+				<!-- <img class="modalCloseImg" src='<?php echo get_stylesheet_directory_uri(); ?>/img/modalClose.png'/> -->
+			</div>				
+		</div>
+	</div>
+	<div class='modalNavigation'
+		ng-if="bbModalObject.hasNavigation"> 
+		<a class='modalPrev' href=''>&laquo; Previous</a>
+		<span class='modalCounter'><span class='modalCurrent'></span>/<span class='modalTotal'></span></span>
+		<a class='modalNext'href=''>Next &raquo;</a>
+	</div>
+</div>

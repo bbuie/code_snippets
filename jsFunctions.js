@@ -16,7 +16,7 @@
 
 	customApp.testFunction = function()
 		{
-			//add functions like this
+			alert('this function is being called');
 		}
 
 }(window.jQuery || window.$));

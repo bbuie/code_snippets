@@ -1,0 +1,55 @@
+/*general variables*/
+$highlightColor: yellow;
+
+/*colors*/
+
+/*fonts*/
+
+/* breakpoint variables */
+$widthPhone: 320px;
+$widthPhoneLandscape: 480px;
+$widthTablet: 768px;
+$widthTabletLandscape: 1024px;
+$widthDesktop: 1200px;
+$widthDesktopWide: 1400px;
+$breakpointPhone: "only screen and (max-width : 320px)";
+$breakpointPhoneLandscape: "only screen and (max-width : 497px)";
+$breakpointTablet: "only screen and (max-width : 784px)";
+$breakpointTabletLandscape: "only screen and (max-width : 1041px)";
+$breakpointDesktop: "only screen and (max-width : 1216px)"; 
+$breakpointDesktopWide: "only screen and (max-width : 1416px)";  
+/*
+@media #{$breakpointPhone} {
+}
+@media #{$breakpointPhoneLandscape} {
+}
+@media #{$breakpointTablet} {
+}
+@media #{$breakpointTabletLandscape} {
+}
+*/
+
+/*e.g. box-shadow(0px, 0px, 0px, rgba(0,0,0,.5));*/
+@mixin box-shadow($x, $y, $blur, $color) {
+	-moz-box-shadow: $x $y $blur $color;
+	-webkit-box-shadow: $x $y $blur $color;
+	box-shadow: $x $y $blur $color;
+	/*-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=$blur, Direction=135, Color='$color')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=$blur, Direction=135, Color='$color');*/
+}
+
+
+/*e.g. @include transition(background, .5s, ease, 0s);*/
+@mixin transition($property, $ms, $easing, $delay){
+	-webkit-transition: $property $ms $easing $delay;
+    -moz-transition: $property $ms $easing $delay;
+    -o-transition: $property $ms $easing $delay;
+    transition: $property $ms $easing $delay;
+}
+
+/*e.g. @include radius(4px); */
+@mixin radius($pixels){
+	-webkit-border-radius: $pixels; 
+	-moz-border-radius: $pixels; 
+	border-radius: $pixels; 
+}

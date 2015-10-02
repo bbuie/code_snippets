@@ -34,6 +34,7 @@
             this.innerBoxMarginLeft = 0;                        
 
             this.setCSS();
+            this.createDots();
             this.bindEvents();
             this.onresize(); 
             this.checkInstance(); 
@@ -42,7 +43,7 @@
         }
 	    bbCarousel.setCSS = function(){
 
-	    	var dbugThis = true;
+	    	//var dbugThis = true;
 	    	if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.setCSS()","color:orange");}
 	    	if(dbugAll||dbugThis){console.log("%c  this","color:grey",this);}
 
@@ -84,39 +85,46 @@
             this.visiblePanels =  Math.ceil(this.innerBoxWidth / (this.visibleItems * this.itemWidth));
             this.items = items;		            
         }
+        bbCarousel.createDots = function(){
+
+            //var dbugThis = true;
+            if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.createDots()","color:orange");}
+
+            //create dots
+            var dotsParent = this.me.find(settings.dotsParentSelector);
+            dotsParent.html('');
+
+            var dotsCnt = (settings.scrollVisible)? this.visiblePanels : this.itemCount;
+            for(i = 0; i < dotsCnt; i++) {
+                var isactive = '';
+                if(i==0){
+                    isactive = ' active'
+                }
+                dotsParent.append('<a class="dot'+isactive+'" href="#dot'+i+'">'+i+'</a>');
+            }
+        };
 	    bbCarousel.bindEvents = function(){
 
-	    	var dbugThis = true;
+	    	//var dbugThis = true;
 	    	if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.bindEvents()","color:orange");}
 
             var thisGlobal = this;
             
             //set event the next button
-            this.me.find(settings.nextSelector).click(function(e){
+            this.me.find(settings.nextSelector).on('click.bbCarousel', function(e){
                 e.preventDefault();
                 thisGlobal.move('next');
                 thisGlobal.setActiveDot();
             });
             //set event for the previous button
-            this.me.find(settings.prevSelector).click(function(e){
+            this.me.find(settings.prevSelector).on('click.bbCarousel', function(e){
                 e.preventDefault();
                 thisGlobal.move('prev');
                 thisGlobal.setActiveDot();
             });
 
-            //create dots
-            var dots = this.me.find(settings.dotsParentSelector);
-            var dotsCnt = (settings.scrollVisible)? this.visiblePanels : this.itemCount;
-            for(i = 0; i < dotsCnt; i++) {
-            	var isactive = '';
-            	if(i==0){
-            		isactive = ' active'
-            	}
-            	dots.append('<a class="dot'+isactive+'" href="#dot'+i+'">'+i+'</a>');
-            }
-
             //set events for dots
-            this.me.find(settings.dotSelector).click(function(e){
+            this.me.find(settings.dotsParentSelector).on('click.bbCarousel', settings.dotSelector, function(e){
             	e.preventDefault();
             	var me = $(this);
             	var siblings = me.siblings();
@@ -135,36 +143,44 @@
 	    		var index = -this.innerBoxMarginLeft / (this.itemWidth * itemScrollCount);
 	    		dots.eq(index).addClass('active');
 	    	}
-	    bbCarousel.move = function(direction, index)
-	        {
-	        	var outerBox =  this.outerBox;
-	        	var outerBoxWidth = this.outerBoxWidth;	
-	        	var visibleItems = this.visibleItems; 
-	        	var visiblePanels =  this.visiblePanels;
-	            var maxAllowableMargin = (settings.scrollVisible)? -visiblePanels * visibleItems * this.itemWidth : -(this.innerBoxWidth - (visibleItems * this.itemWidth));
-	            var itemScrollCount = (settings.scrollVisible)? visibleItems : 1;
-	            var newMargin = false;
-	            if(direction == 'next'){                    
-	                newMargin = (this.innerBoxMarginLeft - (this.itemWidth * itemScrollCount));
-	                if(newMargin <= maxAllowableMargin){
-	                    newMargin = 0;
-	                }   
-	            } else if(direction == 'prev') {
-	                newMargin = (this.innerBoxMarginLeft + (this.itemWidth * itemScrollCount));
-	                if(newMargin > 0){
-	                    newMargin = (settings.scrollVisible)? maxAllowableMargin + (visibleItems * this.itemWidth) : maxAllowableMargin;
-	                }
-	            } else if(direction == 'dot') {
-	            	newMargin = - index *  itemScrollCount * this.itemWidth;
-	            }
+	    bbCarousel.move = function(direction, index){
+        	var outerBox =  this.outerBox;
+        	var outerBoxWidth = this.outerBoxWidth;	
+        	var visibleItems = this.visibleItems; 
+        	var visiblePanels =  this.visiblePanels;
+            var maxAllowableMargin = (settings.scrollVisible)? -visiblePanels * visibleItems * this.itemWidth : -(this.innerBoxWidth - (visibleItems * this.itemWidth));
+            var itemScrollCount = (settings.scrollVisible)? visibleItems : 1;
+            var newMargin = false;
+            if(direction == 'next'){                    
+                newMargin = (this.innerBoxMarginLeft - (this.itemWidth * itemScrollCount));
+                if(newMargin <= maxAllowableMargin){
+                    newMargin = 0;
+                }   
+            } else if(direction == 'prev') {
+                newMargin = (this.innerBoxMarginLeft + (this.itemWidth * itemScrollCount));
+                if(newMargin > 0){
+                    newMargin = (settings.scrollVisible)? maxAllowableMargin + (visibleItems * this.itemWidth) : maxAllowableMargin;
+                }
+            } else if(direction == 'dot') {
+            	newMargin = - index *  itemScrollCount * this.itemWidth;
+            }
 
-	            this.innerBoxMarginLeft = newMargin;
-	            this.innerBox.stop(true, true).animate({'margin-left': newMargin}, 500);
-	        }
+            this.innerBoxMarginLeft = newMargin;
+            this.innerBox.stop(true, true).animate({'margin-left': newMargin}, 500);
+        }
 	    bbCarousel.onresize = function()
 	        {
-	            $(window).resize(function() {
-	                this.setCSS();
+	            var thisGlobal = this;
+                var resizeDelay;
+                var nowResize = function(){
+                    thisGlobal.setCSS();
+                    thisGlobal.createDots();
+                };
+
+                $(window).resize(function() {
+                    clearTimeout(resizeDelay);
+                    resizeDelay = setTimeout(nowResize, 400);
+                    
 	            });
 	        }
 	    bbCarousel.disable = function()
@@ -183,7 +199,7 @@
 	    	}
 	    bbCarousel.checkInstance = function(){
 
-	    	var dbugThis = true;
+	    	//var dbugThis = true;
 	    	if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.checkInstance()","color:orange");}
 
     		//if outerbox and innerbox are the same width disable

@@ -45,6 +45,7 @@
 
             this.enable();
             this.onresize(); 
+            this.onScroll();
             return this;
         }
         bbCarousel.enable = function(){
@@ -71,7 +72,7 @@
         }
         bbCarousel.setCSS = function(){
 
-            var dbugThis = true;
+            //var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.setCSS()","color:orange");}
             if(dbugAll||dbugThis){console.log("%c  this","color:grey",this);}
 
@@ -180,12 +181,14 @@
             var maxAllowableMargin = (settings.scrollVisible)? -visiblePanels * visibleItems * this.itemWidth : -(this.innerBoxWidth - (visibleItems * this.itemWidth));
             var itemScrollCount = (settings.scrollVisible)? visibleItems : 1;
             var newInnerLeftOffset = false;
-            if(direction == 'next'){                    
+            if(direction == 'next'){ 
+                if(dbugAll||dbugThis){console.log("%c  direction next","color:grey");}
                 newInnerLeftOffset = (this.innerLeftOffset - (this.itemWidth * itemScrollCount));
                 if(newInnerLeftOffset <= maxAllowableMargin){
                     newInnerLeftOffset = 0;
                 }   
             } else if(direction == 'prev') {
+                if(dbugAll||dbugThis){console.log("%c  direction prev","color:grey");}
                 newInnerLeftOffset = (this.innerLeftOffset + (this.itemWidth * itemScrollCount));
                 if(newInnerLeftOffset > 0){
                     newInnerLeftOffset = (settings.scrollVisible)? maxAllowableMargin + (visibleItems * this.itemWidth) : maxAllowableMargin;
@@ -193,9 +196,10 @@
             } else if(direction == 'dot') {
                 newInnerLeftOffset = - index *  itemScrollCount * this.itemWidth;
             }
+            newInnerLeftOffset = Math.round(newInnerLeftOffset);
+            if(dbugAll||dbugThis){console.log("%c  newInnerLeftOffset","color:grey",newInnerLeftOffset);}
 
             this.innerLeftOffset = newInnerLeftOffset;
-            if(dbugAll||dbugThis){console.log("%c  this.innerLeftOffset","color:grey",this.innerLeftOffset);}
 
             if(settings.withScroll){
                 if(dbugAll||dbugThis){console.log("%c  has scroll bar","color:grey");}
@@ -216,6 +220,20 @@
                 clearTimeout(resizeDelay);
                 resizeDelay = setTimeout(nowResize, 500);
                 
+            });
+        }
+        bbCarousel.onScroll = function(){
+
+            //var dbugThis = true;
+            if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.onScroll()","color:orange");}
+
+            var thisGlobal = this;
+
+            this.outerBox.scroll(function() {
+                var scrollLeft = -thisGlobal.outerBox.scrollLeft();
+                if(dbugAll||dbugThis){console.log("%c  scrollLeft","color:grey",scrollLeft);}
+
+              thisGlobal.innerLeftOffset = scrollLeft;
             });
         }
         bbCarousel.checkInstance = function(){

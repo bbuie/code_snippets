@@ -25,7 +25,7 @@
             showDots: true, //show dot navigation, must have correct selectors above
             scrollVisible: true, // true means that a move click will show all new items. Dots will be per panel (i.e. visible group of items)
             withScroll: false, //true means that move will alter the scroll, not margin left. Allows for scroll bar
-        } 
+        };
 
         var settings = $.extend({},defaults, options);
         
@@ -47,7 +47,7 @@
             this.onresize(); 
             this.onScroll();
             return this;
-        }
+        };
         bbCarousel.enable = function(){
 
             //var dbugThis = true;
@@ -60,8 +60,9 @@
             this.controlsBox.show();
             this.checkInstance(); 
             this.bindEvents();
+            this.checkArrows();
             this.isEnabled = true; 
-        }
+        };
         bbCarousel.disable = function(){
             //remove existing styles
             this.items.removeAttr('style');
@@ -69,7 +70,7 @@
             this.controlsBox.hide();
             this.unbindEvents();
             this.isEnabled = false;
-        }
+        };
         bbCarousel.setCSS = function(){
 
             //var dbugThis = true;
@@ -109,7 +110,7 @@
             this.outerBoxWidth = dimensions.outerBoxWidth;
             this.visibleItems = Math.round(this.outerBoxWidth / this.itemWidth); 
             this.visiblePanels =  Math.ceil(this.innerBoxWidth / (this.visibleItems * this.itemWidth));
-        }
+        };
         bbCarousel.createDots = function(){
 
             //var dbugThis = true;
@@ -170,7 +171,7 @@
             var itemScrollCount = (settings.scrollVisible)? this.visibleItems : 1;
             var index = -this.innerLeftOffset / (this.itemWidth * itemScrollCount);
             dots.eq(index).addClass('active');
-        }
+        };
         bbCarousel.move = function(direction, index){
             
             //var dbugThis = true;
@@ -189,9 +190,14 @@
                 }   
             } else if(direction == 'prev') {
                 if(dbugAll||dbugThis){console.log("%c  direction prev","color:grey");}
-                newInnerLeftOffset = (this.innerLeftOffset + (this.itemWidth * itemScrollCount));
-                if(newInnerLeftOffset > 0){
+
+                var checkNewOffset = (this.innerLeftOffset + (this.itemWidth * itemScrollCount));
+                if(dbugAll||dbugThis){console.log("%c  checkNewOffset","color:grey",checkNewOffset);}
+
+                if(checkNewOffset > 0 && !settings.withScroll){
                     newInnerLeftOffset = (settings.scrollVisible)? maxAllowableMargin + (visibleItems * this.itemWidth) : maxAllowableMargin;
+                } else {
+                    newInnerLeftOffset = checkNewOffset;
                 }
             } else if(direction == 'dot') {
                 newInnerLeftOffset = - index *  itemScrollCount * this.itemWidth;
@@ -207,7 +213,7 @@
             } else {
                 this.innerBox.stop(true, true).animate({'margin-left': newInnerLeftOffset}, 500);
             }
-        }
+        };
         bbCarousel.onresize = function(){
             var thisGlobal = this;
             var resizeDelay;
@@ -221,7 +227,7 @@
                 resizeDelay = setTimeout(nowResize, 500);
                 
             });
-        }
+        };
         bbCarousel.onScroll = function(){
 
             //var dbugThis = true;
@@ -232,10 +238,11 @@
             this.outerBox.scroll(function() {
                 var scrollLeft = -thisGlobal.outerBox.scrollLeft();
                 if(dbugAll||dbugThis){console.log("%c  scrollLeft","color:grey",scrollLeft);}
-
-              thisGlobal.innerLeftOffset = scrollLeft;
+                
+                thisGlobal.innerLeftOffset = scrollLeft;
+                thisGlobal.checkArrows();
             });
-        }
+        };
         bbCarousel.checkInstance = function(){
 
             //var dbugThis = true;
@@ -249,7 +256,31 @@
                 if(dbugAll||dbugThis){console.log("%c  disabling","color:red");}
                 this.disable();
             }
-        }
+        };
+        bbCarousel.checkArrows = function(){
+
+            var dbugThis = true;
+            if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.checkArrows()","color:orange");}
+
+            var state = {};
+            state.innerBoxWidth = this.innerBoxWidth;
+            state.outerBoxWidth = this.outerBoxWidth;
+            state.minRight = Math.floor(this.innerBoxWidth - this.outerBoxWidth);
+            state.innerLeftOffset = -this.innerLeftOffset;
+            if(dbugAll||dbugThis){console.log("%c  state","color:grey",state);}
+
+            if(state.innerLeftOffset >= state.minRight - 1) { //1 added to fix rounding error with lots of items
+                this.nextButton.hide();
+            } else {
+                this.nextButton.show();
+            }
+
+            if(state.innerLeftOffset > 0) {
+                this.prevButton.show();
+            } else {
+                this.prevButton.hide();
+            }
+        };
 
         var len = this.length;
         return this.each(function(index) { 

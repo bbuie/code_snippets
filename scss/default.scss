@@ -1,8 +1,8 @@
 /*
 tableOfContents
 	includeStyles
-	generalStyles
 	keepFooterDownStyles
+	tagStyles
 	snippetStyles
 	templateStyles
 	footerStyles
@@ -11,31 +11,41 @@ tableOfContents
 /*includeStyles*/
 @import 'variables'; 
 @import 'reset';
-/*generalStyles*/
-html, body {
-	height: 100%;
-}
 /*keepFooterDownStyles*/
+html {
+	height: 100%;
+
+	body {
+		height: 100%;
+		/*the following wrapper body and footer code keeps the footer at the bottom*/
+		.wrapper {
+			position:relative;
+			min-height: 100%;
+		}
+		.body {
+			padding-bottom: 50px; /* Height of the footer */
+		}
+		.footer {
+			position:absolute;
+			bottom:0;
+			width:100%;
+			height:50px;
+			overflow: hidden;
+		}
+	}
+}
+/*tagStyles*/
 body {
-	/*the following wrapper body and footer code keeps the footer at the bottom*/
-	.wrapper {
-		position:relative;
-		min-height: 100%;
-	}
-	.body {
-		padding-bottom: 50px; /* Height of the footer */
-	}
-	.footer {
-		position:absolute;
-		bottom:0;
-		width:100%;
-		height:50px;
-		overflow: hidden;
-	}
 }
 /*overallStyles*/
+body {
+}
 /*snippetStyles*/
+.snippet {
+}
 /*templateStyles*/
+.template {
+}
 /*footerStyles*/
 
 

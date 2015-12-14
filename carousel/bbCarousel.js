@@ -1,4 +1,3 @@
-
 (function($){
     
     $.fn.bbCarousel = function(options) {
@@ -98,7 +97,7 @@
             if(dbugAll||dbugThis){console.log("%c  dimensions","color:grey",dimensions);}
             
             //set styles of items
-            this.items.css({'width': dimensions.fullWidth, 'margin': dimensions.marginWidth / 2, 'padding': dimensions.paddingWidth / 2});
+            this.items.css({'width': dimensions.fullWidth, 'margin': dimensions.marginWidth / 2, 'padding-right': dimensions.paddingWidth / 2, 'padding-left': dimensions.paddingWidth / 2});
             this.innerBoxWidth = dimensions.innerBoxWidth;
             if(dbugAll||dbugThis){console.log("%cadded styles","color:orange");}
 
@@ -259,7 +258,7 @@
         };
         bbCarousel.checkArrows = function(){
 
-            var dbugThis = true;
+            //var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled bbCarousel.checkArrows()","color:orange");}
 
             var state = {};

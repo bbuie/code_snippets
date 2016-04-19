@@ -3,7 +3,7 @@
 module someModule { 
   
 	function setup() { 
-		//usage: <some-directive info="infoObject"></some-directive>
+		//usage: <some-directive></some-directive>
 		angular.module('someApp').directive("someDirective", someDirective); 
 	};
 	function someDirective(): ng.IDirective{
@@ -23,7 +23,7 @@ module someModule {
 
 		static $inject = ['$scope'];
 
-		constructor() {
+		constructor($scope) {
 
 			var dbugThis = true;
 			if(dbugThis){console.log("%ccalled SomeDirectiveController()","color:orange");}

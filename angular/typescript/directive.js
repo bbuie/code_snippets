@@ -3,15 +3,14 @@
 module someModule { 
   
 	function setup() { 
-		//usage: <ss-info-button info="infoObject"></ss-info-button>
-		//see Defaults() below for infoObject default options. 
+		//usage: <some-directive info="infoObject"></some-directive>
 		angular.module('someApp').directive("someDirective", someDirective); 
 	};
 	function someDirective(): ng.IDirective{
 
 		var someDirective = {
 		    restrict: 'E',
-		    templateUrl: '/skinsaver/components/info-button/info-button.html',
+		    templateUrl: '/somehtml.html',
 		    controller: SomeDirectiveController,
 		    controllerAs: 'vm',
 		    scope: {},
@@ -22,7 +21,7 @@ module someModule {
 	};
 	class SomeDirectiveController{
 
-		static $inject = ['$scope', '$ionicPopup'];
+		static $inject = ['$scope'];
 
 		constructor() {
 
@@ -33,8 +32,7 @@ module someModule {
 	class SomeDirectiveLink{
 		constructor(scope: ng.IScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes, controller){
 			var dbugThis = true;
-			if(dbugThis){console.log("%ccalled infoButton.link()","color:orange");}
-			if(dbugThis){console.log("%c  scope","color:grey",scope);}
+			if(dbugThis){console.log("%ccalled SomeDirectiveLink()","color:orange");}
 		}
 	};
 	setup();

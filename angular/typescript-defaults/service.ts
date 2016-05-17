@@ -10,10 +10,6 @@ module someApp  {
 
         someProperty: any;
         someMethod: () => any;
-        
-        $inject = [
-            'SomeInjection'
-        ]; 
 
         constructor(
             SomeInjection
@@ -24,6 +20,10 @@ module someApp  {
 
             function someMethod() {};
         };
+
+        $inject = [
+            'SomeInjection'
+        ]; 
     }
     setup(); 
 }

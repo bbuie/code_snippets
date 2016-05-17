@@ -6,25 +6,24 @@
  * @name someApp.controller:DefaultController
  * @description
  */
-angular.module('someApp')
-.controller('DefaultController', function ($scope) {
+angular.module('someApp').controller('DefaultController', DefaultController);
 
-	var dbugThis = false; var dbugAll = false;
-	if(dbugAll||dbugThis){console.log("%ccalled DefaultController()","color:orange");}
+function DefaultController($scope){
 
-	var DefaultController = {}; //private object
-	DefaultController.setup = function(){
+	var vm = this;
+
+	function setup(){
 
 		//set scope variables here
 
-		DefaultController.viewApi();
-		DefaultController.onEvents();
+		viewApi();
+		onEvents();
 	};
-	DefaultController.viewApi = function(){
+	function viewApi(){
 
 		//functions to be used in view can be added to $scope here
 	};
-	DefaultController.onEvents = function(){
+	function onEvents(){
 
 		var onSomething = $scope.$on('something', function(e, data){
 			//use this to catch broadcasts
@@ -32,20 +31,15 @@ angular.module('someApp')
 
 		$scope.$on('$destroy', onSomething);
 	};
-	DefaultController.getSomething = function(companyId, callback){
-	
-		//var dbugThis = true;
-		if(dbugAll||dbugThis){console.log("%ccalled DefaultController.getSomething()","color:orange");}
-
-		var getSomething = {};
+	function getSomething(companyId, callback){
 		
-		getSomething.setup = function(){
+		function setup(){
 
-			api.then(getSomething.success, getSomething.failure);
+			api.then(success, failure);
 		};
-		getSomething.success = function(response){
+		function success(response){
 
-			if(dbugAll||dbugThis){console.log("%ccalled getSomething.success()","color:green", response.data);}
+			if(dbugAll||dbugThis){console.log("%ccalled success()","color:green", response.data);}
 
 			$scope.addresses = response.data;
 
@@ -53,20 +47,21 @@ angular.module('someApp')
 				callback();
 			}
 	
-			getSomething.finish();
+			finish();
 		};
-		getSomething.failure = function(response){
+		function failure(response){
 
-			if(dbugAll||dbugThis){console.log("%ccalled getSomething.failure()","color:red", response);}
+			if(dbugAll||dbugThis){console.log("%ccalled failure()","color:red", response);}
 	
-			getSomething.finish();
+			finish();
 		};
-		getSomething.finish = function(){
+		function finish(){
 
 			//do something on finish
 		};
-		getSomething.setup();
+		setup();
 	};
-	DefaultController.setup();
-});
+	setup();
+}
+
 }(window.jQuery || window.$, window.angular));

@@ -1,57 +1,57 @@
+(function ($, angular) {
 
+    /**
+     * @ngdoc directive
+     * @name someApp.directive:defaultDirective
+     * @description
+     * # defaultDirective
 
-/**
- * @ngdoc directive
- * @name someApp.directive:defaultDirective
- * @description
- * # defaultDirective
+     Use: <div default-directive="" ></div>
+     */
+    angular.module('someApp').directive('defaultDirective', defaultDirective);
 
- Use: <div default-directive="" ></div>
- */
-angular.module('someApp')
-.directive('defaultDirective', function() {
-    'use strict';
+    function defaultDirective(){
+        'use strict';
 
-    var dbugThis = false; var dbugAll = false;
-    if(dbugAll||dbugThis){console.log("%ccalled directive:defaultDirective()","color:orange");}
+        var dbugThis = false; var dbugAll = false;
+        if(dbugAll||dbugThis){console.log("%ccalled directive:defaultDirective()","color:orange");}
 
-    var defaultDirective = {
-        restrict: 'A',
-        controllerAs: 'vm',
-        //require:'',
-        //scope:{},
-        //templateUrl: 'template.html',
-        //transclude: true,
-    };
-
-    defaultDirective.controller = function(){
-
-        var dbugThis = true;
-        if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.controller()","color:orange");}
-        if(dbugAll||dbugThis){console.log("%c  this","color:grey",this);}
-
-        var vm = this;
-        var defaultDirectiveController = {};
-
-        defaultDirectiveController.setup = function(){
+       return = {
+            restrict: 'A',
+            controller: defaultDirectiveController,
+            controllerAs: 'vm',
+            link: defaultDirectiveLink,
+            //require:'',
+            //scope:{},
+            //templateUrl: 'template.html',
+            //transclude: true,
         };
-        defaultDirectiveController.setup();
-    };
 
-    defaultDirective.link = function($scope, element, attrs){
+        function defaultDirectiveController(){
+            var dbugThis = true;
+            if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.controller()","color:orange");}
+            if(dbugAll||dbugThis){console.log("%c  this","color:grey",this);}
 
-        var dbugThis = true;
-        if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.link()","color:orange");}
-        if(dbugAll||dbugThis){console.log("%c  $scope","color:grey",$scope);}
-        if(dbugAll||dbugThis){console.log("%c  element","color:grey",element);}
-        if(dbugAll||dbugThis){console.log("%c  attrs","color:grey",attrs);}
+            var vm = this;
 
-        var defaultDirectiveLink = {}; //private object
+            function setup(){
 
-        defaultDirectiveLink.setup = function(){
+            };
+            setup();
         };
-        defaultDirectiveLink.setup();
-    };
+        function defaultDirectiveLink(){
+            var dbugThis = true;
+            if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.link()","color:orange");}
+            if(dbugAll||dbugThis){console.log("%c  $scope","color:grey",$scope);}
+            if(dbugAll||dbugThis){console.log("%c  element","color:grey",element);}
+            if(dbugAll||dbugThis){console.log("%c  attrs","color:grey",attrs);}
 
-    return defaultDirective;
-});
+            var defaultDirectiveLink = {}; //private object
+
+            function setup(){
+
+            };
+            setup();
+        };
+    };
+}(window.jQuery || window.$, window.angular));

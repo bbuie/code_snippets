@@ -8,7 +8,7 @@
  */
 angular.module('someApp').controller('DefaultController', DefaultController);
 
-function DefaultController($scope){
+function DefaultController($scope, $q){
 
 	var vm = this;
 
@@ -32,34 +32,19 @@ function DefaultController($scope){
 		$scope.$on('$destroy', onSomething);
 	};
 	function getSomething(companyId, callback){
-		
-		function setup(){
 
-			api.then(success, failure);
+		return $q(getSomethingPromise);
+
+		function getSomethingPromise(resolveGetSomething, rejectGetSomething){
+			api.then(getSomethingSuccess, getSomethingError);
+
+			function getSomethingSuccess(response){
+				resolveGetSomething(response);
+			};
+			function getSomethingError(response){
+				rejectGetSomething(response);
+			};
 		};
-		function success(response){
-
-			if(dbugAll||dbugThis){console.log("%ccalled success()","color:green", response.data);}
-
-			$scope.addresses = response.data;
-
-			if(typeof callback === "function"){
-				callback();
-			}
-	
-			finish();
-		};
-		function failure(response){
-
-			if(dbugAll||dbugThis){console.log("%ccalled failure()","color:red", response);}
-	
-			finish();
-		};
-		function finish(){
-
-			//do something on finish
-		};
-		setup();
 	};
 	setup();
 }

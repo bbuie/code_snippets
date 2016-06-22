@@ -31,18 +31,18 @@ function DefaultController($scope, $q){
 
 		$scope.$on('$destroy', onSomething);
 	};
-	function getSomething(companyId, callback){
+	function getSomething(somethingId){
 
 		return $q(getSomethingPromise);
 
-		function getSomethingPromise(resolveGetSomething, rejectGetSomething){
+		function getSomethingPromise(getSomethingResolve, getSomethingReject){
 			api.then(getSomethingSuccess, getSomethingError);
 
 			function getSomethingSuccess(response){
-				resolveGetSomething(response);
+				getSomethingResolve(response);
 			};
 			function getSomethingError(response){
-				rejectGetSomething(response);
+				getSomethingReject(response);
 			};
 		};
 	};

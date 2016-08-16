@@ -8,7 +8,10 @@
  */
 angular.module('someApp').controller('DefaultController', DefaultController);
 
-function DefaultController($scope, $q){
+function DefaultController(
+	$scope,
+	$q
+){
 
 	var vm = this;
 
@@ -48,5 +51,10 @@ function DefaultController($scope, $q){
 	};
 	setup();
 }
+
+DefaultController.$inject = [
+  '$scope',
+  '$q'
+];
 
 }(window.jQuery || window.$, window.angular));

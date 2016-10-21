@@ -1,6 +1,4 @@
-(function ($, angular) {
-'use strict';
-
+(function ($, angular) {'use strict';
 /**
  * @ngdoc function
  * @name someApp.controller:DefaultController
@@ -12,7 +10,6 @@ function DefaultController(
 	$scope,
 	$q
 ){
-
 	var vm = this;
 
 	function setup(){
@@ -23,7 +20,6 @@ function DefaultController(
 		onEvents();
 	};
 	function viewApi(){
-
 		//functions to be used in view can be added to $scope here
 	};
 	function onEvents(){
@@ -51,7 +47,6 @@ function DefaultController(
 	};
 	setup();
 }
-
 DefaultController.$inject = [
   '$scope',
   '$q'

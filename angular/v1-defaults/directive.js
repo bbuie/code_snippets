@@ -57,7 +57,7 @@
         };
         function defaultOptions(){
             return {
-                someOption: true;
+                someOption: true,
             }
         }
     };

@@ -21,12 +21,13 @@
             controller: defaultDirectiveController,
             controllerAs: 'vm',
             link: defaultDirectiveLink,
+            scope:{
+                defaultDirectiveOptions: '='
+            },
             //require:'',
-            //scope:{},
             //templateUrl: 'template.html',
             //transclude: true,
         };
-
         function defaultDirectiveController(){
             var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.controller()","color:orange");}
@@ -35,7 +36,8 @@
             var vm = this;
 
             function setup(){
-
+                
+                $scope.defaultDirectiveOptions = $.extend(defaultOptions(), $scope.defaultDirectiveOptions);
             };
             setup();
         };
@@ -53,5 +55,10 @@
             };
             setup();
         };
+        function defaultOptions(){
+            return {
+                someOption: true;
+            }
+        }
     };
 }(window.jQuery || window.$, window.angular));

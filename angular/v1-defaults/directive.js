@@ -16,7 +16,7 @@
         var dbugThis = false; var dbugAll = false;
         if(dbugAll||dbugThis){console.log("%ccalled directive:defaultDirective()","color:orange");}
 
-       return = {
+       return {
             restrict: 'A',
             controller: defaultDirectiveController,
             controllerAs: 'vm',

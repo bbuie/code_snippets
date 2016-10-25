@@ -28,7 +28,7 @@
             //templateUrl: 'template.html',
             //transclude: true,
         };
-        function defaultDirectiveController(){
+        function defaultDirectiveController($scope){
             var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.controller()","color:orange");}
             if(dbugAll||dbugThis){console.log("%c  this","color:grey",this);}
@@ -41,7 +41,7 @@
             };
             setup();
         };
-        function defaultDirectiveLink(){
+        function defaultDirectiveLink($scope, element, attrs){
             var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.link()","color:orange");}
             if(dbugAll||dbugThis){console.log("%c  $scope","color:grey",$scope);}

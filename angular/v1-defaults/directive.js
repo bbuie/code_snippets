@@ -38,9 +38,9 @@
             function setup(){
                 
                 $scope.defaultDirectiveOptions = $.extend(defaultOptions(), $scope.defaultDirectiveOptions);
-            };
+            }
             setup();
-        };
+        }
         function defaultDirectiveLink($scope, element, attrs){
             var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.link()","color:orange");}
@@ -52,9 +52,9 @@
 
             function setup(){
 
-            };
+            }
             setup();
-        };
+        }
         function defaultOptions(){
             return {
                 someOption: true,

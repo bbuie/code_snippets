@@ -18,10 +18,10 @@ function DefaultController(
 
 		viewApi();
 		onEvents();
-	};
+	}
 	function viewApi(){
 		//functions to be used in view can be added to $scope here
-	};
+	}
 	function onEvents(){
 
 		var onSomething = $scope.$on('something', function(e, data){
@@ -29,7 +29,7 @@ function DefaultController(
 		});
 
 		$scope.$on('$destroy', onSomething);
-	};
+	}
 	function getSomething(somethingId){
 
 		return $q(getSomethingPromise);
@@ -39,12 +39,12 @@ function DefaultController(
 
 			function getSomethingSuccess(response){
 				getSomethingResolve(response);
-			};
+			}
 			function getSomethingError(response){
 				getSomethingReject(response);
-			};
-		};
-	};
+			}
+		}
+	}
 	setup();
 }
 DefaultController.$inject = [

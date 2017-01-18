@@ -1,0 +1,44 @@
+<!-- Dependent on Angular, Bootstrap, FontAwesome -->
+
+<script type="text/javascript">
+	(function ($, angular) {
+
+	    /**
+	     * @ngdoc directive
+	     * @name buink.directive:buinkApiErrors
+	     * @description
+	     * # buinkApiErrors
+
+	     Usage: <div buink-api-errors="vm.apiErrors"></div>
+	     */
+	    angular.module('buink').directive('buinkApiErrors', buinkApiErrors);
+
+	    function buinkApiErrors(){
+	        'use strict';
+
+	        var dbugThis = false; var dbugAll = false;
+	        if(dbugAll||dbugThis){console.log("%ccalled directive:buinkApiErrors()","color:orange");}
+
+	       return {
+	            restrict: 'A',
+	            controller: buinkApiErrorsController,
+	            controllerAs: 'vmErrors',
+	            scope:{
+	                buinkApiErrors: '='
+	            },
+	            templateUrl: 'buink-api-errors.html',
+	        };
+	        function buinkApiErrorsController($scope){}
+	    };
+	}(window.jQuery || window.$, window.angular));
+</script>
+
+<!-- add this to a file that matches the templateURL of the directive above -->
+<div ng-show="buinkApiErrors.length > 0" class="alert alert-danger clearfix">
+	<div class="col-md-1">
+		<i class="fa fa-exclamation-triangle"></i>
+	</div>
+	<div class="col-md-10 text-left">
+		<span ng-repeat="error in buinkApiErrors">{[{ error }]}<br/></span>
+	</div>
+</div>

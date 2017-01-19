@@ -19,16 +19,18 @@
        return {
             restrict: 'A',
             controller: defaultDirectiveController,
-            controllerAs: 'vm',
+            controllerAs: 'vmDirective',
             link: defaultDirectiveLink,
             scope:{
                 defaultDirectiveOptions: '='
             },
-            //require:'',
             //templateUrl: 'template.html',
+            //require:'',
             //transclude: true,
         };
-        function defaultDirectiveController($scope){
+        function defaultDirectiveController(
+            $scope
+        ){
             var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.controller()","color:orange");}
             if(dbugAll||dbugThis){console.log("%c  this","color:grey",this);}
@@ -36,11 +38,14 @@
             var vm = this;
 
             function setup(){
-                
+
                 $scope.defaultDirectiveOptions = $.extend(defaultOptions(), $scope.defaultDirectiveOptions);
             }
             setup();
         }
+        defaultDirectiveController.$inject = [
+          '$scope'
+        ];
         function defaultDirectiveLink($scope, element, attrs){
             var dbugThis = true;
             if(dbugAll||dbugThis){console.log("%ccalled defaultDirective.link()","color:orange");}

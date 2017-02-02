@@ -1,0 +1,8 @@
+# # Add start file to new environment
+COPY /docker/nu-python/start.sh /usr/src/app/docker/nu-python/start.sh
+
+# # Modify the executable to have the linux line endings
+RUN sed -i 's/\r//' /usr/src/app/docker/nu-python/start.sh
+
+# # Give permissions to run executable
+RUN chmod u+x /usr/src/app/docker/nu-python/start.sh

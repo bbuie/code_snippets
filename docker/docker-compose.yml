@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+  some-docker-service:
+    container_name: some-docker-container
+    image: some-docker-image
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.some-docker
+    entrypoint: /container/folder/docker/some-docker/start.sh
+    depends_on:
+      - some-other-docker-service
+    environment:
+      SOME_VARIABLE: some_variable_string
+    volumes:
+      - ./:/container/folder
+      - some-volume:/container/folder
+    ports:
+      - "8004:8004"
+    restart: always
+    networks:
+      - default
+
+volumes:
+  some-volume:
+networks:
+  default:

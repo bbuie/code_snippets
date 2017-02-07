@@ -7,6 +7,7 @@ Docker setup definitions:
 - docker_container_names: [insert container names]
 - docker_service_names: [insert service names]
 - local_development_url:  http://[docker machine's ip address]:3000/ (e.g. [http://192.168.99.100:3000/](http://192.168.99.100:3000/))
+- containers_finished_running_string: "Your local copy is running!"
 
 Setup Steps:
 
@@ -28,6 +29,8 @@ Setup Steps:
         1. builds your docker services (and by extension your images)
         1. starts your containers
         1. runs the entrypoint files for all services
+    - Containers are not ready till you see your containers_finished_running_string (see above)
+        - You may have to search this string in your console from time to time just to make sure it is done.
 1. View your site's web address
     1. Open Google Chrome (or another web browser)
     1. Visit your local_development_url

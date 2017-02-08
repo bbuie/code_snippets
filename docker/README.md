@@ -17,8 +17,10 @@ Setup Steps:
         - Note: especially for windows users, it is very important that the folder is in your computer's user directory
     1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/www/local_folder_name/`)
     1. run `git clone github_repo_link .`
+1. Install
 1. Install [Docker Toolkit](https://docs.docker.com/engine/installation/)
     - Note: these instructions are written assuming you have "Docker Toolkit" and not docker for windows or mac
+    - Make sure to install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
 1. Open the "Docker Quickstart Terminal"
     - You should see a docker whale at the top of the terminal where you can type commands
         - Note: you may want to note your docker machine's IP address (e.g. 192.168.99.100)

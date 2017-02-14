@@ -1,8 +1,18 @@
+FROM some_image
+
+# Install custom dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		somepackage
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
 # # Add start file to new environment
-COPY /docker/nu-python/start.sh /usr/src/app/docker/nu-python/start.sh
+COPY /docker/some-docker/start.sh /usr/src/app/docker/some-docker/start.sh
 
 # # Modify the executable to have the linux line endings
-RUN sed -i 's/\r//' /usr/src/app/docker/nu-python/start.sh
+RUN sed -i 's/\r//' /usr/src/app/docker/some-docker/start.sh
 
 # # Give permissions to run executable
-RUN chmod u+x /usr/src/app/docker/nu-python/start.sh
+RUN chmod u+x /usr/src/app/docker/some-docker/start.sh

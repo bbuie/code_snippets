@@ -1,6 +1,7 @@
 ### Setup Using Docker
 
 Docker setup definitions:
+
 - github_repo_link: [insert repo link]
 - local_folder_name: We recommend you create a folder *in your user folder* with the name [insert folder name]
 - docker_image_names: [insert image names]
@@ -9,7 +10,11 @@ Docker setup definitions:
 - local_development_url:  http://[docker machine's ip address]:3000/ (e.g. [http://192.168.99.100:3000/](http://192.168.99.100:3000/))
 - containers_finished_running_string: "Your local copy is running!"
 
-Setup Steps:
+**Before you begin:**
+
+Make sure you're ready to take notes of any and all issues you have. If you have to do anything outside of the steps below, we need to note them here for future developers.
+
+**Setup Steps:**
 
 1. Install [GIT](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine if you don't already have it
 1. Clone this repository to your computer
@@ -23,7 +28,7 @@ Setup Steps:
 1. Open the "Docker Quickstart Terminal"
     - You should see a docker whale at the top of the terminal where you can type commands
         - Note: you may want to note your docker machine's IP address (e.g. 192.168.99.100)
-    - Navigate your computers file system to the cloned repository folder (created above) (e.g. `cd your_user_folder/www/local_folder_name/`)
+    - Navigate your computers file system to the cloned repository folder (created above) (e.g. `cd your_user_folder/local_folder_name/`)
 1. Magically create all the docker containers needed to run the code
     - In the quick start terminal run `docker-compose up`
     - You should expect it print a lot to the console while it...
@@ -37,6 +42,10 @@ Setup Steps:
     1. Open Google Chrome (or another web browser)
     1. Visit your local_development_url
     1. Expect to see a login form
+
+##Troubleshooting this repository
+
+1. Add repository specific steps
 
 ##Trouble shooting your docker containers:
 

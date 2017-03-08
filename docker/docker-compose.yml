@@ -2,13 +2,13 @@ version: '2'
 
 services:
 
-  some-docker-service:
-    container_name: some-docker-container
-    image: some-docker-image
+  company-ubuntu-service:
+    container_name: company-ubuntu-container
+    image: company-ubuntu-image
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.some-docker
-    entrypoint: /container/folder/docker/some-docker/start.sh
+      dockerfile: ./docker/Dockerfile.company-ubuntu
+    entrypoint: /container/folder/docker/company-ubuntu/start.sh
     depends_on:
       - some-other-docker-service
     environment:

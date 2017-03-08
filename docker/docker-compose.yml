@@ -7,17 +7,36 @@ services:
     image: company-ubuntu-image
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.company-ubuntu
+      dockerfile: ./docker/company-ubuntu/Dockerfile
     entrypoint: /container/folder/docker/company-ubuntu/start.sh
     depends_on:
       - some-other-docker-service
     environment:
       SOME_VARIABLE: some_variable_string
     volumes:
-      - ./:/container/folder
+      - ./:/usr/src/app
       - some-volume:/container/folder
     ports:
       - "8004:8004"
+    restart: always
+    networks:
+      - default
+
+  company-php-service:
+    container_name: company-php-container
+    image: company-php-image
+    build:
+      context: .
+      dockerfile: ./docker/company-php/Dockerfile
+    entrypoint: /container/folder/docker/company-php/start.sh
+    depends_on:
+      - some-other-docker-service
+    environment:
+      SOME_VARIABLE: some_variable_string
+    volumes:
+      - ./:/container/folder
+    ports:
+      - "8000:8000"
     restart: always
     networks:
       - default

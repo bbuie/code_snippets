@@ -1,0 +1,1 @@
+Docker mysql:5.7 will execute files with extensions .sh, .sql and .sql.gz that are found in this folder. Files will be executed in alphabetical order.

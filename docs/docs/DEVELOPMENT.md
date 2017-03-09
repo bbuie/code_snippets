@@ -1,4 +1,8 @@
-###Branching model (release model)
+### Setup Your Local Development Enviornment
+
+1. Use our [Docker Setup Steps](../docker/README.md) to run this repository locally
+
+### Branching model (release model)
 
 1. We use the branching model found here: http://nvie.com/posts/a-successful-git-branching-model/
 1. Always branch new features off the develop branch `git checkout -b [featureBranchName]`
@@ -41,3 +45,10 @@
     - Comment to explain any unusual code.
     - Clean up code.
 1. Request a review from the developer lead
+
+###Code style guide
+
+It is important that you write your code in a cost effective way that makes it easy to understand, update, and maintain. The following are some principles you should keep in mind:
+
+Here are [general code requirements](https://github.com/bbuie/code_snipits/wiki/Common-Code-Requirements).
+Angular code should follow [this angular style guide](https://github.com/johnpapa/angular-styleguide)

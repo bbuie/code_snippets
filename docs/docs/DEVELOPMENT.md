@@ -50,5 +50,5 @@
 
 It is important that you write your code in a cost effective way that makes it easy to understand, update, and maintain. The following are some principles you should keep in mind:
 
-Here are [general code requirements](https://github.com/bbuie/code_snipits/wiki/Common-Code-Requirements).
-Angular code should follow [this angular style guide](https://github.com/johnpapa/angular-styleguide)
+- Here are [general code requirements](https://github.com/bbuie/code_snipits/wiki/Common-Code-Requirements).
+- Angular code should follow [this angular style guide](https://github.com/johnpapa/angular-styleguide)

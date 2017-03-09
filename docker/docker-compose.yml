@@ -10,7 +10,7 @@ services:
       dockerfile: ./docker/company-ubuntu/Dockerfile
     entrypoint: /container/folder/docker/company-ubuntu/start.sh
     depends_on:
-      - some-other-docker-service
+      - company-mysql-service
     environment:
       SOME_VARIABLE: some_variable_string
     volumes:
@@ -18,7 +18,7 @@ services:
       - some-volume:/container/folder
     ports:
       - "8004:8004"
-    restart: always
+    # restart: always
     networks:
       - default
 
@@ -28,20 +28,37 @@ services:
     build:
       context: .
       dockerfile: ./docker/company-php/Dockerfile
-    entrypoint: /container/folder/docker/company-php/start.sh
+    entrypoint: /var/www/docker/company-php/start.sh
     depends_on:
-      - some-other-docker-service
+      - company-mysql-service
     environment:
       SOME_VARIABLE: some_variable_string
     volumes:
-      - ./:/container/folder
+      - ./:/var/www/html
+      - composer:/var/www/html/vendor
     ports:
       - "8000:8000"
-    restart: always
+    # restart: always
+    networks:
+      - default
+
+  company-mysql-service:
+    container_name: company-mysql-container
+    image: company-mysql-image
+    build:
+      context: .
+      dockerfile: ./docker/company-mysql/Dockerfile
+    # volumes:
+    #   - "./.data/db:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: company
+      MYSQL_ROOT_PASSWORD: docker
+    ports:
+      - "3306:3306"
     networks:
       - default
 
 volumes:
-  some-volume:
+  composer:
 networks:
   default:

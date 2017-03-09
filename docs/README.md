@@ -1,6 +1,6 @@
 ## Project Name
 
-This app is build in the MEAN.js stack. Styles are added via SCSS. The following documentation should help you get started.
+The following documentation should help you get started.
 
 + [Development](./docs/DEVELOPMENT.md)
 + [Release Notes](./docs/CHANGELOG.md)

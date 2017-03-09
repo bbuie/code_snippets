@@ -2,11 +2,11 @@
 
 Docker setup definitions:
 
-- github_repo_link: [insert repo link]
+- git_base_repo_link: [insert repo link]
 - local_folder_name: We recommend you create a folder *in your user folder* with the name [insert folder name]
-- docker_image_names: [insert image names]
-- docker_container_names: [insert container names]
-- docker_service_names: [insert service names]
+- docker_image_names: company-php-image, company-mysql-image, company-ubuntu-image
+- docker_container_names: company-php-container, company-mysql-container, company-ubuntu-container
+- docker_service_names: company-php-service, company-mysql-service, company-ubuntu-service
 - local_development_url:  http://[docker machine's ip address]:3000/ (e.g. [http://192.168.99.100:3000/](http://192.168.99.100:3000/))
 - containers_finished_running_string: "[docker_container_names] is running!"
 
@@ -21,7 +21,7 @@ Make sure you're ready to take notes of any and all issues you have. If you have
     1. Create a folder (e.g. local_folder_name) in your user directory
         - Note: especially for windows users, it is very important that the folder is in your computer's USER directory!
     1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/www/local_folder_name/`)
-    1. run `git clone github_repo_link .`
+    1. run `git clone git_base_repo_link .`
 1. Install [Docker Toolkit](https://docs.docker.com/engine/installation/)
     - Note: these instructions are written assuming you have "Docker Toolkit" and not docker for Windows or Mac
     - Make sure to install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.

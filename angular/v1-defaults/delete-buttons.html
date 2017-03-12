@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12 text-right" ng-if="option.data">
+    <a href="" class="text-danger"
+      ng-show="!vm.showRealDeleteButton"
+      ng-click="vm.showRealDeleteButton = true">
+      <i class="fa fa-trash"></i> Delete Data
+    </a>
+    <a href="" class="text-danger"
+      ng-show="vm.showRealDeleteButton"
+      ng-click="vm.deleteOptionData(option)">
+      <i class="fa fa-trash"></i> Are you sure?
+    </a>
+    <a href="" class="text-muted"
+      ng-show="vm.showRealDeleteButton"
+      ng-click="vm.showRealDeleteButton = false">
+      <i class="fa fa-trash"></i> Cancel
+    </a>
+  </div>
+</div>

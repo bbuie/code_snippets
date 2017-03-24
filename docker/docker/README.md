@@ -3,7 +3,7 @@
 Docker setup definitions:
 
 - git_base_repo_link: [insert repo link]
-- local_folder_name: We recommend you create a folder *in your user folder* with the name [insert folder name]
+- local_folder_name: [insert folder name] - We recommend you create a folder *in your USER folder* with this name
 - docker_image_names: company-php-image, company-mysql-image, company-ubuntu-image
 - docker_container_names: company-php-container, company-mysql-container, company-ubuntu-container
 - docker_service_names: company-php-service, company-mysql-service, company-ubuntu-service

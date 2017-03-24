@@ -43,7 +43,7 @@
     - Add steps to QA so the reviewer can quickly know what changed and why
 1. If there are merge conflicts, create a branch with a DEV prefix (e.g. `DEV-999-example-name)
     - merge in the `develop` branch and resolve the conflict
-    - Note: NEVER merge develop into a branch that doesn't have DEV in front of it
+    - IMPORTANT: Never merge `develop` into a branch that doesn't have DEV in front of it!!!!!
 1. Review the "diff" of your code
     - Make sure all changes are needed and wanted
     - Comment to explain any unusual code

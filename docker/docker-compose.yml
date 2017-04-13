@@ -42,6 +42,30 @@ services:
     networks:
       - default
 
+  company-wordpress-service:
+    container_name: company-wordpress-container
+    image: company-wordpress-image
+    build:
+      context: .
+      dockerfile: ./docker/company-wordpress/Dockerfile
+    entrypoint: /var/www/docker/company-wordpress/start.sh
+    depends_on:
+      - company-mysql-service
+    environment:
+      DB_HOST: company-mysql-service:3306
+      DB_NAME: company-mysql
+      DB_USER: root
+      DB_PASSWORD: docker
+    volumes:
+      - ./:/var/www/html
+      - composer:/var/www/html/vendor
+      - node_modules:/var/www/html/wp-content/themes/company/node_modules
+    ports:
+      - "8000:80"
+      - "3000:3000"
+    networks:
+      - default
+
   company-mysql-service:
     container_name: company-mysql-container
     image: company-mysql-image

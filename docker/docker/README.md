@@ -58,6 +58,8 @@ Make sure you're ready to take notes of any and all issues you have. If you have
     - Rebuild all services in the docker-compose.yml file
 - `docker-compose down`
     - Shut down all services in the docker-compose.yml file
+- `docker-compose down; docker-compose up --build`
+    - Totally rebuild all services in the docker-compose.yml file. This usually triggers a database re-build as well, although I'm not sure why.
 - `docker exec -it [docker_container_names] bash`
     - Connect to a running container
     - Note, the container must be running!

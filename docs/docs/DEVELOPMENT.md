@@ -6,7 +6,9 @@
 
 1. We use the branching model found here: http://nvie.com/posts/a-successful-git-branching-model/
 1. Always branch new features off the `develop` branch (`git checkout -b [featureBranchName]`)
-    1. featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
+    - featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
+    - Important: each ticket number should only have one branch and all related changes should be kept on it
+    - Tip: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
     - Always include the issue number at the begining of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
 1. Ensure that your branch has no linting errors
@@ -31,6 +33,7 @@
 1. Always branch new features off the `master` branch (`git checkout -b [featureBranchName]`)
     - featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
     - Important: each ticket number should only have one branch and all related changes should be kept on it
+    - Tip: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
     - Always include the issue number at the begining of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
 1. Ensure that your branch has no linting errors

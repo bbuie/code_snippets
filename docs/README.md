@@ -10,8 +10,9 @@ The following documentation should help you get started.
 Here is a list of technologies we're using in this project:
 
 * Wordpress
-* Codeigniter
+* PHP
+* MySQL
 
 ## About the company
 
-Get OSHA Forklift Certified with Hands-on Driving Experience Today!
+You know you want to know more

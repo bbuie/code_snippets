@@ -22,8 +22,8 @@ define('SECURE_AUTH_SALT', 'Gg)Mr.vMS+k7SD8ij+$C Z(+|(,fqW_|b-?76:JT3Hi{/:v+8U<r
 define('LOGGED_IN_SALT',   'IOB1>t-jA?Cf3SV#Bq!6RJxAvQd.$-c6jQc4d7c%5Mr|zG I>vc(zs2:{q>.A=oX');
 define('NONCE_SALT',       '{&F}Wa/ z.!*F;`OH>6F()^8o>~qX_o{jdEAXxT,,+Ex|kb)k~/oDO&#2m9tJVM2');
 
-define('WP_SITEURL', 'http://192.168.99.100:8000/');
-define('WP_HOME', 'http://192.168.99.100:8000/');
+define('WP_SITEURL', 'http://192.168.99.100/');
+define('WP_HOME', 'http://192.168.99.100/');
 define('WP_DEFAULT_THEME', 'company');
 define('WP_POST_REVISIONS', false );
 define('DISALLOW_FILE_EDIT',true);

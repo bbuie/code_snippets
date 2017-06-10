@@ -67,7 +67,7 @@ RUN gem install sass
 RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 RUN sudo apt-get install -yq nodejs
 
-# Install MEAN.JS Prerequisites
+# Install Helpful Node Packages
 RUN npm install --quiet -g gulp bower jshint
 
 # Copies the local package.json file to the container

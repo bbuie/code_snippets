@@ -3,7 +3,7 @@
 echo "Running company-wordpress-container's entrypoint file..."
 
 # echo "Modifying user (hack for mac)..."
-# usermod -u 1000 www-data #a hack for macs
+usermod -u 1000 www-data #a hack for macs
 
 echo "Waiting for company-mysql-service..."
 while ! mysqladmin ping -h"company-mysql-service" --silent; do

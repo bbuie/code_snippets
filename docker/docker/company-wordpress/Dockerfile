@@ -1,22 +1,9 @@
 FROM ubuntu:14.04
 MAINTAINER Buink Web Development <online@buink.biz>
 
-# Set locale and install apache
+# Set locale
 RUN locale-gen en_US.UTF-8 \
-  && export LANG=en_US.UTF-8 \
-  && apt-get update \
-  && apt-get -y install apache2
-
-# set apache variables
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
-ENV APACHE_RUN_DIR /var/run/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
-    ln -sf /dev/stderr /var/log/apache2/error.log
-RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
+  && export LANG=en_US.UTF-8
 
 # add other dependencies
 RUN apt-get update && apt-get install -yq \
@@ -51,8 +38,6 @@ RUN a2enmod rewrite
 # add apache configs
 COPY ./docker/company-wordpress/apache.conf /etc/apache2/sites-available/000-default.conf
 
-WORKDIR /var/www/html
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -60,7 +45,7 @@ RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/
 RUN gem install --no-rdoc --no-ri compass
 
 # Install gem sass for grunt-contrib-sass
-RUN apt-get install -y ruby
+# RUN apt-get install -y ruby
 RUN gem install sass
 
 # Install NodeJS
@@ -79,6 +64,17 @@ WORKDIR /var/www/html/wp-content/themes/company
 ADD wp-content/themes/company/package.json /var/www/html/wp-content/themes/company/package.json
 RUN npm install --quiet
 WORKDIR /var/www/html
+
+# set apache variables
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
+    ln -sf /dev/stderr /var/log/apache2/error.log
+RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 # Add start file to new environment
 COPY ./docker/company-wordpress/start.sh /var/www/docker/company-wordpress/start.sh

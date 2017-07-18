@@ -22,8 +22,8 @@ Make sure you're ready to take notes of any and all issues you have. If you have
         - Note: especially for windows users, it is very important that the folder is in your computer's USER directory!
     1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/www/local_folder_name/`)
     1. run `git clone git_base_repo_link .`
-1. Install [Docker Toolkit](https://www.docker.com/products/docker-toolbox)
-    - Note: these instructions are written assuming you have "Docker Toolkit" and not docker for Windows or Mac
+1. Install [Docker Toolbox](https://docs.docker.com/engine/installation/)
+    - Note: these instructions are written assuming you have Docker "Toolbox" for your operating system and not Docker "CE" or "EE"
     - Make sure to install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
 1. Open the "Docker Quickstart Terminal"
     - You should see a docker whale at the top of the terminal where you can type commands

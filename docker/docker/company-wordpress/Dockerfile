@@ -46,7 +46,7 @@ RUN gem install --no-rdoc --no-ri compass
 
 # Install gem sass for grunt-contrib-sass
 # RUN apt-get install -y ruby
-RUN gem install sass
+RUN gem install --no-rdoc --no-ri sass -v 3.4.23
 
 # Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -

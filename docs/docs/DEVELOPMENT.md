@@ -55,9 +55,9 @@
         - If your changes are difficult to include into one GIF, make two.
     - Provide a summary of the work you completed in the description of the pull request.
     - Add steps to QA so the reviewer can quickly know what changed and why
-1. If there are merge conflicts, create a branch with a DEV prefix (e.g. `DEV-999-example-name)
-    - merge in the `develop` branch and resolve the conflict
-    - IMPORTANT: Never merge `develop` into a branch that doesn't have DEV in front of it!!!!!
+1. If there are merge conflicts, create a branch with a DEV prefix off develop (e.g. `git checkout develop; git checkout -b DEV-999-example-name`)
+    - merge in your feature branch to your DEV branch (e.g. 'git checkout DEV-999-example-name; git merge 999-example-name`)
+    - IMPORTANT: All branches that are based on the develop branch, or have develop merged in, need a DEV prefix in their name!!
 1. Review the "diff" of your code
     - Make sure all changes are needed and wanted
     - Comment to explain any unusual code
@@ -70,7 +70,7 @@
 1. Open terminal on your local machine
 1. Checkout and update the master branch (e.g 'git checkout master; git pull origin master;)
 1. Create a release branch off `master` (e.g. `git checkout -b release1.0.0`)
-1. Bump the release number in this file and add notes
+1. Bump the release number in the changelog and add notes
     - Notes should include a list of all issue numbers and links to those issues
 1. Backup the database to the release branch (if migration is needed)
     - Make sure to test the full build to make sure the new database didn't break the local environment
@@ -80,7 +80,7 @@
 1. Create a pull request for release branch into develop and master
 1. Merge release branch back into master
 1. Tag the release number (e.g. `git tag v1.0.0` and `git push origin --tags`)
-1. Deploy the release branch
+1. Deploy the master branch
 1. Alter the involved parties of the release on the issue
 1. Move/label the issue appropriately
 

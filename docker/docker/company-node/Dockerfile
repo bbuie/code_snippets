@@ -25,15 +25,12 @@ RUN gem install --no-rdoc --no-ri sass -v 3.4.23
 # Install Helpful Node Packages Globally
 RUN npm install --quiet -g gulp bower jshint
 
-# Copies the local package.json file to the container
-# and utilities docker container cache to not needing to rebuild
-# and install node_modules/ everytime we build the docker, but only
-# when the local package.json file changes.
-# Install npm packages
-WORKDIR /var/www/html/wp-content/themes/company
-ADD wp-content/themes/company/package.json /var/www/html/wp-content/themes/company/package.json
-RUN npm install --quiet
+# set work directory
 WORKDIR /var/www/html
+
+# Install npm packages
+ADD ./package.json /var/www/html/package.json
+RUN npm install --quiet
 
 # Add start file to new environment
 COPY ./docker/company-node/start.sh /var/www/docker/company-node/start.sh

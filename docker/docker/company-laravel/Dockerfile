@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -yq \
 	git-core \
 	vim \
 	curl \
-	nodejs \
 	mysql-client \
 	apache2 \
 	php5 \
@@ -40,9 +39,6 @@ RUN a2enmod rewrite
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-
 # set apache variables
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
@@ -54,15 +50,20 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
+# set work directory
+WORKDIR /var/www/html
+
 # add apache configs
 COPY ./docker/company-laravel/apache.conf /etc/apache2/sites-available/000-default.conf
 
-WORKDIR /var/www/html
-
-# Install compass
-RUN gem install --no-rdoc --no-ri compass
+# Install composer dependencies
+COPY ./composer.json /var/www/html/composer.json
+COPY ./composer.lock /var/www/html/composer.lock
+RUN composer install --prefer-source --no-interaction
 
 # Add start file to new environment
 COPY ./docker/company-laravel/start.sh /var/www/docker/company-laravel/start.sh
 RUN sed -i 's/\r//' /var/www/docker/company-laravel/start.sh # Modify the executable to have the linux line endings
 RUN chmod u+x /var/www/docker/company-laravel/start.sh # Give permissions to run executable
+
+

@@ -22,6 +22,26 @@ services:
     networks:
       - default
 
+  company-node-service:
+    container_name: company-node-container
+    image: company-node-image
+    build:
+      context: .
+      dockerfile: ./docker/company-node/Dockerfile
+    entrypoint: /var/www/docker/company-node/start.sh
+    depends_on:
+      - company-mysql-service
+    environment:
+      SOME_VARIABLE: some_variable_string
+    volumes:
+      - ./:/var/www/html
+      - node_modules:/var/www/html/node_modules
+    ports:
+      - "8000:80"
+    # restart: always
+    networks:
+      - default
+
   company-php-service:
     container_name: company-php-container
     image: company-php-image
@@ -38,6 +58,30 @@ services:
       - composer:/var/www/html/vendor
     ports:
       - "8000:8000"
+    # restart: always
+    networks:
+      - default
+
+  company-laravel-service:
+    container_name: company-laravel-container
+    image: company-laravel-image
+    build:
+      context: .
+      dockerfile: ./docker/company-laravel/Dockerfile
+    entrypoint: /var/www/docker/company-laravel/start.sh
+    depends_on:
+      - company-mysql-service
+    environment:
+      DB_HOST: bl-mysql-service
+      DB_DATABASE: docker
+      DB_NAME: custom-name
+      DB_USER: root
+      DB_PASSWORD: docker
+    volumes:
+      - ./:/var/www/html
+      - composer:/var/www/html/vendor
+    ports:
+      - "8000:80"
     # restart: always
     networks:
       - default

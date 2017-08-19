@@ -1,19 +1,30 @@
 FROM ubuntu:14.04
 MAINTAINER Buink Web Development <online@buink.biz>
 
+# update linux
+RUN apt-get update
+
 # Set locale
 RUN locale-gen en_US.UTF-8 \
   && export LANG=en_US.UTF-8
 
-# add other dependencies
+# add important linux tools
 RUN apt-get update && apt-get install -yq \
 	git-core \
 	vim \
 	curl \
-	nodejs
+	build-essential
 
 # Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - #
+RUN apt-get update && apt-get install -yq nodejs
+
+# install Ruby
+# add other dependencies
+RUN apt-get update && apt-get install -yq \
+	ruby \
+	ruby-dev \
+	ruby-bundler
 
 # Install compass
 RUN gem install --no-rdoc --no-ri compass

@@ -35,9 +35,10 @@ services:
       SOME_VARIABLE: some_variable_string
     volumes:
       - ./:/var/www/html
+      - composer:/var/www/html/vendor
       - node_modules:/var/www/html/node_modules
     ports:
-      - "8000:80"
+      - "8080:8080"
     # restart: always
     networks:
       - default
@@ -77,9 +78,12 @@ services:
       DB_NAME: custom-name
       DB_USER: root
       DB_PASSWORD: docker
+      HOST: 192.168.99.100
+      PORT: 8000
     volumes:
       - ./:/var/www/html
       - composer:/var/www/html/vendor
+      - node_modules:/var/www/html/node_modules
     ports:
       - "8000:80"
     # restart: always

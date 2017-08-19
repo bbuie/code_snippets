@@ -4,9 +4,9 @@ Docker setup definitions:
 
 - git_base_repo_link: [insert repo link]
 - local_folder_name: [insert folder name] - We recommend you create a folder *in your USER folder* with this name
-- docker_image_names: company-php-image, company-mysql-image, company-ubuntu-image, company-wordpress-image
-- docker_container_names: company-php-container, company-mysql-container, company-ubuntu-container, company-wordpress-container
-- docker_service_names: company-php-service, company-mysql-service, company-ubuntu-service, company-wordpress-service
+- docker_image_names: company-type-image
+- docker_container_names: company-type-container
+- docker_service_names: company-type-service
 - local_development_url:  http://[docker machine's ip address]:3000/ (e.g. [http://192.168.99.100:3000/](http://192.168.99.100:3000/))
 - containers_finished_running_string: "[docker_container_names] is running!"
 

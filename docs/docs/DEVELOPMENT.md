@@ -21,6 +21,7 @@
     - Provide a summary of the work you completed in the description of the pull request.
     - Add steps to QA so the reviewer can quickly know what changed and why
 1. If there are merge conflicts fix them
+    - IMPORTANT: Merge conflicts must result in a conversation with the developer who wrote the conflicting code
 1. Review the "diff" of your code
     - Make sure all changes are needed and wanted
     - Comment to explain any unusual code
@@ -58,6 +59,7 @@
 1. If there are merge conflicts, create a branch with a DEV prefix off develop (e.g. `git checkout develop; git checkout -b DEV-999-example-name`)
     - merge in your feature branch to your DEV branch (e.g. 'git checkout DEV-999-example-name; git merge 999-example-name`)
     - IMPORTANT: All branches that are based on the develop branch, or have develop merged in, need a DEV prefix in their name!!
+    - IMPORTANT: Merge conflicts must result in a conversation with the developer who wrote the conflicting code
 1. Review the "diff" of your code
     - Make sure all changes are needed and wanted
     - Comment to explain any unusual code

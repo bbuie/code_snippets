@@ -10,7 +10,7 @@
     - Important: each ticket number should only have one branch and all related changes should be kept on it
     - Tip: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
-    - Always include the issue number at the begining of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
+    - Always include the issue number at the beginning of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
 1. Ensure that your branch has no linting errors
 1. Push your changes to this repo
 1. Create a **pull request** from your feature branch to the `develop` branch
@@ -47,7 +47,7 @@
     - Important: each ticket number should only have one branch and all related changes should be kept on it
     - Tip: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
-    - Always include the issue number at the begining of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
+    - Always include the issue number at the beginning of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
 1. Ensure that your branch has no linting errors
 1. Create a **pull request** from your feature branch to the `develop` branch
     - The title of your pull request should match the title of the task you're completing

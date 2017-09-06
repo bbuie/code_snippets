@@ -8,18 +8,22 @@
 1. Always branch new features off the `develop` branch (`git checkout -b [featureBranchName]`)
     - featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
     - Important: each ticket number should only have one branch and all related changes should be kept on it
-    - Tip: it is helpful to make a note of the branch name on the issue/card/ticket
+    - Important: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
     - Always include the issue number at the beginning of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
+    - Before you commit your changes, please run a `git diff` to make sure that the changes you're comitting are in fact the changes you want to commit.
 1. Ensure that your branch has no linting errors
 1. Push your changes to this repo
 1. Create a **pull request** from your feature branch to the `develop` branch
-    - The title of your pull request should match the title of the task you're completing
-    - Include a link to the trello card in the description
-    - Include a gif of your changes. Use [licecap](http://www.cockos.com/licecap/) if you need software.
-        - If your changes are difficult to include into one GIF, make two.
-    - Provide a summary of the work you completed in the description of the pull request.
-    - Add steps to QA so the reviewer can quickly know what changed and why
+    - The title of the pull request is important
+        - The title of your pull request should include the issue number and the branch you're merging into (e.g. "999 to develop")
+        - You may also want to include a short description of the issue (e.g. "999 to develop | insert_short_description_of_999")
+    - Include a link to the original card/ticket/issue
+    - Include a GIF of your changes if they affect what a users sees in a browser
+        - Try to capture the user story of the issue in the GIF
+        - If the user story is difficult to capture in just one GIF, then make two
+        - Use [licecap](http://www.cockos.com/licecap/) if you need a good GIF software.
+    - Provide a summary of the work you completed in the description of the pull request
 1. If there are merge conflicts fix them
     - IMPORTANT: Merge conflicts must result in a conversation with the developer who wrote the conflicting code
 1. Review the "diff" of your code
@@ -27,6 +31,10 @@
     - Comment to explain any unusual code
         - Particularly code that has been removed
     - Clean up code
+1. Add "Steps to QA" to the original issue/card/ticket so the reviewer can quickly know what changed and why
+    - Some issues already have these
+    - These are only required if the changes are difficult or counterintuitive to test
+1. Add "Steps to go live" to the original issue/card/ticket if going live requires running a migration or other steps not easily apparent
 1. Request a review from the developer lead
 
 ### Step To Create Release (release model)
@@ -45,9 +53,10 @@
 1. Always branch new features off the `master` branch (`git checkout -b [featureBranchName]`)
     - featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
     - Important: each ticket number should only have one branch and all related changes should be kept on it
-    - Tip: it is helpful to make a note of the branch name on the issue/card/ticket
+    - Important: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
     - Always include the issue number at the beginning of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
+    - Before you commit your changes, please run a `git diff` to make sure that the changes you're comitting are in fact the changes you want to commit.
 1. Ensure that your branch has no linting errors
 1. Create a **pull request** from your feature branch to the `develop` branch
     - The title of your pull request should match the title of the task you're completing
@@ -72,6 +81,10 @@
     - Comment to explain any unusual code
         - Particularly code that has been removed
     - Clean up code
+1. Add "Steps to QA" to the original issue/card/ticket so the reviewer can quickly know what changed and why
+    - Some issues already have these
+    - These are only required if the changes are difficult or counterintuitive to test
+1. Add "Steps to go live" to the original issue/card/ticket if going live requires running a migration or other steps not easily apparent
 1. Request a review from the developer lead
 
 ### Step To Create Release (continuous deployment)

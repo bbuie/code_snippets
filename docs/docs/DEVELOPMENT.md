@@ -59,12 +59,15 @@
     - Before you commit your changes, please run a `git diff` to make sure that the changes you're comitting are in fact the changes you want to commit.
 1. Ensure that your branch has no linting errors
 1. Create a **pull request** from your feature branch to the `develop` branch
-    - The title of your pull request should match the title of the task you're completing
-    - Include a link to the item ticket the description
-    - Include a gif of your changes. Use [licecap](http://www.cockos.com/licecap/) if you need software.
-        - If your changes are difficult to include into one GIF, make two.
-    - Provide a summary of the work you completed in the description of the pull request.
-    - Add steps to QA so the reviewer can quickly know what changed and why
+    - The title of the pull request is important
+        - The title of your pull request should include the issue number and the branch you're merging into (e.g. "999 to develop")
+        - You may also want to include a short description of the issue (e.g. "999 to develop | insert_short_description_of_999")
+    - Include a link to the original card/ticket/issue
+    - Include a GIF of your changes if they affect what a users sees in a browser
+        - Try to capture the user story of the issue in the GIF
+        - If the user story is difficult to capture in just one GIF, then make two
+        - Use [licecap](http://www.cockos.com/licecap/) if you need a good GIF software.
+    - Provide a summary of the work you completed in the description of the pull request
 1. If there are merge conflicts...
     1. Make your code dependent on the third party branch that is conflicting
         - Use the blame feature of GIT to find both who's code yours is conflicting with and which branch it is related to

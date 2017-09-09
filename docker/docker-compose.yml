@@ -95,8 +95,8 @@ services:
     image: company-wordpress-image
     build:
       context: .
-      dockerfile: ./docker/company-wordpress/Dockerfile
-    entrypoint: /var/www/docker/company-wordpress/start.sh
+      dockerfile: ./docker/wordpress/Dockerfile
+    entrypoint: /var/www/docker/wordpress/start.sh
     depends_on:
       - company-mysql-service
     environment:

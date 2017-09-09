@@ -13,7 +13,7 @@ done
 echo "company-mysql-service is running..."
 
 echo "Copying wordpress config file if it isn't already present...."
-cp -n /var/www/html/docker/company-wordpress/wp-config.docker.php /var/www/html/wp-config.php
+cp -n /var/www/html/docker/wordpress/wp-config.docker.php /var/www/html/wp-config.php
 
 echo "Deleting existing apache pid if present..."
 if [ -f "$APACHE_PID_FILE" ]; then

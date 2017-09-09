@@ -54,9 +54,9 @@ RUN gem install --no-rdoc --no-ri sass -v 3.4.23
 RUN npm install --quiet -g gulp bower jshint
 
 # Add start file to new environment
-COPY ./docker/company-wordpress/start.sh /var/www/docker/company-wordpress/start.sh
-RUN sed -i 's/\r//' /var/www/docker/company-wordpress/start.sh # Modify the executable to have the linux line endings
-RUN chmod u+x /var/www/docker/company-wordpress/start.sh # Give permissions to run executable
+COPY ./docker/wordpress/start.sh /var/www/docker/wordpress/start.sh
+RUN sed -i 's/\r//' /var/www/docker/wordpress/start.sh # Modify the executable to have the linux line endings
+RUN chmod u+x /var/www/docker/wordpress/start.sh # Give permissions to run executable
 
 # set apache variables
 ENV APACHE_RUN_USER www-data
@@ -70,7 +70,7 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 # add apache configs
-COPY ./docker/company-wordpress/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/wordpress/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Copies the local package.json file to the container
 # and utilities docker container cache to not needing to rebuild

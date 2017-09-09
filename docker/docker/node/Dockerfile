@@ -44,6 +44,6 @@ ADD ./package.json /var/www/html/package.json
 RUN npm install --quiet
 
 # Add start file to new environment
-COPY ./docker/company-node/start.sh /var/www/docker/company-node/start.sh
-RUN sed -i 's/\r//' /var/www/docker/company-node/start.sh # Modify the executable to have the linux line endings
-RUN chmod u+x /var/www/docker/company-node/start.sh # Give permissions to run executable
+COPY ./docker/node/start.sh /var/www/docker/node/start.sh
+RUN sed -i 's/\r//' /var/www/docker/node/start.sh # Modify the executable to have the linux line endings
+RUN chmod u+x /var/www/docker/node/start.sh # Give permissions to run executable

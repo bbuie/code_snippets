@@ -27,8 +27,8 @@ services:
     image: company-node-image
     build:
       context: .
-      dockerfile: ./docker/company-node/Dockerfile
-    entrypoint: /var/www/docker/company-node/start.sh
+      dockerfile: ./docker/node/Dockerfile
+    entrypoint: /var/www/docker/node/start.sh
     depends_on:
       - company-mysql-service
     environment:

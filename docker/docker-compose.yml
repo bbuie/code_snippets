@@ -48,8 +48,8 @@ services:
     image: company-php-image
     build:
       context: .
-      dockerfile: ./docker/company-php/Dockerfile
-    entrypoint: /var/www/docker/company-php/start.sh
+      dockerfile: ./docker/php/Dockerfile
+    entrypoint: /var/www/docker/php/start.sh
     depends_on:
       - company-mysql-service
     environment:

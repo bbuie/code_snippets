@@ -55,7 +55,7 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 # add apache configs
-COPY ./docker/company-php/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/php/apache.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
@@ -63,6 +63,6 @@ WORKDIR /var/www/html
 RUN gem install --no-rdoc --no-ri compass
 
 # Add start file to new environment
-COPY ./docker/company-php/start.sh /var/www/docker/company-php/start.sh
-RUN sed -i 's/\r//' /var/www/docker/company-php/start.sh # Modify the executable to have the linux line endings
-RUN chmod u+x /var/www/docker/company-php/start.sh # Give permissions to run executable
+COPY ./docker/php/start.sh /var/www/docker/php/start.sh
+RUN sed -i 's/\r//' /var/www/docker/php/start.sh # Modify the executable to have the linux line endings
+RUN chmod u+x /var/www/docker/php/start.sh # Give permissions to run executable

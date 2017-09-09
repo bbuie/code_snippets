@@ -2,26 +2,6 @@ version: '2'
 
 services:
 
-  company-ubuntu-service:
-    container_name: company-ubuntu-container
-    image: company-ubuntu-image
-    build:
-      context: .
-      dockerfile: ./docker/company-ubuntu/Dockerfile
-    entrypoint: /container/folder/docker/company-ubuntu/start.sh
-    depends_on:
-      - company-mysql-service
-    environment:
-      SOME_VARIABLE: some_variable_string
-    volumes:
-      - ./:/usr/src/app
-      - some-volume:/container/folder
-    ports:
-      - "8004:8004"
-    # restart: always
-    networks:
-      - default
-
   company-node-service:
     container_name: company-node-container
     image: company-node-image
@@ -119,7 +99,7 @@ services:
     image: company-mysql-image
     build:
       context: .
-      dockerfile: ./docker/company-mysql/Dockerfile
+      dockerfile: ./docker/mysql/Dockerfile
     # volumes:
     #   - "./.data/db:/var/lib/mysql"
     environment:

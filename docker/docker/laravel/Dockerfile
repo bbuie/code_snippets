@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -yq --force-yes \
 
 # Install composer and dependencies initial laravel dependencies
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-COPY ./docker/company-laravel/composer.json /var/www/html/composer.json
+COPY ./docker/laravel/composer.json /var/www/html/composer.json
 RUN cd  /var/www/html/ && composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 
 # set apache variables
@@ -55,7 +55,7 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 # add apache configs
-COPY ./docker/company-laravel/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/laravel/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # set work directory
 WORKDIR /var/www/html
@@ -66,8 +66,8 @@ COPY ./composer.lock /var/www/html/composer.lock
 RUN composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 
 # Add start file to new environment
-COPY ./docker/company-laravel/start.sh /var/www/docker/company-laravel/start.sh
-RUN sed -i 's/\r//' /var/www/docker/company-laravel/start.sh # Modify the executable to have the linux line endings
-RUN chmod u+x /var/www/docker/company-laravel/start.sh # Give permissions to run executable
+COPY ./docker/laravel/start.sh /var/www/docker/laravel/start.sh
+RUN sed -i 's/\r//' /var/www/docker/laravel/start.sh # Modify the executable to have the linux line endings
+RUN chmod u+x /var/www/docker/laravel/start.sh # Give permissions to run executable
 
 

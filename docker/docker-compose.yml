@@ -37,6 +37,7 @@ services:
     volumes:
       - ./:/var/www/html
       - composer:/var/www/html/vendor
+      - node_modules:/var/www/html/node_modules
     ports:
       - "8000:8000"
     # restart: always
@@ -48,24 +49,21 @@ services:
     image: company-laravel-image
     build:
       context: .
-      dockerfile: ./docker/company-laravel/Dockerfile
-    entrypoint: /var/www/docker/company-laravel/start.sh
+      dockerfile: ./docker/laravel/Dockerfile
+    entrypoint: /var/www/docker/laravel/start.sh
     depends_on:
       - company-mysql-service
     environment:
       DB_HOST: bl-mysql-service
       DB_DATABASE: docker
-      DB_NAME: custom-name
-      DB_USER: root
+      DB_USERNAME: root
       DB_PASSWORD: docker
-      HOST: 192.168.99.100
-      PORT: 8000
     volumes:
       - ./:/var/www/html
       - composer:/var/www/html/vendor
       - node_modules:/var/www/html/node_modules
     ports:
-      - "8000:80"
+      - "80:80"
     # restart: always
     networks:
       - default

@@ -77,8 +77,7 @@ COPY ./docker/wordpress/apache.conf /etc/apache2/sites-available/000-default.con
 # and install node_modules/ everytime we build the docker, but only
 # when the local package.json file changes.
 # Install npm packages
-WORKDIR /var/www/html/wp-content/themes/company
-ADD wp-content/themes/company/package.json /var/www/html/wp-content/themes/company/package.json
+COPY ./package.json /var/www/html/package.json
 RUN npm install --quiet
 
 # set work directory

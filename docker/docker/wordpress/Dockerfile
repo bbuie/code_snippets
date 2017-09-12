@@ -36,22 +36,9 @@ RUN apt-get update && apt-get install -yq \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-
 # Setup php dependencies
 RUN php5enmod mcrypt
 RUN a2enmod rewrite
-
-# Install compass
-RUN gem install --no-rdoc --no-ri compass
-
-# Install gem sass for grunt-contrib-sass
-# RUN apt-get install -y ruby
-RUN gem install --no-rdoc --no-ri sass -v 3.4.23
-
-# Install Helpful Node Packages Globally
-RUN npm install --quiet -g gulp bower jshint
 
 # Add start file to new environment
 COPY ./docker/wordpress/start.sh /var/www/docker/wordpress/start.sh
@@ -71,14 +58,6 @@ RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 # add apache configs
 COPY ./docker/wordpress/apache.conf /etc/apache2/sites-available/000-default.conf
-
-# Copies the local package.json file to the container
-# and utilities docker container cache to not needing to rebuild
-# and install node_modules/ everytime we build the docker, but only
-# when the local package.json file changes.
-# Install npm packages
-COPY ./package.json /var/www/html/package.json
-RUN npm install --quiet
 
 # set work directory
 WORKDIR /var/www/html

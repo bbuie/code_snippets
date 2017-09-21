@@ -70,13 +70,16 @@
     - Provide a summary of the work you completed in the description of the pull request
 1. If there are merge conflicts...
     1. Make your code dependent on the third party branch that is conflicting
+        - Find the lines of code that are conflicting
+            - The easiest way to do this is to TEMPORARILY merge the develop branch, check for conflicting lines, and then ABORT the merge (e.g. `git checkout develop; git pull origin develop; git checkout 999-example-name; git merge develop; git diff --check; git merge --abort`)
+            - IMPORTANT: you should make sure you abort the merge otherwise merging the develop branch will cause big issues in the future
         - Use the blame feature of GIT to find both who's code yours is conflicting with and which branch it is related to
         - Then, you need to merge that branch into your branch and resolve the conflict
         - IMPORTANT: make sure to note on the pull request that a conflict was resolved
         - IMPORTANT: it is very easy to make mistakes when resolving conflicts. Common mistakes include code being accidentally removed that was important or code that should have been removed being added back. For this reason, you should always talk to the developer who wrote the conflicting code.
     1. In rare cases where it is not possible to determine who's branch caused the conflict
         - create a branch with a DEV prefix off develop (e.g. `git checkout develop; git checkout -b DEV-999-example-name`)
-        - merge in your feature branch to your DEV branch (e.g. 'git checkout DEV-999-example-name; git merge 999-example-name`)
+        - merge in your feature branch to your DEV branch (e.g. `git checkout DEV-999-example-name; git merge 999-example-name`)
         - IMPORTANT: All branches that are based on the develop branch, or have develop merged in, need a DEV prefix in their name!!
     1. In all cases, merge conflicts must result in a conversation with the developer who wrote the conflicting code
 1. Review the "diff" of your code

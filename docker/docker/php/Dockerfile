@@ -5,12 +5,19 @@ MAINTAINER Buink Web Development <online@buink.biz>
 RUN locale-gen en_US.UTF-8 \
   && export LANG=en_US.UTF-8
 
+# update linux
+RUN apt-get update
+
+# add important linux tools
+RUN apt-get update && apt-get install -yq \
+ 	git-core \
+ 	vim \
+ 	curl \
+ 	libssl-dev \
+ 	acl
+
 # add other dependencies
 RUN apt-get update && apt-get install -yq \
-	git-core \
-	vim \
-	curl \
-	nodejs \
 	mysql-client \
 	apache2 \
 	php5 \
@@ -26,12 +33,7 @@ RUN apt-get update && apt-get install -yq \
 	php5-mysqlnd \
 	php-apc \
 	php-pear \
-	ruby \
-	ruby-dev \
-	ruby-bundler \
 	libapache2-mod-php5 \
-	libssl-dev \
-	acl
 
 # Run php setup
 RUN php5enmod mcrypt
@@ -39,9 +41,6 @@ RUN a2enmod rewrite
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 
 # set apache variables
 ENV APACHE_RUN_USER www-data
@@ -59,8 +58,10 @@ COPY ./docker/php/apache.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
-# Install compass
-RUN gem install --no-rdoc --no-ri compass
+# Install our projects dependencies
+COPY ./composer.json /var/www/html/composer.json
+COPY ./composer.lock /var/www/html/composer.lock
+RUN composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 
 # Add start file to new environment
 COPY ./docker/php/start.sh /var/www/docker/php/start.sh

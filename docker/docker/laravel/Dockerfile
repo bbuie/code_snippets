@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -yq --force-yes \
 	ruby-bundler
 
 # Install composer and dependencies initial laravel dependencies
-RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY ./docker/laravel/composer.json /var/www/html/composer.json
 RUN cd  /var/www/html/ && composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 

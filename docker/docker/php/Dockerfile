@@ -40,7 +40,7 @@ RUN php5enmod mcrypt
 RUN a2enmod rewrite
 
 # Install composer
-RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # set apache variables
 ENV APACHE_RUN_USER www-data
@@ -55,6 +55,19 @@ RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 # add apache configs
 COPY ./docker/php/apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Install mongo extension for php
+RUN pecl install mongo-1.5.0
+
+# Add settings to php.ini
+RUN echo "extension=mongo.so" > /etc/php5/cli/conf.d/ext-mongo.ini
+RUN echo "extension=mongo.so" > /etc/php5/apache2/conf.d/ext-mongo.ini
+RUN echo 'date.timezone = "America/Denver"' >> /etc/php5/cli/php.ini
+RUN echo 'date.timezone = "America/Denver"' >> /etc/php5/apache2/php.ini
+RUN echo 'short_open_tag = 0' >> /etc/php5/cli/php.ini
+RUN echo 'short_open_tag = 0' >> /etc/php5/apache2/php.ini
+RUN echo 'apc.enabled = 1' >> /etc/php5/cli/php.ini
+RUN echo 'apc.enabled = 1' >> /etc/php5/apache2/php.ini
 
 WORKDIR /var/www/html
 

@@ -7,21 +7,24 @@ Docker setup definitions:
 - docker_image_names: company-type-image
 - docker_container_names: company-type-container
 - docker_service_names: company-type-service
-- local_development_url:  http://[docker machine's ip address]:3000/ (e.g. [http://192.168.99.100:3000/](http://192.168.99.100:3000/))
+- local_development_url:  [http://192.168.99.100:3000/](http://192.168.99.100:3000/)
 - containers_finished_running_string: "[docker_container_names] is running!"
 
-**Before you begin:**
+##Before you begin:
 
 Make sure you're ready to take notes of any and all issues you have. If you have to do anything outside of the steps below, we need to note them here for future developers.
 
-**Setup Steps:**
+##Setup Steps:
 
 1. Install [GIT](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine if you don't already have it
-1. Clone this repository to your computer
-    1. Create a folder (e.g. local_folder_name) in your user directory
-        - Note: especially for windows users, it is very important that the folder is in your computer's USER directory!
-    1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/www/local_folder_name/`)
-    1. run `git clone git_base_repo_link .`
+1. Download the code to your local machine
+    1. Clone this repository to your computer
+        1. Create a folder (e.g. local_folder_name) in your user directory
+            - Note: especially for windows users, it is very important that the folder is in your computer's USER directory!
+        1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/www/local_folder_name/`)
+        1. run `git clone git_base_repo_link .`
+    1. Download other code that may be needed
+        1. Some local environment setups require multiple codebases. If this is the case for this code base, you'll find more steps below under the header "Steps to download code unique to this repository". Follow these steps now.
 1. Install [Docker Toolbox](https://docs.docker.com/engine/installation/)
     - Note: these instructions are written assuming you have Docker "Toolbox" for your operating system and not Docker "CE" or "EE"
     - Make sure to install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
@@ -42,6 +45,10 @@ Make sure you're ready to take notes of any and all issues you have. If you have
     1. Open Google Chrome (or another web browser)
     1. Visit your local_development_url
     1. Expect to see a login form
+
+##Steps to download code unique to this repository
+
+1. Add repository specific steps here if any.
 
 ##Troubleshooting this repository
 

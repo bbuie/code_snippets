@@ -47,3 +47,7 @@ RUN npm install --quiet
 COPY ./docker/node/start.sh /var/www/docker/node/start.sh
 RUN sed -i 's/\r//' /var/www/docker/node/start.sh # Modify the executable to have the linux line endings
 RUN chmod u+x /var/www/docker/node/start.sh # Give permissions to run executable
+
+# Machine cleanup
+RUN npm cache clean
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

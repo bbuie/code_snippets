@@ -1,5 +1,9 @@
 ### Setup Using Docker
 
+You're about to experience the awesomeness of local development with docker. The steps below should allow you to effortlessly spin up a local environment that will be identical to the environment used by other developers on this project and very similar to the production environment. If this is your first time using docker, you'll probably have some questions like how to debug, how to connect to the local database, etc., but once you get over the initial learning curve, you may never go back.
+
+Using docker for local development is a bit of a paradigm shift. The most important thing to keep in mind is that if you hit a bug with your local environment, you can bet that others will (or are) too. Instead of just fixing the issue on your virtual machine/container, we now need to fix it in the docker setup so that everyone gets the fix the next time they build their environment.
+
 Docker setup definitions:
 
 - git_base_repo_link: [insert repo link]

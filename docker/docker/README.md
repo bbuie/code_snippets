@@ -4,7 +4,7 @@ You're about to experience the awesomeness of local development with docker. The
 
 Using docker for local development is a bit of a paradigm shift. The most important thing to keep in mind is that if you hit a bug with your local environment, you can bet that others will (or are) too. Instead of just fixing the issue on your virtual machine/container, we now need to fix it in the docker setup so that everyone gets the fix the next time they build their environment.
 
-Docker setup definitions:
+##Docker setup definitions:
 
 - git_base_repo_link: [insert repo link]
 - local_folder_name: [insert folder name] - We recommend you create a folder *in your USER folder* with this name

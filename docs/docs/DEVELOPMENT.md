@@ -83,6 +83,7 @@
         - IMPORTANT: All branches that are based on the develop branch, or have develop merged in, need a DEV prefix in their name!!
     1. In all cases, merge conflicts must result in a conversation with the developer who wrote the conflicting code
 1. Review the "diff" of your code
+    - Both popular repository websites (Github & Bitbucket) provide the ability to review and comment on your code changes
     - Make sure all changes are needed and wanted
     - Comment to explain any unusual code
         - Particularly code that has been removed

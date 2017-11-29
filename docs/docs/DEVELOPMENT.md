@@ -5,8 +5,8 @@
 ### Branching model (release model)
 
 1. We use the branching model found here: http://nvie.com/posts/a-successful-git-branching-model/
-1. Always branch new features off the `develop` branch (`git checkout -b [featureBranchName]`)
-    - featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
+1. Always branch new features off the `develop` branch (`git checkout -b feature_branch_name`)
+    - feature_branch_name should start with the issue number and be as short as possible (e.g. 999-example-name)
     - Important: each ticket number should only have one branch and all related changes should be kept on it
     - Important: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
@@ -14,6 +14,7 @@
     - Before you commit your changes, please run a `git diff` to make sure that the changes you're comitting are in fact the changes you want to commit.
 1. Ensure that your branch has no linting errors
 1. Push your changes to this repo
+    - IMPORTANT: make sure your branch is up-to-date with it's parent branch (in this case `develop`) by updating the parent and merging it in often
 1. Create a **pull request** from your feature branch to the `develop` branch
     - The title of the pull request is important
         - The title of your pull request should include the issue number and the branch you're merging into (e.g. "999 to develop")
@@ -51,14 +52,16 @@
 
 ### Branching model (continuous deployment)
 
-1. Always branch new features off the `master` branch (`git checkout -b [featureBranchName]`)
-    - featureBranchName should start with the issue number and be as short as possible (e.g. 999-example-name)
+1. Always branch new features off the `master` branch (`git checkout -b feature_branch_name`)
+    - feature_branch_name should start with the issue number and be as short as possible (e.g. 999-example-name)
     - Important: each ticket number should only have one branch and all related changes should be kept on it
     - Important: it is helpful to make a note of the branch name on the issue/card/ticket
 1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
     - Always include the issue number at the beginning of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
     - Before you commit your changes, please run a `git diff` to make sure that the changes you're comitting are in fact the changes you want to commit.
 1. Ensure that your branch has no linting errors
+1. Push your changes to this repo
+    - IMPORTANT: make sure your branch is up-to-date with it's parent branch (in this case `master`) by updating the parent and merging it in often
 1. Create a **pull request** from your feature branch to the `develop` branch
     - The title of the pull request is important
         - The title of your pull request should include the issue number and the branch you're merging into (e.g. "999 to develop")
@@ -89,6 +92,8 @@
     - Comment to explain any unusual code
         - Particularly code that has been removed
     - Clean up code
+1. If you haven't already, make sure there is an open pull request for this branch into develop
+    - NOTE: each issue/ticket/card should usually have only one merge into master
 1. Add "Steps to QA" to the original issue/card/ticket so the reviewer can quickly know what changed and why
     - Some issues already have these
     - These are only required if the changes are difficult or counterintuitive to test

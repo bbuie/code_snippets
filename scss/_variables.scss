@@ -5,29 +5,28 @@ $highlightColor: yellow;
 
 /*fonts*/
 
-/* breakpoint variables */
+/*
+    breakpoint variables
+    usage: @media #{$breakpointPhoneMax} {}
+*/
 $widthPhone: 320px;
 $widthPhoneLandscape: 480px;
 $widthTablet: 768px;
-$widthTabletLandscape: 1024px;
+$widthTabletLandscape: 992px;
 $widthDesktop: 1200px;
 $widthDesktopWide: 1400px;
-$breakpointPhone: "only screen and (max-width : 320px)";
-$breakpointPhoneLandscape: "only screen and (max-width : 497px)";
-$breakpointTablet: "only screen and (max-width : 784px)";
-$breakpointTabletLandscape: "only screen and (max-width : 1041px)";
-$breakpointDesktop: "only screen and (max-width : 1216px)"; 
-$breakpointDesktopWide: "only screen and (max-width : 1416px)";  
-/*
-@media #{$breakpointPhone} {
-}
-@media #{$breakpointPhoneLandscape} {
-}
-@media #{$breakpointTablet} {
-}
-@media #{$breakpointTabletLandscape} {
-}
-*/
+$breakpointPhoneMax: "only screen and (max-width : $widthPhone)";
+$breakpointPhoneLandscapeMax: "only screen and (max-width : $widthPhoneLandscape)";
+$breakpointTabletMax: "only screen and (max-width : $widthTablet)";
+$breakpointTabletLandscapeMax: "only screen and (max-width : $widthTabletLandscape)";
+$breakpointDesktopMax: "only screen and (max-width : $widthDesktopWide)";
+$breakpointDesktopWideMax: "only screen and (max-width : $widthDesktopWide)";
+$breakpointPhoneMin: "only screen and (min-width : $widthPhone)";
+$breakpointPhoneLandscapeMin: "only screen and (min-width : $widthPhoneLandscape)";
+$breakpointTabletMin: "only screen and (min-width : $widthTablet)";
+$breakpointTabletLandscapeMin: "only screen and (min-width : $widthTabletLandscape)";
+$breakpointDesktopMin: "only screen and (min-width : $widthDesktopWide)";
+$breakpointDesktopWideMin: "only screen and (min-width : $widthDesktopWide)";
 
 /*e.g. box-shadow(0px, 0px, 0px, rgba(0,0,0,.5));*/
 @mixin box-shadow($x, $y, $blur, $color) {

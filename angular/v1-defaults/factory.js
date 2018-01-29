@@ -7,11 +7,13 @@
  * # defaultFactory
  * Factory in the someApp.
  */
-angular.module('someApp')
-.factory('defaultFactory', function () {
-  
-  var defaultFactory = {};//object returned from factory
-  
-  return defaultFactory;
-});
+angular.module('someApp').factory('defaultFactory', defaultFactory);
+
+function defaultFactory(){
+
+	var defaultFactory = {};//object returned from factory
+
+	return defaultFactory;
+}
+
 }(window.jQuery || window.$, window.angular));

@@ -15,9 +15,6 @@ while ! mysqladmin ping -h"company-mysql-service" --silent; do
 done
 echo "company-mysql-service is running..."
 
-echo "Starting up mysql..."
-/etc/init.d/mysql start
-
 echo "updating sql_mode... (hack for Laravel)"
 mysql -h company-mysql-service -u root -p123 -se "SET GLOBAL sql_mode = 'ALLOW_INVALID_DATES';"
 
@@ -26,5 +23,14 @@ if [ -f "$APACHE_PID_FILE" ]; then
 	rm "$APACHE_PID_FILE"
 fi
 
+echo "Build the autoload file..."
+composer dump-autoload
+
+echo "Installing oauth keys..."
+php artisan passport:keys
+
+echo "Running db migrations..."
+php artisan --verbose migrate --seed
+
 echo "company-laravel-container is ready!"
-/usr/sbin/apache2ctl -D FOREGROUND
+php artisan serve --host=0.0.0.0 --port=80

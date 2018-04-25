@@ -19,20 +19,6 @@ RUN apt-get update && apt-get install -yq \
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - #
 RUN apt-get update && apt-get install -yq nodejs
 
-# install Ruby
-# add other dependencies
-RUN apt-get update && apt-get install -yq \
-	ruby \
-	ruby-dev \
-	ruby-bundler
-
-# Install compass
-RUN gem install --no-rdoc --no-ri compass
-
-# Install gem sass for grunt-contrib-sass
-# RUN apt-get install -y ruby
-RUN gem install --no-rdoc --no-ri sass -v 3.4.23
-
 # Install Helpful Node Packages Globally
 RUN npm install --quiet -g gulp bower jshint
 

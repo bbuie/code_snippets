@@ -6,4 +6,4 @@ echo "Modifying user (hack for mac)..."
 usermod -u 1000 www-data #a hack for macs
 
 echo "company-node-container is ready!"
-npm run watch
+npm run watch-poll

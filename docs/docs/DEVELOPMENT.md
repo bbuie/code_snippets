@@ -100,22 +100,19 @@
 1. Add "Steps to go live" to the original issue/card/ticket if going live requires running a migration or other steps not easily apparent
 1. Request a review from the developer lead
 
-### Step To Create Release (continuous deployment)
+### Steps to Create Release (continuous deployment)
 
-1. Open terminal on your local machine
-1. Checkout and update the master branch (e.g 'git checkout master; git pull origin master;)
-1. Create a release branch off `master` (e.g. `git checkout -b release1.0.0`)
-1. Bump the release number in the changelog and add notes
-    - Notes should include a list of all issue numbers and links to those issues
+1. Review all "Going live" steps for issues eligible in the release
 1. Backup the database to the release branch (if migration is needed)
     - Make sure to test the full build to make sure the new database didn't break the local environment
-1. Commit all release changes
-1. Push the release branch to the origin (e.g. `git push origin release1.0.0`)
-1. Create pull requests for all changes going to be released and merge them
-1. Create a pull request for release branch into develop and master
-1. Merge release branch back into master
-1. Tag the release number (e.g. `git tag v1.0.0` and `git push origin --tags`)
-1. Deploy the master branch
+1. Merge all feature branches into master
+1. Create a release here: [Releases](./CHANGELOG.md)
+    1. Determine the new release number; e.g. `v1.0.0`
+    1. Target the master branch
+    1. Put links to issue numbers in the release notes
+1. Deploy changes to production:
+    1. [These steps will vary]
+1. Merge master back into develop
 1. Alter the involved parties of the release on the issue
 1. Move/label the issue appropriately
 
@@ -124,4 +121,5 @@
 It is important that you write your code in a cost effective way that makes it easy to understand, update, and maintain. The following are some principles you should keep in mind:
 
 - Here are [general code requirements](https://github.com/bbuie/code_snipits/wiki/Common-Code-Requirements).
-- Angular code should follow [this angular style guide](https://github.com/johnpapa/angular-styleguide)
+- Angular code should follow [this angular style guide](https://github.com/johnpapa/angular-styleguide).
+- API responses should match the [JSON API format](http://jsonapi.org/format/).

@@ -18,8 +18,7 @@ services:
       - composer:/var/www/html/vendor
       - node_modules:/var/www/html/node_modules
     ports:
-      - "8080:8080"
-    # restart: always
+      - "3000:3000"
     networks:
       - default
 
@@ -39,7 +38,6 @@ services:
       - composer:/var/www/html/vendor
     ports:
       - "8000:8000"
-    # restart: always
     networks:
       - default
 
@@ -52,6 +50,7 @@ services:
     entrypoint: /var/www/docker/laravel/start.sh
     depends_on:
       - company-mysql-service
+      - company-node-service
     environment:
       DB_HOST: bl-mysql-service
       DB_DATABASE: docker
@@ -60,9 +59,9 @@ services:
     volumes:
       - ./:/var/www/html
       - composer:/var/www/html/vendor
+      - node_modules:/var/www/html/node_modules
     ports:
       - "80:80"
-    # restart: always
     networks:
       - default
 
@@ -98,7 +97,6 @@ services:
     # volumes:
     #   - "./.data/db:/var/lib/mysql"
     environment:
-      # MYSQL_DATABASE: company
       MYSQL_ROOT_PASSWORD: docker
     ports:
       - "3306:3306"

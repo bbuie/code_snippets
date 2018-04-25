@@ -16,28 +16,38 @@ Using docker for local development is a bit of a paradigm shift. The most import
 
 ##Before you begin:
 
-Make sure you're ready to take notes of any and all issues you have. If you have to do anything outside of the steps below, we need to note them here for future developers.
+- Make sure you're ready to take notes of any and all issues you have. If you have to do anything outside of the steps below, we need to note them here for future developers.
+- If you have to do anything outside of the steps below, we need to note them here for future developers.
+- Ask questions! If you run into a roadblock, ask for help.
 
 ##Setup Steps:
 
-1. Install [GIT](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine if you don't already have it
+1. Install GIT on your local machine if you don't already have it
 1. Download the code to your local machine
     1. Clone this repository to your computer
-        1. Create a folder (e.g. local_folder_name) in your user directory
-            - Note: especially for windows users, it is very important that the folder is in your computer's USER directory!
-        1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/www/local_folder_name/`)
+        1. Create a folder (e.g. local_folder_name) in `your_user_folder` directory
+            - Note: especially for windows OS, it is very important that the folder is in your computer's USER directory!
+        1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/local_folder_name/`)
         1. run `git clone git_base_repo_link .`
     1. Download other code that may be needed
         1. Some local environment setups require multiple codebases. If this is the case for this code base, you'll find more steps below under the header "Steps to download code unique to this repository". Follow these steps now.
-1. Install [Docker Toolbox](https://docs.docker.com/engine/installation/)
-    - Note: these instructions are written assuming you have Docker "Toolbox" for your operating system and not Docker "CE" or "EE"
-    - Make sure to install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
+1. Install docker
+    - *MacOS/Windows*
+        - Install [Docker Toolbox](https://docs.docker.com/engine/installation/)
+        - Note: these instructions are written assuming you have Docker "Toolbox" for your operating system and not Docker "CE" or "EE"
+        - Note: you'll need to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
+    - *Linux*
+        - Install docker and docker-compose.
+        - Allow docker root permissions if asked.
+        - Add docker to your startup applications
 1. Open the "Docker Quickstart Terminal"
     - You should see a docker whale at the top of the terminal where you can type commands
         - Note: you may want to note your docker machine's IP address (e.g. 192.168.99.100)
     - Navigate your computers file system to the cloned repository folder (created above) (e.g. `cd your_user_folder/local_folder_name/`)
+    - Note: Linux doesn't use docker's quick terminal, instead use docker exec to run commands on the containers.
 1. Magically create all the docker containers needed to run the code
     - In the quick start terminal run `docker-compose up`
+        - Note Linux users: docker needs root access to run properly. If you get an error try to run `sudo docker-compose up`
     - You should expect it print a lot to the console while it...
         1. builds your docker services (and by extension your images)
         1. starts your containers

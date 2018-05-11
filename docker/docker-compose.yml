@@ -52,7 +52,7 @@ services:
       - company-mysql-service
       - company-node-service
     environment:
-      DB_HOST: bl-mysql-service
+      DB_HOST: company-mysql-service
       DB_DATABASE: docker
       DB_USERNAME: root
       DB_PASSWORD: docker

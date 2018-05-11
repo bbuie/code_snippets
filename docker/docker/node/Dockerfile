@@ -1,39 +1,57 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Buink Web Development <online@buink.biz>
 
-# update linux
-RUN apt-get update
+# set ubuntu front-end for remote work
+ENV DEBIAN_FRONTEND noninteractive
 
-# Set locale
+# use Google's Public DNS to resolve dns lookups: bug fix for "Failed to fetch...archive.ubuntu.com...404 Bad Request"
+RUN echo nameserver 8.8.8.8 > /etc/resolv.conf
+RUN echo nameserver 8.8.8.4 > /etc/resolv.conf
+
+# set a US archive location, bug fix for "Failed to fetch...archive.ubuntu.com...404 Bad Request"
+# RUN sed -i "s/archive.ubuntu.com/us.archive.ubuntu.com/" /etc/apt/sources.list
+
+# set locale
+RUN apt-get update && apt-get install -yq locales
 RUN locale-gen en_US.UTF-8 \
-  && export LANG=en_US.UTF-8
+    && export LANG=en_US.UTF-8
 
-# add important linux tools
+# add foundational linux packages
 RUN apt-get update && apt-get install -yq \
-	git-core \
-	vim \
-	curl \
-	build-essential
+    git-core \
+    vim \
+    curl \
+    wget
 
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - #
+# add node specific linux packages
+RUN apt-get update && apt-get install -yq \
+    build-essential
+
+# install servers: node
+RUN curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
+RUN bash nodesource_setup.sh
 RUN apt-get update && apt-get install -yq nodejs
 
-# Install Helpful Node Packages Globally
-RUN npm install --quiet -g gulp bower jshint
+# install global node packages
+RUN npm install --quiet -g jshint
 
 # set work directory
 WORKDIR /var/www/html
 
-# Install npm packages
+# add linux packages needed for npm install
+RUN apt-get update && apt-get install -yq \
+   autoconf \
+   libpng-dev
+
+# install all node packages
 ADD ./package.json /var/www/html/package.json
 RUN npm install --quiet
 
-# Add start file to new environment
+# add start file to new environment
 COPY ./docker/node/start.sh /var/www/docker/node/start.sh
 RUN sed -i 's/\r//' /var/www/docker/node/start.sh # Modify the executable to have the linux line endings
 RUN chmod u+x /var/www/docker/node/start.sh # Give permissions to run executable
 
-# Machine cleanup
-RUN npm cache clean
+# clean up machine
+RUN npm cache clean --force
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

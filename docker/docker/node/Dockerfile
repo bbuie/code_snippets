@@ -8,9 +8,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo nameserver 8.8.8.8 > /etc/resolv.conf
 RUN echo nameserver 8.8.8.4 > /etc/resolv.conf
 
-# set a US archive location, bug fix for "Failed to fetch...archive.ubuntu.com...404 Bad Request"
-# RUN sed -i "s/archive.ubuntu.com/us.archive.ubuntu.com/" /etc/apt/sources.list
-
 # set locale
 RUN apt-get update && apt-get install -yq locales
 RUN locale-gen en_US.UTF-8 \

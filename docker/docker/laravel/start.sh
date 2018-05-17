@@ -10,17 +10,14 @@ cp -n /var/www/html/docker/laravel/.env.docker /var/www/html/.env
 
 echo "Waiting for company-mysql-service..."
 while ! mysqladmin ping -h"company-mysql-service" --silent; do
-	echo "Waiting for company-mysql-service"
+    echo "Waiting for company-mysql-service"
     sleep 1
 done
 echo "company-mysql-service is running..."
 
-echo "updating sql_mode... (hack for Laravel)"
-mysql -h company-mysql-service -u root -p123 -se "SET GLOBAL sql_mode = 'ALLOW_INVALID_DATES';"
-
 echo "Deleting existing apache pid if present..."
 if [ -f "$APACHE_PID_FILE" ]; then
-	rm "$APACHE_PID_FILE"
+    rm "$APACHE_PID_FILE"
 fi
 
 echo "Build the autoload file..."

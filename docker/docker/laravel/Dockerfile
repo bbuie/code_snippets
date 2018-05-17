@@ -8,9 +8,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo nameserver 8.8.8.8 > /etc/resolv.conf
 RUN echo nameserver 8.8.8.4 > /etc/resolv.conf
 
-# set a US archive location, bug fix for "Failed to fetch...archive.ubuntu.com...404 Bad Request"
-# RUN sed -i "s/archive.ubuntu.com/us.archive.ubuntu.com/" /etc/apt/sources.list
-
 # set locale
 RUN apt-get update && apt-get install -yq locales
 RUN locale-gen en_US.UTF-8 \
@@ -45,6 +42,7 @@ RUN apt-get update && apt-get install -yq \
 	php7.1-gd \
 	php7.1-opcache \
 	php7.1-mbstring \
+	php7.1-mysql \
 	libapache2-mod-php7.1
 
 # instal linux packages required by composer
@@ -76,7 +74,7 @@ WORKDIR /var/www/html
 
 # install composer packages
 COPY ./composer.json /var/www/html/composer.json
-# COPY ./composer.lock /var/www/html/composer.lock
+COPY ./composer.lock /var/www/html/composer.lock
 RUN composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 
 # add start file to new environment

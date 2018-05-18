@@ -14,7 +14,7 @@ class OauthClientsSeeder extends Seeder
     {
         DB::table('oauth_clients')->insert([
             'name' => 'App Front End',
-            'secret' => 'v3aFn6P6NpEEd18sLxBU6AHzWwaCgBsG9iRqVEvz',
+            'secret' => 'SfUriDYNPVejrGckqC0OIWHoWKHTJwGIl9G5D9TD',
             'redirect' => 'http://192.168.99.100',
             'personal_access_client' => 0,
             'password_client' => 1,

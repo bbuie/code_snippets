@@ -1,0 +1,7 @@
+.loading-spinner {
+    @import "~vue_root/scss/_variables.scss";
+    text-align: center;
+    .fa-circle-o-notch {
+        font-size: 48px;
+    }
+}

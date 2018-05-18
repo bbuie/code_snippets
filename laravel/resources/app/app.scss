@@ -1,0 +1,9 @@
+@import "~vue_root/scss/_variables.scss";
+
+// Bootstrap
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap-vue/dist/bootstrap-vue";
+
+#vueApp {
+    .vueOnePage {}
+}

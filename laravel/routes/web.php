@@ -11,12 +11,28 @@
 |
 */
 
-// authentication routes
-Route::put('/create-account', 'Auth\RegisterController@register');
-Route::post('/login', 'Auth\LoginController@login');
-Route::post('/login/refresh', 'Auth\LoginController@refresh');
-Route::post('/forgot-password', 'Auth\ForgotPasswordController@requestReset');
-Route::post('/reset-password', 'Auth\ResetPasswordController@resetPassword');
+// user authentication routes
+Route::group(['prefix' => 'user'], function(){
+
+    // PUT:/user/register
+    Route::put('/register', 'Api\Guest\User\RegisterController@register');
+
+    // /user/login
+    Route::group(['prefix' => 'login'], function(){
+
+        // POST:/user/login
+        Route::post('/', 'Api\Guest\User\LoginController@login');
+        // POST:/user/login/refresh
+        Route::post('/refresh', 'Api\Guest\User\LoginController@refresh');
+    });
+
+    // POST: /user/forgot-password
+    Route::post('forgot-password', 'Api\Guest\User\ForgotPasswordController@requestReset');
+    // POST: /user/reset
+    Route::post('reset', 'Api\Guest\User\ResetPasswordController@resetPassword');
+    // N/A
+    Route::post('reset-password')->name('password.reset'); //this is a dummy route. It's only purpose is to tell the laravel password reset functionality where the front-end route is it should include in the reset email.
+});
 
 // main route returned from the server
 Route::get('/{vue_paths?}', function(){

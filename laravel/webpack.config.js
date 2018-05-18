@@ -1,17 +1,17 @@
 var path = require('path');
 var webpack = require('webpack');
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 let BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var EslintFriendlyFormatter = require('eslint-friendly-formatter');
 var AutoPrefixer = require('autoprefixer');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
 var files = getFilePaths();
 var extractScss = new ExtractTextPlugin(files.css.build);
 
 module.exports = {
     context: files.context.base,
-    entry: getEntry(),
+    entry: files.js.src,
     output: getOutput(),
     module: getModule(),
     devtool: getDevtool(),
@@ -27,45 +27,36 @@ function getFilePaths(){
     return {
         context: {
             base: path.resolve(__dirname, './'),
-            src: path.resolve(__dirname, './resources/app'),
             build: path.resolve(__dirname, './public'),
             node_modules: path.resolve(__dirname, './node_modules'),
         },
         js: {
             src: path.resolve(__dirname, './resources/app/app.js'),
-            build: path.resolve(__dirname, './public/js/app.js'),
+            build: 'js/app.js',
         },
         css: {
             src: path.resolve(__dirname, './resources/app/app.scss'),
-            build: '/css/app.css',
+            build: 'css/app.css',
         },
-    }
-}
-function getEntry(){
-    return {
-        '/js/app': [
-            files.js.src,
-            files.css.src
-        ]
     }
 }
 function getOutput(){
     return {
         path: files.context.build,
-        filename: '[name].js',
-        chunkFilename: '[name].js',
-        publicPath: ''
+        publicPath: '',
+        filename: files.js.build,
     }
 }
 function getModule(){
     return {
         rules: [
             getJsRule(),
+            getMainStyleFileRule(),
+            getCssRule(),
             getSassRule(),
             getHtmlRule(),
             getImageRule(),
             getFontRule(),
-            getMainStyleFileRule(),
             getVueEslintRule(),
             getVueRule(),
         ]
@@ -114,6 +105,13 @@ function getModule(){
                     }
                 ]
             ],
+        }
+    }
+    function getCssRule(){
+        return {
+            test: /\.css$/,
+            exclude: [],
+            loaders: ['style-loader', 'css-loader']
         }
     }
     function getSassRule(){
@@ -165,7 +163,7 @@ function getModule(){
     }
     function getFontRule(){
         return {
-            test: /\.(woff2?|ttf|eot|svg|otf)$/,
+            test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
             loader: 'file-loader',
             options: {
                 name: function(path){
@@ -283,7 +281,6 @@ function getResolve(){
         extensions: ['*', '.js', '.jsx', '.vue'],
         alias: {
             'vue$': 'vue/dist/vue.common.js',
-            global: path.resolve(__dirname, './resources/app/global'),
             vue_root: path.resolve(__dirname, './resources/app')
         }
     }

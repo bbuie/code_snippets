@@ -17,8 +17,8 @@ class UsersTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         $admin = [
-            'email' => 'testUserGirona@buink.biz',
-            'password' => bcrypt('girona'),
+            'email' => 'testApp@buink.biz',
+            'password' => bcrypt('buinkinc'),
             'name' => 'Test User',
         ];
 

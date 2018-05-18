@@ -1,0 +1,27 @@
+
+// Body
+$body-color: grey;
+$body-bg: white;
+
+/*
+    breakpoint variables
+    usage: @media #{insert_breakpoint_variable} {}
+*/
+$widthPhone: 320px;
+$widthPhoneLandscape: 480px;
+$widthTablet: 768px;
+$widthTabletLandscape: 992px;
+$widthDesktop: 1200px;
+$widthDesktopWide: 1400px;
+$breakpointPhoneMax: "only screen and (max-width : $widthPhone)";
+$breakpointPhoneLandscapeMax: "only screen and (max-width : $widthPhoneLandscape)";
+$breakpointTabletMax: "only screen and (max-width : $widthTablet)";
+$breakpointTabletLandscapeMax: "only screen and (max-width : $widthTabletLandscape)";
+$breakpointDesktopMax: "only screen and (max-width : $widthDesktopWide)";
+$breakpointDesktopWideMax: "only screen and (max-width : $widthDesktopWide)";
+$breakpointPhoneMin: "only screen and (min-width : $widthPhone)";
+$breakpointPhoneLandscapeMin: "only screen and (min-width : $widthPhoneLandscape)";
+$breakpointTabletMin: "only screen and (min-width : $widthTablet)";
+$breakpointTabletLandscapeMin: "only screen and (min-width : $widthTabletLandscape)";
+$breakpointDesktopMin: "only screen and (min-width : $widthDesktopWide)";
+$breakpointDesktopWideMin: "only screen and (min-width : $widthDesktopWide)";

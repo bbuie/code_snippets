@@ -8,10 +8,10 @@ Using docker for local development is a bit of a paradigm shift. The most import
 
 - git_base_repo_link: [insert repo link]
 - local_folder_name: [insert folder name] - We recommend you create a folder *in your USER folder* with this name
-- docker_image_names: company-type-image
-- docker_container_names: company-type-container
-- docker_service_names: company-type-service
-- local_development_url:  [http://192.168.99.100:3000/](http://192.168.99.100:3000/)
+- docker_image_names: see [docker-compose.yml](../docker-compose.yml)
+- docker_container_names: see [docker-compose.yml](../docker-compose.yml)
+- docker_service_names: see [docker-compose.yml](../docker-compose.yml)
+- local_development_url:  [http://192.168.99.100/](http://192.168.99.100/)
 - containers_finished_running_string: "[docker_container_names] is running!"
 
 ##Before you begin:
@@ -46,16 +46,18 @@ Using docker for local development is a bit of a paradigm shift. The most import
     - Navigate your computers file system to the cloned repository folder (created above) (e.g. `cd your_user_folder/local_folder_name/`)
     - Note: Linux doesn't use docker's quick terminal, instead use docker exec to run commands on the containers.
 1. Magically create all the docker containers needed to run the code
-    - In the quick start terminal run `docker-compose up`
-        - Note Linux users: docker needs root access to run properly. If you get an error try to run `sudo docker-compose up`
+    - In the quick start terminal run `docker-compose up --build`
+        - Note Linux users: docker needs root access to run properly. If you get an error try to run `sudo docker-compose up --build`
     - You should expect it print a lot to the console while it...
         1. builds your docker services (and by extension your images)
         1. starts your containers
         1. runs the entrypoint files for all services
+    - Don't wait around, this takes a while so go do something else productive
+        - Note: you may see some warnings and even some errors (hopefully not errors) but as long as you don't see a container exit, then you're probably in good shape.
     - Containers are not ready till you see your containers_finished_running_string (see above)
         - You may have to search this string in your console from time to time just to make sure it is done
         - If you ever see a string similar to "docker_container_names exited with code 0" then something went wrong
-1. View your site's web address
+1. View your site's local_development_url
     1. Open Google Chrome (or another web browser)
     1. Visit your local_development_url
     1. Expect to see a login form
@@ -72,26 +74,3 @@ Using docker for local development is a bit of a paradigm shift. The most import
 
 1. For trouble shooting docker see this [troubleshooting guide](https://github.com/bbuie/code_snipits/wiki/Docker-Trouble-Shooting)
     - You'll need to note some of the setup definitions noted above
-
-##Helpful docker commands
-
-- `docker-compose up --build`
-    - Rebuild all services in the docker-compose.yml file
-- `docker-compose down`
-    - Shut down all services in the docker-compose.yml file
-- `docker-compose down; docker-compose up --build`
-    - Totally rebuild all services in the docker-compose.yml file. This usually triggers a database re-build as well, although I'm not sure why.
-- `docker exec -it [docker_container_names] bash`
-    - Connect to a running container
-    - Note, the container must be running!
-- `docker run --rm -it [docker_image_names]`
-    - Connect to an image
-- `docker-machine restart`
-    - Restart the default docker machine
-    - This is helpful for resetting networks and otherwise refreshing stuff
-- `docker rmi $(docker images -a --filter=dangling=true -q)`
-    - Clean up all dangling (unused) docker images
-- `docker rm $(docker ps --filter=status=exited --filter=status=created -q)`
-    - Clean up all exited containers
-- `docker volume rm $(docker volume ls -q -f dangling=true)`
-    - Clean up all dangling (unused) volumes

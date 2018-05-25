@@ -24,7 +24,7 @@ define('NONCE_SALT',       '{&F}Wa/ z.!*F;`OH>6F()^8o>~qX_o{jdEAXxT,,+Ex|kb)k~/o
 
 define('WP_SITEURL', 'http://192.168.99.100/');
 define('WP_HOME', 'http://192.168.99.100/');
-define('WP_DEFAULT_THEME', 'company');
+define('WP_DEFAULT_THEME', 'blankwp');
 define('WP_POST_REVISIONS', false );
 define('DISALLOW_FILE_EDIT',true);
 define( 'JETPACK_DEV_DEBUG', true);

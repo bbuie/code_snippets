@@ -30,7 +30,7 @@ RUN bash nodesource_setup.sh
 RUN apt-get update && apt-get install -yq nodejs
 
 # install global node packages
-RUN npm install --quiet -g jshint
+RUN npm install --quiet -g gulp jshint
 
 # set work directory
 WORKDIR /var/www/html

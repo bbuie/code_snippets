@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Guest\User\Services\PasswordGrantLogin;
 use App\Http\Controllers\Api\Guest\User\Services\InputValidator;
+use App\Models\User;
 
 class LoginController extends Controller{
 
@@ -27,7 +28,11 @@ class LoginController extends Controller{
         $email =  $payload['email'];
         $password = $payload['password'];
         $token = $loginController->passwordGrantLogin->attemptLogin($email, $password);
-        return response()->json($token, 200);
+        $user = User::where('email', $email)->first();
+        $response = new \stdclass;
+        $response->user = $user;
+        $response->token = $token;
+        return response()->json($response, 200);
     }
     public function refresh(Request $request){
         $loginController = $this;

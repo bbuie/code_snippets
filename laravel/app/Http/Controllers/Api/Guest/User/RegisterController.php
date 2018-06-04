@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Guest\User\Services\PasswordGrantLogin;
 use App\Http\Controllers\Api\Guest\User\Services\InputValidator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Account;
 
 class RegisterController extends Controller {
 
@@ -33,12 +34,18 @@ class RegisterController extends Controller {
             $email = $payload['email'];
             $password = $payload['password'];
             $token = $registerController->passwordGrantLogin->attemptLogin($email, $password);
+            $account = new Account;
+            $user->accounts()->save($account);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
             throw $exception;
         }
 
-        return response()->json($token, 201);
+        $response = new \stdclass;
+        $response->user = $user;
+        $response->token = $token;
+
+        return response()->json($response, 201);
     }
 }

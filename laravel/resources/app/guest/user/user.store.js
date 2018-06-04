@@ -65,8 +65,9 @@ function getMutations(){
 
     function setAuthenticationAndUser(state, payload, other){
 
-        localStorage.setItem('access_token', payload.access_token);
+        localStorage.setItem('access_token', payload.token.access_token);
         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
+        state.user = payload.user;
         state.hasAccessToken = true;
     }
     function destroyToken(router){

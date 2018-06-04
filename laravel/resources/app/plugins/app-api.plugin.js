@@ -69,12 +69,18 @@ function appApi(){
             function authorized(){
 
                 return {
-                    getUser: getUser
+                    getUser: getUser,
+                    checkAccountAccess: checkAccountAccess,
                 };
 
                 // Vue.appApi().authorized().getUser()
                 function getUser(){
                     return appHttp.get(`/api/v1/get-user`);
+                }
+
+                // Vue.appApi().authorized().checkAccountAccess()
+                function checkAccountAccess(){
+                    return appHttp.get(`/api/v1/account/test`);
                 }
             }
         }
@@ -84,6 +90,10 @@ function appApi(){
 
             if(access_token !== null){
                 config.headers['Authorization'] = 'Bearer ' + access_token;
+            }
+
+            if(store.state.guest.user.user && store.state.guest.user.user.current_account && store.state.guest.user.user.current_account.id){
+                config.headers['current_account_id'] = store.state.guest.user.user.current_account.id;
             }
 
             return config;

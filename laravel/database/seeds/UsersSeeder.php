@@ -16,12 +16,12 @@ class UsersTableSeeder extends Seeder
         User::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        $admin = [
+        $testUser = [
             'email' => 'testApp@buink.biz',
             'password' => bcrypt('buinkinc'),
             'name' => 'Test User',
         ];
 
-        User::create($admin);
+        User::create($testUser);
     }
 }

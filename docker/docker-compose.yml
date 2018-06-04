@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  company-node-service:
+  node-service:
     container_name: company-node-container
     image: company-node-image
     build:
@@ -10,12 +10,11 @@ services:
       dockerfile: ./docker/node/Dockerfile
     entrypoint: /var/www/docker/node/start.sh
     depends_on:
-      - company-mysql-service
+      - mysql-service
     environment:
       SOME_VARIABLE: some_variable_string
     volumes:
       - ./:/var/www/html
-      - composer:/var/www/html/vendor
       - node_modules:/var/www/html/node_modules
     ports:
       - "3000:3000"
@@ -30,7 +29,7 @@ services:
       dockerfile: ./docker/php/Dockerfile
     entrypoint: /var/www/docker/php/start.sh
     depends_on:
-      - company-mysql-service
+      - mysql-service
     environment:
       SOME_VARIABLE: some_variable_string
     volumes:
@@ -41,7 +40,7 @@ services:
     networks:
       - default
 
-  company-laravel-service:
+  laravel-service:
     container_name: company-laravel-container
     image: company-laravel-image
     build:
@@ -49,10 +48,10 @@ services:
       dockerfile: ./docker/laravel/Dockerfile
     entrypoint: /var/www/docker/laravel/start.sh
     depends_on:
-      - company-mysql-service
-      - company-node-service
+      - mysql-service
+      - node-service
     environment:
-      DB_HOST: company-mysql-service
+      DB_HOST: mysql-service
       DB_DATABASE: docker
       DB_USERNAME: root
       DB_PASSWORD: docker
@@ -65,7 +64,7 @@ services:
     networks:
       - default
 
-  company-wordpress-service:
+  wordpress-service:
     container_name: company-wordpress-container
     image: company-wordpress-image
     build:
@@ -73,10 +72,10 @@ services:
       dockerfile: ./docker/wordpress/Dockerfile
     entrypoint: /var/www/docker/wordpress/start.sh
     depends_on:
-      - company-mysql-service
+      - mysql-service
     environment:
-      DB_HOST: company-mysql-service:3306
-      DB_NAME: company-mysql
+      DB_HOST: mysql-service:3306
+      DB_NAME: docker
       DB_USER: root
       DB_PASSWORD: docker
     volumes:
@@ -84,18 +83,15 @@ services:
       - composer:/var/www/html/vendor
     ports:
       - "80:80"
-      - "3000:3000"
     networks:
       - default
 
-  company-mysql-service:
+  mysql-service:
     container_name: company-mysql-container
     image: company-mysql-image
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
-    # volumes:
-    #   - "./.data/db:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: docker
     ports:

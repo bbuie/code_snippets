@@ -6,7 +6,7 @@ echo "Modifying user (hack for mac)..."
 usermod -u 1000 www-data #a hack for macs
 
 echo "Waiting for mysql-service..."
-while ! mysqladmin ping -h"company-mysql-service" --silent; do
+while ! mysqladmin ping -h"mysql-service" --silent; do
 	echo "Waiting for mysql-service"
     sleep 1
 done
@@ -16,7 +16,7 @@ echo "Starting up mysql..."
 /etc/init.d/mysql start
 
 echo "updating sql_mode... (hack for Laravel)"
-mysql -h company-mysql-service -u root -p123 -se "SET GLOBAL sql_mode = 'ALLOW_INVALID_DATES';"
+mysql -h mysql-service -u root -p123 -se "SET GLOBAL sql_mode = 'ALLOW_INVALID_DATES';"
 
 echo "Deleting existing apache pid if present..."
 if [ -f "$APACHE_PID_FILE" ]; then

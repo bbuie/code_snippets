@@ -6,7 +6,7 @@ echo "Running wordpress-container's entrypoint file..."
 usermod -u 1000 www-data #a hack for macs
 
 echo "Waiting for mysql-service..."
-while ! mysqladmin ping -h"company-mysql-service" --silent; do
+while ! mysqladmin ping -h"mysql-service" --silent; do
 	echo "Still waiting for mysql-service..."
     sleep 1
 done

@@ -1,8 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "buink_test_app",
+    "description": "Buink Test App",
     "type": "project",
     "require": {
         "php": "^7.1.3",

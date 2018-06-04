@@ -16,9 +16,15 @@ use Illuminate\Http\Request;
 # v1.0 API
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
 
-    // /api/v1/logout
+    // /api/v1/get-user
     Route::get('/get-user', 'Api\Authorized\UserController@getUser');
 
     // /api/v1/logout
     Route::post('/logout', 'Api\Guest\User\LoginController@logout');
+
+    // /user/login
+    Route::group(['prefix' => 'account', 'middleware' => 'check-account'], function(){
+
+        Route::get('/test', 'Api\Authorized\UserController@checkAccountAccess');
+    });
 });

@@ -46,7 +46,7 @@ Using docker for local development is a bit of a paradigm shift. The most import
     - Navigate your computers file system to the cloned repository folder (created above) (e.g. `cd your_user_folder/local_folder_name/`)
     - Note: Linux doesn't use docker's quick terminal, instead use docker exec to run commands on the containers.
 1. Magically create all the docker containers needed to run the code
-    - In the quick start terminal run `docker-compose up --build`
+    - In the quick start terminal run `docker-compose down -v docker-compose up --build`
         - Note Linux users: docker needs root access to run properly. If you get an error try to run `sudo docker-compose up --build`
     - You should expect it print a lot to the console while it...
         1. builds your docker services (and by extension your images)

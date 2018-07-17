@@ -27,6 +27,7 @@
     - Provide a summary of the work you completed in the description of the pull request
 1. If there are merge conflicts fix them
     - IMPORTANT: Merge conflicts must result in a conversation with the developer who wrote the conflicting code
+    - IMPORTANT: Merge conflicts present the hazard of loosing code or introducing bugs. There is also the hazard of leaving code in the codebase that is no longer in use. Please take extra care to avoid these hazards.
 1. Review the "diff" of your code
     - Both popular repository websites (Github & Bitbucket) provide the ability to review and comment on your code changes
     - Make sure all changes are needed and wanted
@@ -86,6 +87,7 @@
         - merge in your feature branch to your DEV branch (e.g. `git checkout DEV-999-example-name; git merge 999-example-name`)
         - IMPORTANT: All branches that are based on the develop branch, or have develop merged in, need a DEV prefix in their name!!
     1. In all cases, merge conflicts must result in a conversation with the developer who wrote the conflicting code
+    1. Merge conflicts present the hazard of loosing code or introducing bugs. There is also the hazard of leaving code in the codebase that is no longer in use. Please take extra care to avoid these hazards.
 1. Review the "diff" of your code
     - Both popular repository websites (Github & Bitbucket) provide the ability to review and comment on your code changes
     - Make sure all changes are needed and wanted

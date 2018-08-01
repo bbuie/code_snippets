@@ -1,0 +1,22 @@
+build:
+  version: 2016-03-14 # version of the build schema.
+  steps:
+    node-service:
+      name: company-node-image
+      dockerfile: ./docker/node/Dockerfile
+    laravel-service:
+      name: company-laravel-image
+      dockerfile: ./docker/laravel/Dockerfile
+      depends_on:
+        - node-service
+    node-production-service:
+      name: company-node-production-image
+      dockerfile: ./docker/node/production/Dockerfile
+      no_cache: true
+      depends_on:
+        - laravel-service
+    laravel-production-service:
+      name: company-laravel-production-image
+      dockerfile: ./docker/laravel/production/Dockerfile
+      depends_on:
+        - node-production-service

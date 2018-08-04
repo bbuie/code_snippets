@@ -92,6 +92,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
+    # volumes:
+    #   - "./.data/db:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: docker
     ports:

@@ -1,0 +1,3 @@
+- name: run_production_build
+  service: laravel-service
+  command: npm run production

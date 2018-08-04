@@ -1,0 +1,19 @@
+# Cloud66 service settings
+version: 2
+services:
+  laravel-service:
+    git_url: insert_git_repo_url
+    git_branch: master
+    ports:
+    - 80:80
+    dockerfile_path: docker/laravel/Dockerfile
+    command: "/var/www/docker/laravel/production/start.sh"
+    use_habitus: true
+    use_habitus_step: laravel-production-service
+    health:
+      ready:
+        type: http
+        endpoint: "/"
+        protocol: http
+        timeout: 300
+        initial_delay: 2

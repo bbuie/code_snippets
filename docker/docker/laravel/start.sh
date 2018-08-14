@@ -10,7 +10,7 @@ cp -n /var/www/html/docker/laravel/.env.docker /var/www/html/.env
 
 echo "Waiting for mysql-service..."
 while ! mysqladmin ping -h"mysql-service" --silent; do
-    echo "Waiting for mysql-service"
+    echo "Waiting for mysql-service..."
     sleep 1
 done
 echo "mysql-service is running..."

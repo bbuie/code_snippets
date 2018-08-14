@@ -86,6 +86,20 @@ services:
     networks:
       - default
 
+  ruby-service:
+    container_name: company-ruby-container
+    image: company-ruby-image
+    build:
+      context: .
+      dockerfile: ./docker/ruby/Dockerfile
+    command: compass watch --poll
+    volumes:
+      - ./:/var/www/html
+    # depends_on:
+    #   - laravel-service
+    networks:
+      - default
+
   mysql-service:
     container_name: company-mysql-container
     image: company-mysql-image

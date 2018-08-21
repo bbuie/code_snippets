@@ -1,0 +1,37 @@
+version: '2'
+services:
+  node-service:
+    build:
+      image: dym-node-image
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/node_modules
+    cached: true
+
+  laravel-service:
+    build:
+      image: dym-laravel-image
+      context: .
+      dockerfile: ./docker/laravel/Dockerfile
+    depends_on:
+      - mysql-service
+      - node-service
+    environment:
+      DB_HOST: mysql-service
+      DB_DATABASE: docker
+      DB_USERNAME: root
+      DB_PASSWORD: docker
+    volumes_from:
+      - node-service
+    cached: true
+
+  mysql-service:
+    build:
+      image: dym-mysql-image
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+    cached: true

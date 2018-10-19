@@ -61,10 +61,10 @@ Password: wpadmin
 ### Branching model (continuous deployment)
 
 1. Always branch new features off the `master` branch (`git checkout -b feature_branch_name`)
-    - feature_branch_name should start with the issue number and be as short as possible (e.g. 999-example-name)
-    - Important: each ticket number should only have one branch and all related changes should be kept on it
-    - Important: it is helpful to make a note of the branch name on the issue/card/ticket
-1. Commit your changes to the feature branch using the ticket number (e.g. `#999 - added some stuff for new feature`)
+    - feature_branch_name should start with the issue/ticket/card number and be as short as possible (e.g. 999-example-name)
+    - IMPORTANT: each issue/ticket/card should only have one branch and all related changes should be kept on it
+    - IMPORTANT: it is helpful to make a note of the branch name on the issue/ticket/card
+1. Commit your changes to the feature branch using the issue/ticket/card number (e.g. `#999 - added some stuff for new feature`)
     - Always include the issue number at the beginning of the commit message (`git commit -m '#999 - added some stuff for new feature'`)
     - Before you commit your changes, please run a `git diff` to make sure that the changes you're comitting are in fact the changes you want to commit.
 1. Ensure that your branch has no linting errors
@@ -74,27 +74,26 @@ Password: wpadmin
     - The title of the pull request is important
         - The title of your pull request should include the issue number and the branch you're merging into (e.g. "999 to develop")
         - You may also want to include a short description of the issue (e.g. "999 to develop | insert_short_description_of_999")
-    - Include a link to the original card/ticket/issue
+    - Include a link to the original issue/ticket/card
     - Include a GIF of your changes if they affect what a users sees in a browser
         - Try to capture the user story of the issue in the GIF
         - If the user story is difficult to capture in just one GIF, then make two
         - Use [licecap](http://www.cockos.com/licecap/) if you need a good GIF software.
     - Provide a summary of the work you completed in the description of the pull request
 1. If there are merge conflicts...
+    1. Check that your branch is up to date with master
+        - Most of the time, conflicts can be fixed by merging in master and resolving conflicts there.
     1. Make your code dependent on the third party branch that is conflicting
         - Find the lines of code that are conflicting
             - The easiest way to do this is to TEMPORARILY merge the develop branch, check for conflicting lines, and then ABORT the merge (e.g. `git checkout develop; git pull origin develop; git checkout 999-example-name; git merge develop; git diff --check; git merge --abort`)
             - IMPORTANT: you should make sure you abort the merge otherwise merging the develop branch will cause big issues in the future
         - Use the blame feature of GIT to find both who's code yours is conflicting with and which branch it is related to
         - Then, you need to merge that branch into your branch and resolve the conflict
-        - IMPORTANT: make sure to note on the pull request that a conflict was resolved
+        - IMPORTANT: make sure to note on the issue/ticket/card that a conflict was resolved and that your branch is now dependent on another branch
         - IMPORTANT: it is very easy to make mistakes when resolving conflicts. Common mistakes include code being accidentally removed that was important or code that should have been removed being added back. For this reason, you should always talk to the developer who wrote the conflicting code.
     1. In rare cases where it is not possible to determine who's branch caused the conflict
-        - create a branch with a DEV prefix off develop (e.g. `git checkout develop; git checkout -b DEV-999-example-name`)
-        - merge in your feature branch to your DEV branch (e.g. `git checkout DEV-999-example-name; git merge 999-example-name`)
-        - IMPORTANT: All branches that are based on the develop branch, or have develop merged in, need a DEV prefix in their name!!
+        - contact the team's developer lead
     1. In all cases, merge conflicts must result in a conversation with the developer who wrote the conflicting code
-    1. Merge conflicts present the hazard of loosing code or introducing bugs. There is also the hazard of leaving code in the codebase that is no longer in use. Please take extra care to avoid these hazards.
 1. Review the "diff" of your code
     - Both popular repository websites (Github & Bitbucket) provide the ability to review and comment on your code changes
     - Make sure all changes are needed and wanted
@@ -103,10 +102,10 @@ Password: wpadmin
     - Clean up code
 1. If you haven't already, make sure there is an open pull request for this branch into develop
     - NOTE: each issue/ticket/card should usually have only one merge into master
-1. Add "Steps to QA" to the original issue/card/ticket so the reviewer can quickly know what changed and why
+1. Add "Steps to QA" to the original issue/ticket/card so the reviewer can quickly know what changed and why
     - Some issues already have these
     - These are only required if the changes are difficult or counterintuitive to test
-1. Add "Steps to go live" to the original issue/card/ticket if going live requires running a migration or other steps not easily apparent
+1. Add "Steps to go live" to the original issue/ticket/card if going live requires running a migration or other steps not easily apparent
 1. Request a review from the developer lead
 
 ### Steps to Create Release (continuous deployment)

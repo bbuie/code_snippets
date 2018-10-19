@@ -50,6 +50,11 @@ RUN apt-get update && apt-get install -yq \
 # Setup php dependencies
 RUN php5enmod mcrypt
 
+# add wp-cli
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN sudo mv wp-cli.phar /usr/local/bin/wp
+
 # setup apache
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data

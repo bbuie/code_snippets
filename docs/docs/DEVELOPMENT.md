@@ -2,6 +2,13 @@
 
 1. Use our [Docker Setup Steps](../docker/README.md) to run this repository locally
 
+### Developer user
+
+You can use the following credentials to login to the site locally:
+
+Username: wpadmin
+Password: wpadmin
+
 ### Branching model (release model)
 
 1. We use the branching model found here: http://nvie.com/posts/a-successful-git-branching-model/

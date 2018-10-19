@@ -22,7 +22,7 @@
         <app-message :type="'error'" :messages="apiErrors" @close="apiErrors = []"></app-message>
 
         <div class="pull-right">
-            <button class="btn btn-primary pull-right" title="Create Account at Tracking First" v-on:click="attemptRegisterUser(credentials)" v-show="!registeringUser">SIGNUP</button>
+            <button class="btn btn-primary pull-right" title="Create Account at Buink" v-on:click="attemptRegisterUser(credentials)" v-show="!registeringUser">SIGNUP</button>
             <span v-show="registeringUser"><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></span>
         </div>
 

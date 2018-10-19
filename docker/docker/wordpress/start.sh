@@ -15,6 +15,9 @@ echo "mysql-service is running..."
 echo "Copying wordpress config file if it isn't already present...."
 cp -n /var/www/html/docker/wordpress/wp-config.docker.php /var/www/html/wp-config.php
 
+echo "Adding user for local login..."
+wp user create wpadmin wpadmin@buink.biz --user_pass=wpadmin --role=administrator --allow-root
+
 echo "Deleting existing apache pid if present..."
 if [ -f "$APACHE_PID_FILE" ]; then
 	rm "$APACHE_PID_FILE"

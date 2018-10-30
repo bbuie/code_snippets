@@ -29,5 +29,14 @@ php artisan passport:keys
 echo "Running db migrations..."
 php artisan --verbose migrate --seed
 
+echo "Starting Cron"
+/etc/init.d/cron start
+
+echo "Starting redis-server..."
+service redis-server start
+
+echo "Starting queue listener..."
+php artisan queue:listen --tries=3 &
+
 echo "laravel-container is ready!"
 php artisan serve --host=0.0.0.0 --port=80

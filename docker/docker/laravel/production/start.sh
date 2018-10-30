@@ -37,6 +37,12 @@ if [ $? = 1 ]; then # if migrations failed
 fi
 echo "Migrations succeeded"
 
+echo "Starting Cron"
+/etc/init.d/cron start
+
+echo "Starting redis-server..."
+service redis-server start
+
 echo "Starting queue listener..."
 php artisan queue:work --tries=3 &
 

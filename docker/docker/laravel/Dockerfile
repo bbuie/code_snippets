@@ -43,6 +43,7 @@ RUN apt-get update && apt-get install -yq \
 	php7.1-opcache \
 	php7.1-mbstring \
 	php7.1-mysql \
+	php7.1-curl \
 	libapache2-mod-php7.1
 
 # instal linux packages required by composer
@@ -81,6 +82,9 @@ RUN composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 COPY ./docker/laravel/start.sh /var/www/docker/laravel/start.sh
 RUN sed -i 's/\r//' /var/www/docker/laravel/start.sh # Modify the executable to have the linux line endings
 RUN chmod u+x /var/www/docker/laravel/start.sh # Give permissions to run executable
+
+# add a job to the crontab file to run laravel scheduler every minute
+RUN sed -i '$i* * * * * root cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' /etc/crontab
 
 # cleanup machine
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

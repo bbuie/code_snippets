@@ -27,6 +27,7 @@ class RegisterController extends Controller {
         try{
             DB::beginTransaction();
             $payload = $request->all();
+            unset($payload['id']); //fix for vulnerability
             $validator = new InputValidator(['name', 'email', 'password']);
             $validator->validate($payload);
             $user = User::mergeOrCreate($payload);

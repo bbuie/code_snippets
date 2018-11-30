@@ -17,7 +17,9 @@ RUN locale-gen en_US.UTF-8 \
 RUN apt-get update && apt-get install -yq \
     git-core \
     vim \
+    nano \
     curl \
+    cron \
     wget
 
 # add node specific linux packages

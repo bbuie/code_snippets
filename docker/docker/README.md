@@ -20,6 +20,11 @@ Using docker for local development is a bit of a paradigm shift. The most import
 - If you have to do anything outside of the steps below, we need to note them here for future developers.
 - Ask questions! If you run into a roadblock, ask for help.
 
+##Pre-Setup Steps:
+
+1. Add repository specific steps here if any.
+
+
 ##Setup Steps:
 
 1. Install GIT on your local machine if you don't already have it
@@ -29,11 +34,14 @@ Using docker for local development is a bit of a paradigm shift. The most import
             - Note: especially for windows OS, it is very important that the folder is in your computer's USER directory!
         1. open up a terminal and navigate to the new folder (e.g. `cd your_user_folder/local_folder_name/`)
         1. run `git clone git_base_repo_link .`
+    1. Import sub modules
+        1. run `git submodule update --init --recursive`
+        1. if this project doesn't have submodules, nothing will happen here
     1. Download other code that may be needed
         1. Some local environment setups require multiple codebases. If this is the case for this code base, you'll find more steps below under the header "Steps to download code unique to this repository". Follow these steps now.
 1. Install docker
     - *MacOS/Windows*
-        - Install [Docker Toolbox](https://docs.docker.com/engine/installation/)
+        - Install [Docker Toolbox](https://docs.docker.com/toolbox/overview/)
         - Note: these instructions are written assuming you have Docker "Toolbox" for your operating system and not Docker "CE" or "EE"
         - Note: you'll need to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
     - *Linux*
@@ -46,7 +54,7 @@ Using docker for local development is a bit of a paradigm shift. The most import
     - Navigate your computers file system to the cloned repository folder (created above) (e.g. `cd your_user_folder/local_folder_name/`)
     - Note: Linux doesn't use docker's quick terminal, instead use docker exec to run commands on the containers.
 1. Magically create all the docker containers needed to run the code
-    - In the quick start terminal run `docker-compose down -v docker-compose up --build`
+    - In the quick start terminal run `docker-compose down -v; docker-compose up --build`
         - Note Linux users: docker needs root access to run properly. If you get an error try to run `sudo docker-compose up --build`
     - You should expect it print a lot to the console while it...
         1. builds your docker services (and by extension your images)

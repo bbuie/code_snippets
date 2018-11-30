@@ -37,6 +37,9 @@ if [ $? = 1 ]; then # if migrations failed
 fi
 echo "Migrations succeeded"
 
+echo "Copying env settings for cron"
+env >> /etc/environment
+
 echo "Starting Cron"
 /etc/init.d/cron start
 

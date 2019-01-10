@@ -21,7 +21,7 @@ services:
     networks:
       - default
 
-  company-php-service:
+  php-service:
     container_name: company-php-container
     image: company-php-image
     build:
@@ -106,12 +106,27 @@ services:
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
-    # volumes:
-    #   - "./.data/db:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: docker
     ports:
       - "3306:3306"
+    networks:
+      - default
+
+  blankwp-service:
+    container_name: company-blankwp-container
+    image: company-blankwp-image
+    build:
+      context: .
+      dockerfile: ./docker/blankwp/Dockerfile
+    command: ["gulp"]
+    depends_on:
+      - node-service
+    volumes:
+      - ./:/var/www/html
+      - node_modules:/var/www/html/wp-content/themes/blankwp/node_modules
+    ports:
+      - "3030:3030"
     networks:
       - default
 

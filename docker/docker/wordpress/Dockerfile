@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Buink Web Development <online@buink.biz>
 
 # set ubuntu front-end for remote work
@@ -16,9 +16,11 @@ RUN locale-gen en_US.UTF-8 \
 # add foundational linux packages
 RUN apt-get update && apt-get install -yq \
 	git-core \
-	vim \
-	curl \
-	wget
+    vim \
+    nano \
+    curl \
+    cron \
+    wget
 
 # install servers and server specific linux packages
 RUN apt-get update && apt-get install -yq \
@@ -28,32 +30,37 @@ RUN apt-get update && apt-get install -yq \
 
 # add php specific linux packages
 RUN apt-get update && apt-get install -yq \
-    libssl-dev
+    software-properties-common \
+    python-software-properties
+
+# add packages for version specific php
+# RUN add-apt-repository ppa:ondrej/php
+RUN apt-get update && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php #this is a workaround noted here https://github.com/oerdnj/deb.sury.org/issues/56
 
 # add other dependencies
 RUN apt-get update && apt-get install -yq \
-	php5 \
-	php5-cli \
-	php5-mcrypt \
-	php5-gd \
-	php5-json \
-	php5-memcached \
-	php5-curl \
-	php5-sqlite \
-	php5-dev \
-	php5-intl \
-	php5-mysqlnd \
-	php-apc \
-	php-pear \
-	libapache2-mod-php5
-
-# Setup php dependencies
-RUN php5enmod mcrypt
+	php7.2 \
+	php7.2-fpm \
+	php7.2-common \
+	php7.2-cli \
+	php7.2-gd \
+	php7.2-json \
+	php7.2-memcached \
+	php7.2-curl \
+	php7.2-common \
+	php7.2-intl \
+	php7.2-mbstring \
+	php7.2-mysql \
+	php7.2-xml \
+	php7.2-zip \
+	php7.2-xmlrpc \
+	php7.2-soap \
+	libapache2-mod-php7.2
 
 # add wp-cli
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
-RUN sudo mv wp-cli.phar /usr/local/bin/wp
+RUN mv wp-cli.phar /usr/local/bin/wp
 
 # setup apache
 ENV APACHE_RUN_USER www-data
@@ -65,8 +72,16 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
-COPY ./docker/wordpress/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/wordpress/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
+
+# make changes to php ini file
+RUN echo "file_uploads = On" >> /etc/php/7.2/apache2/php.ini
+RUN echo "allow_url_fopen = On" >> /etc/php/7.2/apache2/php.ini
+RUN echo "memory_limit = 256M" >> /etc/php/7.2/apache2/php.ini
+RUN echo "upload_max_filesize = 100M" >> /etc/php/7.2/apache2/php.ini
+RUN echo "max_execution_time = 360" >> /etc/php/7.2/apache2/php.ini
+RUN echo "date.timezone = America/Denver" >> /etc/php/7.2/apache2/php.ini
 
 # set work directory
 WORKDIR /var/www/html

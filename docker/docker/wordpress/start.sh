@@ -7,7 +7,7 @@ usermod -u 1000 www-data #a hack for macs
 
 echo "Waiting for mysql-service..."
 while ! mysqladmin ping -h"mysql-service" --silent; do
-	echo "Still waiting for mysql-service..."
+    echo "Still waiting for mysql-service..."
     sleep 1
 done
 echo "mysql-service is running..."
@@ -20,7 +20,7 @@ wp user create wpadmin wpadmin@buink.biz --user_pass=wpadmin --role=administrato
 
 echo "Deleting existing apache pid if present..."
 if [ -f "$APACHE_PID_FILE" ]; then
-	rm "$APACHE_PID_FILE"
+    rm "$APACHE_PID_FILE"
 fi
 
 echo "wordpress-container is ready!"

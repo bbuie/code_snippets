@@ -1,7 +1,38 @@
-.loading-spinner {
-    @import "~vue_root/scss/_variables.scss";
-    text-align: center;
+.loadingSpinnerComponent {
+    @import "~vue_root/assets/scss/_variables.scss";
+
+    .small-spinner .fa-circle-o-notch {
+        font-size: 20px;
+        margin-right: 20px;
+    }
+
     .fa-circle-o-notch {
         font-size: 48px;
+    }
+    .size-auto {
+        .fa-circle-o-notch {
+            font-size: 1em;
+        }
+    }
+    .size-md {
+        .fa-circle-o-notch {
+            font-size: 36px;
+        }
+    }
+    .overlay.loading-spinner {
+        text-align: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: #eaeaea;
+        padding-top: 20%;
+        background-color: #f6f8fa;
+        opacity: 0.5;
+    }
+    .small.loading-spinner i {
+        font-size: 18px;
     }
 }

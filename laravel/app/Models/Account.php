@@ -9,4 +9,8 @@ class Account extends Model
     public function users(){
         return $this->belongsToMany('App\Models\User')->using('App\Models\AccountUser');
     }
+    public function accountUsers()
+    {
+        return $this->hasMany('App\Models\AccountUser');
+    }
 }

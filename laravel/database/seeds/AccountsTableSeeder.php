@@ -19,9 +19,26 @@ class AccountsTableSeeder extends Seeder
         AccountUser::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        $user = User::where('email', "testApp@buink.biz")->get()->first();
+        $seedAccounts = [
+            [
+                'user' => User::where('email', "testApp@buink.biz")->get()->first(),
+                'status' => 'free_trial'
+            ],
+        ];
 
-        $account = new Account;
-        $user->accounts()->save($account);
+        foreach ($seedAccounts as $seedAccount) {
+            $account = new Account;
+
+            $dt = new \DateTime();
+            $dt->add(new \DateInterval('P1M'));
+            $account->expire_date = $dt;
+
+            $seedAccount['user']->accounts()->save($account);
+
+            if ($seedAccount['user']->email === "testAdmin@buink.biz") {
+                $seedAccount['user']->current_account_user->assignRole('super-admin');
+            }
+        }
+
     }
 }

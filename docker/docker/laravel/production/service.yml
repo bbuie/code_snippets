@@ -2,11 +2,12 @@
 version: 2
 services:
   laravel-service:
-    git_url: insert_git_repo_url
+    git_url: insert_git_url
     git_branch: master
     ports:
-    - 80:80
-    dockerfile_path: docker/laravel/Dockerfile
+    - container: 80
+      http: 80
+      https: 443
     command: "/var/www/docker/laravel/production/start.sh"
     use_habitus: true
     use_habitus_step: laravel-production-service

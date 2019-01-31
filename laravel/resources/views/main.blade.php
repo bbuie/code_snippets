@@ -17,7 +17,10 @@
         @show
 
         @section('javascript-head')
-
+            <script>
+                window.appEnv = window.appEnv || {};
+                window.appEnv.testVariable = "{!! config('testVariable') !!}";
+            </script>
         @show
 
     </head>

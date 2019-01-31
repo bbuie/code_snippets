@@ -2,13 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import appRoutes from './app.routes';
 import store from './app.store';
+import PageNotFound from './page-not-found.vue';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        appRoutes
+        appRoutes,
+        { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
+        { path: '*', component: PageNotFound },
     ],
 });
 
@@ -32,7 +35,7 @@ function checkIfAuthorized(toRoute, fromRoute, next){
 }
 
 function redirectAfterLogin(toRoute){
-    toRoute = toRoute || { name: 'home' };
+    toRoute = toRoute || { name: 'dashboard' };
     if(router.redirectedFrom){
         toRoute.name = router.redirectedFrom.name;
         toRoute.params = router.redirectedFrom.params;

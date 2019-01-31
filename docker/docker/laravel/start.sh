@@ -15,11 +15,6 @@ while ! mysqladmin ping -h"mysql-service" --silent; do
 done
 echo "mysql-service is running..."
 
-echo "Deleting existing apache pid if present..."
-if [ -f "$APACHE_PID_FILE" ]; then
-    rm "$APACHE_PID_FILE"
-fi
-
 echo "Build the autoload file..."
 composer dump-autoload
 
@@ -35,8 +30,13 @@ echo "Starting Cron"
 echo "Starting redis-server..."
 service redis-server start
 
+echo "Deleting existing apache pid if present..."
+if [ -f "$APACHE_PID_FILE" ]; then
+    rm "$APACHE_PID_FILE"
+fi
+
 echo "Starting queue listener..."
 php artisan queue:listen --tries=3 &
 
 echo "laravel-container is ready!"
-php artisan serve --host=0.0.0.0 --port=80
+/usr/sbin/apache2ctl -D FOREGROUND

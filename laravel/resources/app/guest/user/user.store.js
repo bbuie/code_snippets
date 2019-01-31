@@ -60,7 +60,8 @@ function getMutations(){
         REGISTER_USER_SUCCESS: setAuthenticationAndUser,
         LOGOUT_SUCCESS: destroyToken,
         REMEMBER_ME: storeUserEmail,
-        SET_USER: setUserState
+        SET_USER: setUserState,
+        SET_CURRENT_ACCOUNT_STATUS: setCurrentAccountStatus,
     };
 
     function setAuthenticationAndUser(state, payload, other){
@@ -87,5 +88,8 @@ function getMutations(){
     }
     function setUserState(state, payload){
         state.user = payload.user;
+    }
+    function setCurrentAccountStatus(state, status){
+        state.user.current_account.status = status;
     }
 }

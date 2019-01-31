@@ -22,6 +22,13 @@ class UsersTableSeeder extends Seeder
             'name' => 'Test User',
         ];
 
+        $testAdminUser = [
+            'email' => 'testAdmin@buink.biz',
+            'password' => 'buinkinc',
+            'name' => 'Test Admin User',
+        ];
+
         User::create($testUser);
+        User::create($testAdminUser);
     }
 }

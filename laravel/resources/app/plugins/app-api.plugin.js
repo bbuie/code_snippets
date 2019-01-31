@@ -69,13 +69,37 @@ function appApi(){
             function authorized(){
 
                 return {
-                    getUser: getUser,
+                    user: user,
                     checkAccountAccess: checkAccountAccess,
                 };
 
-                // Vue.appApi().authorized().getUser()
-                function getUser(){
-                    return appHttp.get(`/api/v1/get-user`);
+                function user(){
+                    return {
+                        store: store,
+                        changePassword: changePassword,
+                        changeEmail: changeEmail,
+                        getUser: getUser
+                    };
+
+                    // Vue.appApi().authorized().user().store(payload)
+                    function store(payload){
+                        return appHttp.put('/api/v1/user/', payload);
+                    }
+
+                    // Vue.appApi().authorized().user().changePassword(payload)
+                    function changePassword(payload){
+                        return appHttp.put(`/api/v1/user/change-password`, payload);
+                    }
+
+                    // Vue.appApi().authorized().user().changeEmail(payload)
+                    function changeEmail(payload){
+                        return appHttp.put(`/api/v1/user/change-email`, payload);
+                    }
+
+                    // Vue.appApi().authorized().user().getUser()
+                    function getUser(){
+                        return appHttp.get(`/api/v1/user`);
+                    }
                 }
 
                 // Vue.appApi().authorized().checkAccountAccess()
@@ -93,7 +117,7 @@ function appApi(){
             }
 
             if(store.state.guest.user.user && store.state.guest.user.user.current_account && store.state.guest.user.user.current_account.id){
-                config.headers['current_account_id'] = store.state.guest.user.user.current_account.id;
+                config.headers['current-account-id'] = store.state.guest.user.user.current_account.id;
             }
 
             return config;

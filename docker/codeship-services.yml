@@ -2,7 +2,7 @@ version: '2'
 services:
   node-service:
     build:
-      image: dym-node-image
+      image: company-node-image
       context: .
       dockerfile: ./docker/node/Dockerfile
     volumes:
@@ -12,7 +12,7 @@ services:
 
   laravel-service:
     build:
-      image: dym-laravel-image
+      image: company-laravel-image
       context: .
       dockerfile: ./docker/laravel/Dockerfile
     depends_on:
@@ -29,7 +29,7 @@ services:
 
   mysql-service:
     build:
-      image: dym-mysql-image
+      image: company-mysql-image
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     environment:

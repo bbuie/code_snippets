@@ -11,9 +11,12 @@ import appMessage from './components/app-message/app-message.vue';
 import validatedInput from './components/validated-input/validated-input.vue';
 import LoadingSpinner from './components/loading-spinner/loading-spinner.vue';
 import BootstrapVue from 'bootstrap-vue';
+import AccessCheck from './directives/access-check/access-check';
 
 Vue.use(AppApi);
 Vue.use(BootstrapVue);
+
+Vue.directive('dym-access', AccessCheck);
 
 Vue.component('app-message', appMessage);
 Vue.component('validated-input', validatedInput);

@@ -21,7 +21,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::group(['prefix' => 'login'], function(){
 
         // POST:/user/login
-        Route::post('/', 'Api\Guest\User\LoginController@login');
+        Route::post('/', 'Api\Guest\User\LoginController@login')->name('login');
         // POST:/user/login/refresh
         Route::post('/refresh', 'Api\Guest\User\LoginController@refresh');
     });

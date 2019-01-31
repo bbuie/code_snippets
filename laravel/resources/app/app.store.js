@@ -10,5 +10,16 @@ export default new Vuex.Store({
     modules: {
         guest,
     },
+    getters: getGetters(),
     strict: debug,
 });
+
+function getGetters(){
+    return {
+        user
+    };
+
+    function user(state){
+        return state.guest.user.user;
+    }
+}

@@ -16,7 +16,12 @@ class CheckAccount
      */
     public function handle($request, Closure $next)
     {
-        $accountId = (int)$request->header('current_account_id');
+        $accountId = (int)$request->header('current-account-id');
+
+        if($accountId === 0) {
+            return response()->json(['message' => 'Invalid account.'], 403);
+        }
+
         $user = Auth::user();
         $userAccountIds = $user->accounts()->pluck('accounts.id')->toArray();
         $hasAccountAccess = in_array($accountId, $userAccountIds);

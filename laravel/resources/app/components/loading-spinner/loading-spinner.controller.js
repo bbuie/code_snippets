@@ -1,3 +1,6 @@
 export default {
-    props: ['showSpinner']
+    props: [
+        'showSpinner', // true | false
+        'customClass' // string
+    ]
 };

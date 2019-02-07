@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -yq \
 RUN apt-get update && apt-get install -yq \
     ruby \
     ruby-dev \
-    ruby-bundler
+    ruby-bundler \
+    ruby-rb-inotify
 
 # Install compass
 RUN gem install --no-rdoc --no-ri compass

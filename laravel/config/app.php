@@ -56,6 +56,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Client Id and Secret
+    |--------------------------------------------------------------------------
+    |
+    | These values are used by the PasswrodGrantLogin provider to communicate with oauth servers.
+    |
+    */
+
+    'client_id' => env('APP_CLIENT_ID'),
+    'client_secret' => env('APP_CLIENT_SECRET'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

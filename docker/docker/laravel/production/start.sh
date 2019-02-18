@@ -15,7 +15,7 @@ sed -i 's/\r /\n/g' /etc/ssl/private/compose.key
 echo "...database key added."
 
 echo "Build the autoload file..."
-composer dump-autoload
+composer dump-autoload -o
 echo "...autoload dumped."
 
 echo "Running db migrations..."
@@ -46,6 +46,12 @@ echo "...apache pid check done"
 
 echo "Copying env settings for cron"
 env >> /etc/environment
+
+echo "Caching config"
+php artisan config:cache
+
+echo "Caching routes"
+php artisan route:cache
 
 echo "Starting Cron"
 /etc/init.d/cron start

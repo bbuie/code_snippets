@@ -62,8 +62,8 @@ class PasswordGrantLogin{
 
         $passwordGrantLogin = $this;
         $data = array_merge($data, [
-            'client_id'     => env('APP_CLIENT_ID'),
-            'client_secret' => env('APP_CLIENT_SECRET'),
+            'client_id'     => config('app.client_id'),
+            'client_secret' => config('app.client_secret'),
             'grant_type'    => $grantType
         ]);
 

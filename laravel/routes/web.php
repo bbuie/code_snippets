@@ -31,10 +31,8 @@ Route::group(['prefix' => 'user'], function(){
     // POST: /user/reset
     Route::post('reset', 'Api\Guest\User\ResetPasswordController@resetPassword');
     // N/A
-    Route::post('reset-password')->name('password.reset'); //this is a dummy route. It's only purpose is to tell the laravel password reset functionality where the front-end route is it should include in the reset email.
+    Route::post('reset-password', 'Api\Guest\User\ResetPasswordController@resetPassword')->name('password.reset'); //this is a dummy route. It's only purpose is to tell the laravel password reset functionality where the front-end route is it should include in the reset email.
 });
 
 // main route returned from the server
-Route::get('/{vue_paths?}', function(){
-    return view('main');
-})->where('vue_paths', '[\/\w\.-]*');
+Route::get('/{vue_paths?}', 'ViewController@renderVueView')->where('vue_paths', '[\/\w\.-]*');

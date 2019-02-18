@@ -93,16 +93,6 @@ function getModule(){
                             uglify: true
                         }
                     },
-                ],
-                [
-                    'babel-preset-es2015',
-                    {
-                        modules: false,
-                        targets: {
-                            browsers: ['> 2%'],
-                            uglify: true
-                        }
-                    }
                 ]
             ],
         }

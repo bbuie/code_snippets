@@ -80,7 +80,6 @@ services:
       DB_PASSWORD: docker
     volumes:
       - ./:/var/www/html
-      - composer:/var/www/html/vendor
     ports:
       - "80:80"
     networks:

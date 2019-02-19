@@ -19,6 +19,9 @@ Route::group(['prefix' => 'v1'], function(){
     // Unauthenticated API Routes:
     Route::group([], function(){
         //add unauthenticated api routes, it should be rare to need this.
+
+        // GET: /api/v1/credentials
+        Route::get('credentials', 'Api\Guest\GuestController@getClientEnv');
     });
 
     // Authenticated routes

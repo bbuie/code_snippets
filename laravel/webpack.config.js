@@ -22,6 +22,7 @@ module.exports = {
 }
 
 addUglifyPluginForProduction();
+addBrowserSyncPluginForDevelopment();
 
 function getFilePaths(){
     return {
@@ -331,6 +332,29 @@ function getPlugins(){
         }
     }
 }
+
+function addBrowserSyncPluginForDevelopment(){
+    if (process.env.NODE_ENV !== 'production') {
+        module.exports.plugins = (module.exports.plugins || []).concat([
+            new BrowserSyncPlugin(
+                {
+                    port: 3000,
+                    proxy: '0.0.0.0',
+                    open: false,
+                    host: 'localhost',
+                    files: [
+                        'app/**/*.php',
+                        'resources/views/**/*.php',
+                        'public/js/**/*.js',
+                        'public/css/**/*.css',
+                    ],
+                },
+                { reload: true }
+            )
+        ]);
+    }
+}
+
 function addUglifyPluginForProduction(){
     if (process.env.NODE_ENV === 'production') {
       module.exports.plugins = (module.exports.plugins || []).concat([

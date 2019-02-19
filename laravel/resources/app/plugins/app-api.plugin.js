@@ -12,7 +12,9 @@ function appApi(){
 
     function install(Vue, options){
 
-        const appHttp = axios.create({});
+        const appHttp = axios.create({
+            baseURL: window.appEnv.baseURL
+        });
 
         appHttp.interceptors.response.use(response => response, catchAllResponseFailures);
         appHttp.interceptors.request.use(modifyAllRequestConfigs, error => error);
@@ -30,6 +32,7 @@ function appApi(){
 
                 return {
                     user: user,
+                    getClientEnv
                 };
 
                 // Vue.appApi().guest().user()
@@ -63,6 +66,10 @@ function appApi(){
                     function resetPassword(payload){
                         return appHttp.post(`/user/reset`, payload);
                     }
+                }
+                // Vue.appApi().guest().getClientEnv()
+                function getClientEnv(){
+                    return appHttp.get(`/api/v1/credentials`);
                 }
             }
             // Vue.appApi().authorized()
@@ -125,7 +132,7 @@ function appApi(){
         function catchAllResponseFailures(error){
 
             var originalRequest = error.config;
-            var errorStatusIsUnauthorized = error.response.status === 401;
+            var errorStatusIsUnauthorized = error.response && error.response.status === 401;
             var requestHasNotBeenTriedAgain = !originalRequest._triedAgain;
 
             if(errorStatusIsUnauthorized && requestHasNotBeenTriedAgain){
@@ -154,13 +161,10 @@ function appApi(){
                 localStorage.setItem('access_token', response.data.access_token);
                 return window.axios(originalRequest);
             }
-            function getTokenError(error){
+            function getTokenError(){
 
-                var errorIsOauthInvalid = error.response.status === 419;
+                store.dispatch('user/LOGOUT_FRONTEND').then(logoutSuccess);
 
-                if(errorIsOauthInvalid){
-                    store.dispatch('user/LOGOUT_FRONTEND').then(logoutSuccess);
-                }
                 function logoutSuccess(){
                     router.go();
                 }

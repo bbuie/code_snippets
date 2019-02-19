@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Defend Your Money App</title>
+        <link rel="shortcut icon" href="/favicon-32x32.png" type="image/png"/>
+        <link href="/fonts/dym-font/css/dym-font.css" rel="stylesheet" type="text/css">
+        <link href="/css/app.css" rel="stylesheet" type="text/css">
+
+        <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+        <script>
+            window.appEnv = window.appEnv || {};
+            window.appEnv.baseURL = "{{{ APP_URL }}}"
+        </script>
+    </head>
+    <body>
+        <div id="vueApp">
+            <div class="vueOnePage">
+                <router-view></router-view>
+            </div>
+            <div class="font_preload">
+                <span class="fa"></span>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="/js/app.js"></script>
+    </body>
+</html>

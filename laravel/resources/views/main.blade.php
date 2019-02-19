@@ -19,7 +19,7 @@
         @section('javascript-head')
             <script>
                 window.appEnv = window.appEnv || {};
-                window.appEnv.testVariable = "{!! config('testVariable') !!}";
+                window.appEnv.baseUrl = "{!! config('app.url') !!}";
             </script>
         @show
 
@@ -35,7 +35,7 @@
 
             <script type="text/javascript" src="/js/app.js"></script>
 
-            @if (getenv('APP_ENV') === 'local')
+            @if (config('app.env') === 'local')
                 <script id="__bs_script__">//<![CDATA[
                     document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.6'><\/script>".replace("HOST", location.hostname));
                     //]]>

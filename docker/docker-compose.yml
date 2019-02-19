@@ -129,6 +129,21 @@ services:
     networks:
       - default
 
+  ios-build-service:
+    container_name: dym-ios-build-container
+    image: dym-ios-build-image
+    build:
+      context: .
+      dockerfile: ./docker/ios/Dockerfile
+    entrypoint: /var/www/docker/ios/start.sh
+    networks:
+      - default
+    depends_on:
+      - node-service
+    volumes:
+      - ./:/var/www/html
+      - node_modules:/var/www/html/node_modules
+
 volumes:
   composer:
   node_modules:

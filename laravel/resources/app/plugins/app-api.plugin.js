@@ -48,11 +48,11 @@ function appApi(){
 
                     // Vue.appApi().guest().user().register()
                     function register(payload){
-                        return appHttp.put(`/user/register`, payload);
+                        return appHttp.put(`/v1/user/register`, payload);
                     }
                     // Vue.appApi().guest().user().login()
                     function login(payload){
-                        return appHttp.post(`/user/login`, payload);
+                        return appHttp.post(`/v1/user/login`, payload);
                     }
                     // Vue.appApi().guest().user().logout()
                     function logout(){
@@ -60,11 +60,11 @@ function appApi(){
                     }
                     // Vue.appApi().guest().user().forgotPassword()
                     function forgotPassword(payload){
-                        return appHttp.post(`/user/forgot-password`, payload);
+                        return appHttp.post(`/v1/user/forgot-password`, payload);
                     }
                     // Vue.appApi().guest().user().resetPassword()
                     function resetPassword(payload){
-                        return appHttp.post(`/user/reset`, payload);
+                        return appHttp.post(`/v1/user/reset`, payload);
                     }
                 }
                 // Vue.appApi().guest().getClientEnv()
@@ -132,12 +132,16 @@ function appApi(){
         function catchAllResponseFailures(error){
 
             var originalRequest = error.config;
+            var endpointNotSupported = error.response && error.response.status === 410 && error.response.data && error.response.data.slug === 'endpoint_obsolete';
+            if(endpointNotSupported){
+                return router.push({ name: 'upgrade-required' });
+            }
             var errorStatusIsUnauthorized = error.response && error.response.status === 401;
             var requestHasNotBeenTriedAgain = !originalRequest._triedAgain;
 
             if(errorStatusIsUnauthorized && requestHasNotBeenTriedAgain){
                 originalRequest._triedAgain = true;
-                return window.axios.post('/user/login/refresh', null).then(getTokenSuccess).catch(getTokenError);
+                return window.axios.post('/v1/user/login/refresh', null).then(getTokenSuccess).catch(getTokenError);
             }
 
             if(error.response && error.response.statusText){

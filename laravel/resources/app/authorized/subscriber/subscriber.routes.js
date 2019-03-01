@@ -1,5 +1,6 @@
 import SubscriberComponent from './subscriber.vue';
 import DashboardComponent from './dashboard/dashboard.vue';
+import AdminRoutes from './admin/admin.routes';
 
 export default {
     path: '',
@@ -8,6 +9,7 @@ export default {
         requiresSubscription: true,
     },
     children: [
+        AdminRoutes,
         {
             path: '/',
             name: 'dashboard',

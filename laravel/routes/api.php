@@ -36,6 +36,10 @@ Route::group(['prefix' => 'v1'], function(){
             Route::put('change-email', 'Api\V1\Authorized\UserController@changeEmail');
         });
 
+        Route::group(['prefix' => 'admin', 'middleware' => 'require-super-user-access'], function() {
+            //put admin routes here
+        });
+
         // /api/v1/logout
         Route::post('/logout', 'Api\V1\Guest\User\LoginController@logout');
 

@@ -2,6 +2,7 @@
     <div v-dym-access="{ permission: 'permissionToCheck', behavior: 'hide/disable', valueToTest: value }"></div>
 */
 import subscriptionVerificationMixin from 'vue_root/mixins/subscriptionVerification.mixin';
+import store from 'vue_root/app.store';
 const { verifySubscriptionStatus, verifySubscriptionPlan } = subscriptionVerificationMixin.methods;
 
 export default {
@@ -23,7 +24,7 @@ function setupDirective(el, binding, vnode){
 
     function defaultSettings(){
         return {
-            permission: null, // string: 'subscriptionPlan' | 'subscriptionStatus'
+            permission: null, // string: 'permission'
             behavior: 'hide', // string: 'hide' | 'disable'
             valueToTest: null // string: the value that you want to test, e.g. subscriptionPlan = 'plus'
         };
@@ -36,6 +37,8 @@ function checkPermission({ permission, valueToTest }){
         hasPermission = verifySubscriptionPlan(valueToTest);
     } else if(permission === 'subscriptionStatus'){
         hasPermission = verifySubscriptionStatus(valueToTest);
+    } else if(permission === 'permission'){
+        hasPermission = verifyPermission(valueToTest);
     }
     return hasPermission;
 }
@@ -68,4 +71,9 @@ function removeElementAccess(el, binding, vnode, settings){
             el.parentNode.replaceChild(comment, el);
         }
     }
+}
+
+function verifyPermission(permissionValue){
+    const user = store.state.guest.user.user;
+    return user.current_account_user.all_permission_names.includes(permissionValue);
 }

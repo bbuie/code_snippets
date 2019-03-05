@@ -6,7 +6,7 @@ echo "Modifying user (hack for mac)..."
 usermod -u 1000 www-data #a hack for macs
 
 echo "Copying config file if it isn't already present...."
-cp -n /var/www/html/docker/laravel/.sample.env /var/www/html/.env
+cp -n /var/www/html/docker/laravel/DEFAULT.env /var/www/html/.env
 
 echo "Waiting for mysql-service..."
 while ! mysqladmin ping -h"mysql-service" --silent; do

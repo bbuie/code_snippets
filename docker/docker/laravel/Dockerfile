@@ -108,7 +108,7 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 RUN a2enmod rewrite
-COPY ./docker/laravel/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/laravel/DEFAULT.000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # set work directory
 WORKDIR /var/www/html

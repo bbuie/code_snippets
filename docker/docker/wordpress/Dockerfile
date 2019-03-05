@@ -72,7 +72,7 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
-COPY ./docker/wordpress/default.000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/wordpress/DEFAULT.000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
 # make changes to php ini file

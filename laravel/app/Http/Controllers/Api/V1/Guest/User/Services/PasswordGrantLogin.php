@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Guest\User\Services;
+namespace App\Http\Controllers\Api\V1\Guest\User\Services;
 
 use Illuminate\Foundation\Application;
 use App\Models\User;

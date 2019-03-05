@@ -226,4 +226,5 @@ return [
 
     ],
 
+    'version_hash' => App\Services\CacheBuster::getVersionHash(),
 ];

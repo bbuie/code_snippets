@@ -13,7 +13,11 @@
         </title>
 
         @section('stylesheets')
-            <link href="/css/app.css" rel="stylesheet" type="text/css">
+            @if (config('app.env') === 'local')
+                <link href="/css/app.css" rel="stylesheet" type="text/css">
+            @else
+                <link href="/css/app.{!! config('app.version_hash') !!}.css" rel="stylesheet" type="text/css">
+            @endif
         @show
 
         @section('javascript-head')
@@ -32,14 +36,14 @@
         </div>
 
         @section('javascript-footer')
-
-            <script type="text/javascript" src="/js/app.js"></script>
-
             @if (config('app.env') === 'local')
+                <script type="text/javascript" src="/js/app.js"></script>
                 <script id="__bs_script__">//<![CDATA[
                     document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.6'><\/script>".replace("HOST", location.hostname));
                     //]]>
                 </script>
+             @else
+                <script type="text/javascript" src="/js/app.{!! config('app.version_hash') !!}.js"></script>
             @endif
         @show
     </body>

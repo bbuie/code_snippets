@@ -8,6 +8,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 var files = getFilePaths();
 var extractScss = new ExtractTextPlugin(files.css.build);
+const fs = require('fs');
 
 module.exports = {
     context: files.context.base,
@@ -23,6 +24,7 @@ module.exports = {
 
 addUglifyPluginForProduction();
 addBrowserSyncPluginForDevelopment();
+addHashFileForProductionCacheBusting();
 
 function getFilePaths(){
     return {
@@ -33,11 +35,11 @@ function getFilePaths(){
         },
         js: {
             src: path.resolve(__dirname, './resources/app/app.js'),
-            build: 'js/app.js',
+            build: process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET !== 'ios' ? 'js/app.[hash].js' : 'js/app.js',
         },
         css: {
             src: path.resolve(__dirname, './resources/app/app.scss'),
-            build: 'css/app.css',
+            build: process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET !== 'ios' ? 'css/app.[hash].css' : 'css/app.css',
         },
     }
 }
@@ -368,4 +370,22 @@ function addUglifyPluginForProduction(){
         })
       ])
     }
+}
+
+function addHashFileForProductionCacheBusting(){
+    if (process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET !== 'ios') {
+        module.exports.plugins = (module.exports.plugins || []).concat([versionHashPlugin]);
+    }
+
+    function versionHashPlugin(){
+        this.plugin("done", saveVersionHashToFile);
+
+        function saveVersionHashToFile(buildStatsData){
+            var buildStats = buildStatsData.toJson();
+            var buildPath = files.context.build;
+            var hashFileLocation = path.resolve(buildPath, './hash.json');
+            fs.writeFileSync(hashFileLocation, `{"hash": "${buildStats.hash}"}`);
+        }
+    }
+
 }

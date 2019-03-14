@@ -35,6 +35,12 @@ if [ -f "$APACHE_PID_FILE" ]; then
     rm "$APACHE_PID_FILE"
 fi
 
+echo "Running PHPUnit..."
+vendor/bin/phpunit
+
+echo "Watching for php file changes..."
+node docker/laravel/script.run-phpunit-on-changes.js &
+
 echo "Starting queue listener..."
 php artisan queue:listen --tries=3 &
 

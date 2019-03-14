@@ -1,3 +1,11 @@
-- name: Run Node Build
-  service: node-service
-  command: npm run production
+- type: serial
+  steps:
+  - name: Build and Lint Front-end
+    service: node-service
+    command: npm run production
+  - name: Build Laravel (dependency for php tests)
+    service: laravel-service
+    command: echo "laravel-service ready"
+  - name: Run PHP Tests
+    service: laravel-codeship-service
+    command: ../docker/laravel/codeship/start.sh

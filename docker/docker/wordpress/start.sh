@@ -13,7 +13,7 @@ done
 echo "mysql-service is running..."
 
 echo "Copying wordpress config file if it isn't already present...."
-cp -n /var/www/html/docker/wordpress/DEFAULT.wp-config.php /var/www/html/wp-config.php
+cp -n /var/www/html/docker/wordpress/DEFAULT-wp-config.php /var/www/html/wp-config.php
 
 echo "Adding user for local login..."
 wp user create wpadmin wpadmin@buink.biz --user_pass=wpadmin --role=administrator --allow-root

@@ -11,6 +11,7 @@ services:
     command: "/var/www/docker/laravel/production/start.sh"
     use_habitus: true
     use_habitus_step: laravel-production-service
+    habitus_params: --f /var/www/docker/laravel/production/build.yml
     health:
       ready:
         type: http

@@ -3,10 +3,8 @@ import login from './login/login.store';
 import forgot_password from './forgot-password/forgot-password.store';
 import reset_password from './reset-password/reset-password.store';
 
-// initial state
-const hasAccessToken = !!localStorage.getItem('access_token');
 const state = {
-    hasAccessToken: hasAccessToken,
+    hasAccessToken: 'pending',
     user: null,
 };
 
@@ -28,7 +26,11 @@ function getActions(){
     return {
         LOGOUT: sendLogoutRequest,
         LOGOUT_FRONTEND: logoutFrontend,
-        GET_USER: getUser
+        LOGOUT_SUCCESS: logoutSuccess,
+        GET_USER: getUser,
+        REGISTER_USER_SUCCESS: setAuthenticationAndUser,
+        REMEMBER_ME: storeUserEmail,
+        GET_STORED_ACCESS_TOKEN: getStoredAccessToken
     };
 
     function sendLogoutRequest({ commit }){
@@ -38,10 +40,13 @@ function getActions(){
             commit('LOGOUT_SUCCESS');
         }
     }
-    function logoutFrontend({ commit }){
-
-        commit('LOGOUT_SUCCESS');
-        return Promise.resolve();
+    function logoutFrontend({ commit, dispatch }){
+        return dispatch('LOGOUT_SUCCESS');
+    }
+    function logoutSuccess({ commit }){
+        commit('SET_HAS_ACCESS_TOKEN', false);
+        delete window.axios.defaults.headers.common['Authorization'];
+        return Vue.clientStorage.removeItem('access_token');
     }
     function getUser({ commit }){
 
@@ -52,44 +57,57 @@ function getActions(){
             return Promise.resolve();
         }
     }
+    function setAuthenticationAndUser({ commit }, payload){
+        const storagePromises = [
+            Vue.clientStorage.setItem('access_token', payload.token.access_token),
+            Vue.clientStorage.setItem('refresh_token', payload.token.refresh_token)
+        ];
+        window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload.token.access_token;
+        commit('SET_USER', payload.user);
+        commit('SET_HAS_ACCESS_TOKEN', true);
+        return Promise.all(storagePromises);
+    }
+    function storeUserEmail(state, payload){
+        const promises = [];
+        if(payload.remember_me){
+            promises.push(Vue.clientStorage.setItem('email', payload.email));
+        } else {
+            promises.push(Vue.clientStorage.getItem('email').then(removeSavedEmail));
+        }
+        return Promise.all(promises);
+        function removeSavedEmail(storedEmail){
+            const removeSavedEmail = storedEmail === payload.email;
+            if(removeSavedEmail){
+                return Vue.clientStorage.removeItem('email');
+            }
+        }
+    }
+    function getStoredAccessToken({ commit }){
+        return Vue.clientStorage.getItem('access_token').then(updateState).catch(handleError);
+        function updateState(storedToken){
+            commit('SET_HAS_ACCESS_TOKEN', (!!storedToken));
+        }
+        function handleError(caughtError){
+            commit('SET_HAS_ACCESS_TOKEN', false);
+        }
+    }
 }
 
 function getMutations(){
 
     return {
-        REGISTER_USER_SUCCESS: setAuthenticationAndUser,
-        LOGOUT_SUCCESS: destroyToken,
-        REMEMBER_ME: storeUserEmail,
         SET_USER: setUserState,
         SET_CURRENT_ACCOUNT_STATUS: setCurrentAccountStatus,
+        SET_HAS_ACCESS_TOKEN: setHasAccessToken
     };
 
-    function setAuthenticationAndUser(state, payload, other){
-
-        localStorage.setItem('access_token', payload.token.access_token);
-        window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
-        state.user = payload.user;
-        state.hasAccessToken = true;
-    }
-    function destroyToken(router){
-        state.hasAccessToken = false;
-        localStorage.removeItem('access_token');
-        delete window.axios.defaults.headers.common['Authorization'];
-    }
-    function storeUserEmail(state, payload){
-        if(payload.remember_me){
-            localStorage.setItem('email', payload.email);
-        } else {
-            const removeSavedEmail = localStorage.getItem('email') === payload.email;
-            if(removeSavedEmail){
-                localStorage.removeItem('email');
-            }
-        }
-    }
     function setUserState(state, payload){
         state.user = payload.user;
     }
     function setCurrentAccountStatus(state, status){
         state.user.current_account.status = status;
+    }
+    function setHasAccessToken(state, payload){
+        state.hasAccessToken = payload;
     }
 }

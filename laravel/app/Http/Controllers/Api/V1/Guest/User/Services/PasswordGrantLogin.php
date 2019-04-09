@@ -52,7 +52,13 @@ class PasswordGrantLogin{
     public function attemptRefresh(){
 
         $passwordGrantLogin = $this;
-        $refreshToken = $passwordGrantLogin->request->cookie(self::REFRESH_TOKEN);
+
+        $isRequestFromIOSApp = $passwordGrantLogin->request->headers->get('Origin') === 'capacitor://localhost';
+        if ($isRequestFromIOSApp) {
+            $refreshToken = $passwordGrantLogin->request->input(self::REFRESH_TOKEN);
+        } else {
+            $refreshToken = $passwordGrantLogin->request->cookie(self::REFRESH_TOKEN);
+        }
 
         return $passwordGrantLogin->proxy('refresh_token', [
             'refresh_token' => $refreshToken
@@ -92,10 +98,15 @@ class PasswordGrantLogin{
             true // HttpOnly
         );
 
-        return [
+        $tokens = [
             'access_token' => $contents->access_token,
-            'expires_in' => $contents->expires_in
+            'expires_in' => $contents->expires_in,
         ];
+        $isRequestFromIOSApp = $passwordGrantLogin->request->headers->get('Origin') === 'capacitor://localhost';
+        if ($isRequestFromIOSApp) {
+            $tokens['refresh_token'] = $contents->refresh_token;
+        }
+        return $tokens;
     }
     public function logout(){
 

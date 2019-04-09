@@ -5,6 +5,8 @@ import 'font-awesome/css/font-awesome.css';
 import './app.scss';
 
 import AppApi from './plugins/app-api.plugin.js';
+//import IosKeychainPlugin from './plugins/ios-keychain.plugin.js';
+import ClientStorage from './plugins/client-storage/client-storage.plugin.js';
 import router from './router';
 import store from './app.store';
 import appMessage from './components/app-message/app-message.vue';
@@ -14,6 +16,8 @@ import BootstrapVue from 'bootstrap-vue';
 import AccessCheck from './directives/access-check/access-check';
 
 Vue.use(AppApi);
+//Vue.use(IosKeychainPlugin);
+Vue.use(ClientStorage);
 Vue.use(BootstrapVue);
 
 Vue.directive('dym-access', AccessCheck);

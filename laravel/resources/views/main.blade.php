@@ -24,6 +24,7 @@
             <script>
                 window.appEnv = window.appEnv || {};
                 window.appEnv.baseUrl = "{!! config('app.url') !!}";
+                window.appEnv.clientPlatform = 'web';
             </script>
         @show
 

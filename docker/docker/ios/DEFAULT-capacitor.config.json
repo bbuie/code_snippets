@@ -6,5 +6,10 @@
   "server": {
     "hostname": "localhost",
     "url": "http://192.168.99.100"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
   }
 }

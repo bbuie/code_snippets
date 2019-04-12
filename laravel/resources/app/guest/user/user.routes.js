@@ -14,21 +14,33 @@ export default {
             path: 'login',
             name: 'login',
             component: LoginComponent,
+            meta: {
+                title: 'TestApp - Login'
+            }
         },
         {
             path: 'register',
             name: 'register',
             component: RegisterComponent,
+            meta: {
+                title: 'TestApp - Register'
+            }
         },
         {
             path: 'forgot',
             name: 'forgot-password',
             component: ForgotPasswordComponent,
+            meta: {
+                title: 'TestApp - Forgot Password'
+            }
         },
         {
             path: 'reset-password',
             name: 'reset-password',
             component: ResetPasswordComponent,
+            meta: {
+                title: 'TestApp - Login'
+            }
         }
     ],
 };

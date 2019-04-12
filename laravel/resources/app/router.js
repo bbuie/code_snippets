@@ -16,6 +16,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(checkIfAuthorized);
+router.beforeEach(updatePageTitle);
 router.redirectAfterLogin = redirectAfterLogin;
 
 export default router;
@@ -26,7 +27,9 @@ function checkIfAuthorized(toRoute, fromRoute, next){
     const userIsAuthorized = store.state.guest.user.hasAccessToken;
     const userWantsAuthRouteButNotLoggedIn = authenticationIsRequired && !userIsAuthorized;
 
-    if(userWantsAuthRouteButNotLoggedIn){
+    if(userIsAuthorized === 'pending'){
+        return store.dispatch('user/GET_STORED_ACCESS_TOKEN').then(() => checkIfAuthorized(toRoute, fromRoute, next));
+    } else if(userWantsAuthRouteButNotLoggedIn){
         router.redirectedFrom = toRoute;
         next({ name: 'login' });
     } else {
@@ -43,4 +46,18 @@ function redirectAfterLogin(toRoute){
         delete router.redirectedFrom;
     }
     router.push(toRoute);
+}
+
+function updatePageTitle(toRoute, fromRoute, next){
+    Vue.nextTick(setPageTitle); // use nextTick to ensure proper page in history gets the title
+    next();
+    function setPageTitle(){
+        const inheritedRoutes = toRoute.matched.slice().reverse();
+        const closestRouteWithTitle = inheritedRoutes.find(route => route.meta && route.meta.title);
+        if(closestRouteWithTitle){
+            document.title = closestRouteWithTitle.meta.title;
+        } else {
+            document.title = 'TestApp';
+        }
+    }
 }

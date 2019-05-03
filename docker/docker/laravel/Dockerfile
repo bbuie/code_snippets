@@ -95,7 +95,7 @@ RUN cd /var/www/html/ && composer install --prefer-dist --no-scripts --no-intera
 # install project specific composer packages
 COPY ./composer.json /var/www/html/composer.json
 COPY ./composer.lock /var/www/html/composer.lock
-RUN composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
+RUN RUN cd /var/www/html/ && composer install --prefer-dist --no-scripts --no-interaction --no-autoloader
 
 # setup apache
 ENV APACHE_RUN_USER www-data

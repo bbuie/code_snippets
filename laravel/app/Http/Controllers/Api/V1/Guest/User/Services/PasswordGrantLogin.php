@@ -91,7 +91,7 @@ class PasswordGrantLogin{
         $passwordGrantLogin->cookie->queue(
             self::REFRESH_TOKEN,
             $contents->refresh_token,
-            3600, // 1 hour
+            60, // 1 hour
             null,
             null,
             false,

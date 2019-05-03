@@ -60,7 +60,7 @@ function getActions(){
     function setAuthenticationAndUser({ commit }, payload){
         const storagePromises = [
             Vue.clientStorage.setItem('access_token', payload.token.access_token),
-            Vue.clientStorage.setItem('refresh_token', payload.token.refresh_token)
+            Vue.clientStorage.setItem('refresh_token', payload.token.refresh_token),
         ];
         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + payload.token.access_token;
         commit('SET_USER', payload.user);

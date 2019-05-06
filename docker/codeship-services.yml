@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   node-service:
     build:
       image: company-node-image
@@ -15,16 +16,29 @@ services:
       image: company-laravel-image
       context: .
       dockerfile: ./docker/laravel/Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/vendor
     depends_on:
-      - mysql-service
       - node-service
+    cached: true
+
+  laravel-codeship-service:
+    build:
+      image: company-laravel-codeship-image
+      context: .
+      dockerfile: ./docker/laravel/codeship/Dockerfile
+    depends_on:
+      - laravel-service
+      - mysql-service
     environment:
       DB_HOST: mysql-service
       DB_DATABASE: docker
       DB_USERNAME: root
       DB_PASSWORD: docker
-    volumes_from:
-      - node-service
+    volumes:
+        - ./:/var/www/html
+        - /var/www/html/vendor
     cached: true
 
   mysql-service:

@@ -2,6 +2,10 @@
 
 1. Use our [Docker Setup Steps](../docker/README.md) to run this repository locally
 
+### Using Local Enviornment For IOS
+
+1. Use the Capacitor instructions found here: [/docker/ios/README.md](../docker/ios/README.md)
+
 ### Developer user
 
 You can use the following credentials to login to the site locally:

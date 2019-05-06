@@ -1,0 +1,15 @@
+{
+  "appId": "com.testapp.app",
+  "appName": "Test App",
+  "bundledWebRuntime": false,
+  "webDir": "public/ios_build",
+  "server": {
+    "hostname": "localhost",
+    "url": "http://192.168.99.100"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

@@ -16,6 +16,8 @@ function appApi(){
             baseURL: window.appEnv.baseURL
         });
 
+        let refreshAuthenticationPromise = null;
+
         appHttp.interceptors.response.use(response => response, catchAllResponseFailures);
         appHttp.interceptors.request.use(modifyAllRequestConfigs, error => error);
 
@@ -117,12 +119,6 @@ function appApi(){
         }
         function modifyAllRequestConfigs(config){
 
-            const access_token = localStorage.getItem('access_token');
-
-            if(access_token !== null){
-                config.headers['Authorization'] = 'Bearer ' + access_token;
-            }
-
             if(store.state.guest.user.user && store.state.guest.user.user.current_account && store.state.guest.user.user.current_account.id){
                 config.headers['current-account-id'] = store.state.guest.user.user.current_account.id;
             }
@@ -141,7 +137,11 @@ function appApi(){
 
             if(errorStatusIsUnauthorized && requestHasNotBeenTriedAgain){
                 originalRequest._triedAgain = true;
-                return window.axios.post('/v1/user/login/refresh', null).then(getTokenSuccess).catch(getTokenError);
+
+                if(!refreshAuthenticationPromise){
+                    refreshAuthenticationPromise = Vue.clientStorage.getItem('refresh_token').then(refreshAuthToken);
+                }
+                return refreshAuthenticationPromise.then(getTokenSuccess).catch(getTokenError);
             }
 
             if(error.response && error.response.statusText){
@@ -160,9 +160,24 @@ function appApi(){
 
             return Promise.reject(error.response);
 
+            function refreshAuthToken(refreshToken){
+                return appHttp.post('/v1/user/login/refresh', { refreshToken }).then(storeTokens);
+
+                function storeTokens(response){
+                    refreshAuthenticationPromise = null;
+                    return Promise.all([
+                        Vue.clientStorage.setItem('access_token', response.data.access_token),
+                        Vue.clientStorage.setItem('refresh_token', response.data.refresh_token)
+                    ]).then(returnResponse);
+                    function returnResponse(){
+                        return response;
+                    }
+                }
+            }
+
             function getTokenSuccess(response){
+                window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
                 originalRequest.headers['Authorization'] = 'Bearer ' + response.data.access_token;
-                localStorage.setItem('access_token', response.data.access_token);
                 return window.axios(originalRequest);
             }
             function getTokenError(){

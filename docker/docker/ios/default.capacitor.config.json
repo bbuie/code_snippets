@@ -1,9 +1,0 @@
-{
-  "appId": "com.testapp.app",
-  "appName": "Test App",
-  "bundledWebRuntime": false,
-  "webDir": "public/ios_build",
-  "server": {
-    "hostname": "localhost"
-  }
-}

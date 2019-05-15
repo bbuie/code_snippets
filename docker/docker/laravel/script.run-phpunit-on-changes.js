@@ -27,7 +27,7 @@ function runPhpUnit(){
         console.error(`${error}`);
     });
     phpunit.on('close', exit_code => {
-        console.log('PHPUnit exited with code: '  exit_code);
+        console.log(`PHPUnit exited with code: ${exit_code}`);
         console.log('');
     });
 }

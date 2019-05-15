@@ -42,7 +42,7 @@ echo "Watching for php file changes..."
 node docker/laravel/script.run-phpunit-on-changes.js &
 
 echo "Starting queue listener..."
-php artisan queue:listen --tries=3 &
+php artisan queue:work --tries=3 --timeout=80 &
 
 echo "laravel-container is ready!"
 /usr/sbin/apache2ctl -D FOREGROUND

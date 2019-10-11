@@ -2,10 +2,6 @@
 
 1. Use our [Docker Setup Steps](../docker/README.md) to run this repository locally
 
-### Using Local Enviornment For IOS
-
-1. Use the Capacitor instructions found here: [/docker/ios/README.md](../docker/ios/README.md)
-
 ### Developer user
 
 You can use the following credentials to login to the site locally:
@@ -21,6 +17,11 @@ See: https://buink.biz/a-continuous-deployment-git-branching-model/
 
 It is important that you write your code in a cost effective way that makes it easy to understand, update, and maintain. The following are some principles you should keep in mind:
 
-- Here are [general code requirements](https://github.com/bbuie/code_snipits/wiki/Common-Code-Requirements).
+- Here are [general code requirements](https://github.com/bbuie/docs/wiki/Common-Code-Requirements).
 - Angular code should follow [this angular style guide](https://github.com/johnpapa/angular-styleguide).
 - API responses should match the [JSON API format](http://jsonapi.org/format/).
+- Use [BEM](http://getbem.com/introduction/) for SCSS class naming conventions.
+
+### Using Local Enviornment For IOS
+
+1. Use the Capacitor instructions found here: [/docker/ios/README.md](../docker/ios/README.md)

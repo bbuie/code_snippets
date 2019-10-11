@@ -6,17 +6,17 @@ Using docker for local development is a bit of a paradigm shift. The most import
 
 ##Docker setup definitions:
 
-- git_base_repo_link: [insert repo link]
-- local_folder_name: [insert folder name] - We recommend you create a folder *in your USER folder* with this name
+- git_base_repo_link: Use the link to the repository where you're reading this.
+- local_folder_name: We recommend you create a folder the same as this repository name *in your USER folder*
 - docker_image_names: see [docker-compose.yml](../docker-compose.yml)
 - docker_container_names: see [docker-compose.yml](../docker-compose.yml)
 - docker_service_names: see [docker-compose.yml](../docker-compose.yml)
-- local_development_url:  [http://192.168.99.100/](http://192.168.99.100/)
+- local_development_url:  Windows/Linux [http://192.168.99.100/](http://192.168.99.100/) Mac [http://localhost](http://localhost)
 - containers_finished_running_string: "[docker_container_names] is running!"
 
 ##Before you begin:
 
-- Make sure you're ready to take notes of any and all issues you have. If you have to do anything outside of the steps below, we need to note them here for future developers.
+- Make sure you're ready to take notes of any and all issues you have.
 - If you have to do anything outside of the steps below, we need to note them here for future developers.
 - Ask questions! If you run into a roadblock, ask for help.
 
@@ -40,10 +40,12 @@ Using docker for local development is a bit of a paradigm shift. The most import
     1. Download other code that may be needed
         1. Some local environment setups require multiple codebases. If this is the case for this code base, you'll find more steps below under the header "Steps to download code unique to this repository". Follow these steps now.
 1. Install docker
-    - *MacOS/Windows*
+    - *Windows*
         - Install [Docker Toolbox](https://docs.docker.com/toolbox/overview/)
         - Note: these instructions are written assuming you have Docker "Toolbox" for your operating system and not Docker "CE" or "EE"
         - Note: you'll need to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) as part of the docker tool box install (unless it is already installed on your machine). It is important that your local environment is run on a virtual machine.
+    - *Mac*
+        - Install [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/)
     - *Linux*
         - Install docker and docker-compose.
         - Allow docker root permissions if asked.
@@ -80,5 +82,5 @@ Using docker for local development is a bit of a paradigm shift. The most import
 
 ##Trouble shooting your docker containers:
 
-1. For trouble shooting docker see this [troubleshooting guide](https://github.com/bbuie/code_snipits/wiki/Docker-Trouble-Shooting)
+1. For trouble shooting docker see this [troubleshooting guide](https://github.com/bbuie/docs/wiki/Docker-Toolbox-Trouble-Shooting)
     - You'll need to note some of the setup definitions noted above
